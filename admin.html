@@ -11,12 +11,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/admin.css">
+  <!-- Filet de sécurité : remonte toute erreur technique à l'écran au lieu
+       d'échouer en silence, et empêche tout rechargement de page. -->
+  <script>
+    window.addEventListener('error', function (e) {
+      var el = document.getElementById('login-error');
+      if (el) el.textContent = 'Erreur technique : ' + (e && e.message ? e.message : e) + ' — préviens le développeur.';
+    });
+  </script>
 </head>
 <body>
 
   <!-- ============ ÉCRAN DE CONNEXION ============ -->
   <div id="login-screen" class="login-screen">
-    <form id="login-form" class="login-card" autocomplete="off">
+    <form id="login-form" class="login-card" autocomplete="off" onsubmit="return false;">
       <span class="login-logo">MEZUR</span>
       <span class="login-sub">Espace restaurateur</span>
       <label for="login-pw">Mot de passe</label>
@@ -24,6 +32,8 @@
       <button type="submit" class="btn btn-gold">Se connecter</button>
       <p id="login-error" class="login-error" role="alert"></p>
       <p class="login-hint">Mot de passe par défaut : <strong>mezur2026</strong> — pensez à le changer dans Réglages.</p>
+      <p class="login-hint"><a href="#" id="login-reset">Mot de passe oublié ? Réinitialiser l'accès</a></p>
+      <p id="login-reset-done" class="login-hint" style="color:var(--ok)" hidden>Accès réinitialisé — saisissez <strong>mezur2026</strong> puis « Se connecter ».</p>
     </form>
   </div>
 
