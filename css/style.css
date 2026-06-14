@@ -1,5 +1,5 @@
 /* ============================================================
-   MEZUR — Design System
+   MEZUR · Design System
    Brasserie Gastronomique · Valence
    ============================================================ */
 
@@ -56,7 +56,7 @@ a {
   --or-light: #E8D5A3;
   --creme: #F5F0E8;
   --slate: #3D3D3D;
-  --stone: #9B9B9B;
+  --stone: #767676;
   --pearl: #F7F7F7;
 
   /* Transparences */
@@ -267,7 +267,7 @@ a {
   gap: 5px;
   background: none;
   border: none;
-  cursor: none;
+  cursor: pointer;
   padding: 4px;
 }
 
@@ -311,7 +311,7 @@ a {
   font-weight: 400;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  cursor: none;
+  cursor: pointer;
   transition: transform 220ms var(--ease-premium),
               box-shadow 220ms var(--ease-premium),
               background 220ms, color 220ms, border-color 220ms;
@@ -836,7 +836,7 @@ a {
   font-family: var(--font-body);
   font-size: var(--text-body);
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.80);
   line-height: 1.85;
   margin-bottom: 48px;
 }
@@ -1133,7 +1133,7 @@ a {
   font-family: var(--font-body);
   font-size: var(--text-body);
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.80);
   letter-spacing: 0.15em;
   margin-bottom: 52px;
 }
@@ -1160,7 +1160,7 @@ a {
 
 .site-footer {
   background: #080F29;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.70);
   padding: 80px 0 0;
 }
 
@@ -1212,7 +1212,7 @@ a {
   font-weight: 300;
   font-style: normal;
   line-height: 1.85;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.70);
 }
 
 .footer-col a {
@@ -1220,7 +1220,7 @@ a {
   font-family: var(--font-body);
   font-size: 13px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.70);
   transition: color 200ms;
   margin-bottom: 8px;
   line-height: 1.8;
@@ -1264,7 +1264,7 @@ a {
   font-family: var(--font-body);
   font-size: 11px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.50);
   letter-spacing: 0.1em;
 }
 
@@ -1569,7 +1569,7 @@ a {
   font-family: var(--font-body);
   font-size: 14px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.80);
   line-height: 1.85;
 }
 
@@ -1701,11 +1701,11 @@ a {
 }
 
 .form-group select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239B9B9B' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23767676' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 16px center;
   padding-right: 40px;
-  cursor: none;
+  cursor: pointer;
 }
 
 .form-group textarea {
