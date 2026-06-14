@@ -739,11 +739,58 @@ function initStickyReserve() {
   });
 }
 
+/* ============ FAILSAFE — révélation garantie ============ */
+
+function forceReveal() {
+  const loader = document.querySelector('.loader');
+  if (loader) {
+    loader.style.transition = 'opacity 0.4s ease';
+    loader.style.opacity = '0';
+    loader.style.pointerEvents = 'none';
+    setTimeout(() => { loader.style.display = 'none'; }, 420);
+  }
+  const overlay = document.querySelector('.page-transition-overlay');
+  if (overlay) {
+    overlay.style.transform = 'scaleY(0)';
+  }
+  // Hero (page d'accueil) — sécuriser l'opacité des éléments animés
+  document.querySelectorAll(
+    '.hero-eyebrow, .hero-tagline, .hero-cta-group, .hero-scroll, .hero-title .char'
+  ).forEach((el) => {
+    el.style.opacity = el.classList.contains('hero-tagline') ? '0.8' : '1';
+    el.style.transform = 'none';
+  });
+  document.body.style.overflow = '';
+}
+
+function revealFailsafe() {
+  // Délai un peu supérieur à la durée de l'intro animée (~3,4 s).
+  // Si tout s'est bien passé, ré-appliquer l'état final est sans effet.
+  const FAILSAFE_MS = 4200;
+  const t = setTimeout(forceReveal, FAILSAFE_MS);
+
+  // Si le ticker GSAP n'a jamais avancé peu après le chargement,
+  // l'animation est gelée : on révèle immédiatement.
+  setTimeout(() => {
+    if (window.gsap && gsap.ticker.frame < 2) {
+      clearTimeout(t);
+      forceReveal();
+    }
+  }, 1200);
+}
+
 /* ============ INIT ============ */
 
 function init() {
   // Register GSAP plugins
   gsap.registerPlugin(ScrollTrigger);
+
+  // Filet de sécurité : si l'animation d'intro GSAP ne se joue pas
+  // (onglet en arrière-plan → requestAnimationFrame gelé, GSAP lent à
+  // charger, erreur JS…), on révèle le contenu sans dépendre du ticker.
+  // Sans ce garde-fou, le loader et l'overlay restent affichés et masquent
+  // tout le site en bleu.
+  revealFailsafe();
 
   // Disable default scroll before lenis
   if (typeof Lenis !== 'undefined') {
