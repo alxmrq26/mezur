@@ -9,8 +9,8 @@
   const SESSION_KEY = 'mezur_admin_auth';
   const DEFAULT_PW = 'mezur2026';
 
-  /* État de travail (copie éditable du contenu) */
-  let state = MezurContent.get();
+  /* État de travail (copie éditable du contenu) — chargé à l'ouverture */
+  let state = null;
   let dirty = false;
 
   /* Libellés conviviaux */
@@ -60,12 +60,27 @@
     toastTimer = setTimeout(() => { t.className = 'toast'; }, 2600);
   }
 
+  /* ============ STOCKAGE SÉCURISÉ ============
+     Certains navigateurs (Safari navigation privée, file://, réglages
+     verrouillés) lèvent une exception sur localStorage/sessionStorage.
+     On ne doit jamais bloquer la connexion à cause de ça. */
+  function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, v); return true; } catch (e) { return false; } }
+  function lsDel(k) { try { localStorage.removeItem(k); } catch (e) {} }
+  function ssSet(k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} }
+  function ssGet(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }
+  function ssDel(k) { try { sessionStorage.removeItem(k); } catch (e) {} }
+
   /* ============ AUTH ============ */
   function storedPw() {
-    const v = localStorage.getItem(PW_KEY);
-    return v ? atob(v) : DEFAULT_PW;
+    const v = lsGet(PW_KEY);
+    if (!v) return DEFAULT_PW;
+    try { return atob(v); } catch (e) { return DEFAULT_PW; }
   }
-  function setPw(pw) { localStorage.setItem(PW_KEY, btoa(pw)); }
+  function setPw(pw) {
+    try { lsSet(PW_KEY, btoa(unescape(encodeURIComponent(pw)))); }
+    catch (e) { lsSet(PW_KEY, btoa(pw)); }
+  }
 
   function openApp() {
     $('#login-screen').hidden = true;
@@ -75,18 +90,30 @@
 
   $('#login-form').addEventListener('submit', (e) => {
     e.preventDefault();
-    const pw = $('#login-pw').value;
+    const pw = ($('#login-pw').value || '').trim();
     if (pw === storedPw()) {
-      sessionStorage.setItem(SESSION_KEY, '1');
+      ssSet(SESSION_KEY, '1');   // best-effort : n'empêche jamais l'accès
       openApp();
     } else {
-      $('#login-error').textContent = 'Mot de passe incorrect.';
+      $('#login-error').textContent = 'Mot de passe incorrect. (Par défaut : mezur2026)';
     }
+  });
+
+  // Lien de secours : réinitialise le mot de passe au défaut
+  const resetLink = $('#login-reset');
+  if (resetLink) resetLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    lsDel(PW_KEY);
+    $('#login-error').textContent = '';
+    const pwInput = $('#login-pw');
+    pwInput.value = 'mezur2026';
+    pwInput.focus();
+    $('#login-reset-done').hidden = false;
   });
 
   $('#btn-logout').addEventListener('click', () => {
     if (dirty && !confirm('Des modifications ne sont pas publiées. Se déconnecter quand même ?')) return;
-    sessionStorage.removeItem(SESSION_KEY);
+    ssDel(SESSION_KEY);
     location.reload();
   });
 
@@ -110,6 +137,7 @@
 
   /* ============ BOOT ============ */
   function boot() {
+    state = MezurContent.get();
     renderDashboard();
     renderMenuEditor();
     renderImagesEditor();
@@ -440,7 +468,7 @@
   });
 
   /* Reprise de session ou focus mot de passe */
-  if (sessionStorage.getItem(SESSION_KEY) === '1') {
+  if (ssGet(SESSION_KEY) === '1') {
     openApp();
   } else {
     $('#login-pw').focus();
