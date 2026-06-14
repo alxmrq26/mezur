@@ -356,7 +356,7 @@
         let out;
         try { out = canvas.toDataURL('image/webp', 0.82); }
         catch (e) { out = canvas.toDataURL('image/jpeg', 0.85); }
-        if (out.length > 2_600_000) out = canvas.toDataURL('image/jpeg', 0.7);
+        if (out.length > 2600000) out = canvas.toDataURL('image/jpeg', 0.7);
         cb(out);
       };
       img.src = reader.result;
