@@ -401,7 +401,7 @@ function initDesktopReveal() {
       .from(img, { scale: 1.15, duration: 1, ease: 'power4.inOut' }, '<');
   });
 
-  gsap.utils.toArray('.pillar, .testimonial, .menu-entry, .value-item').forEach(el => {
+  gsap.utils.toArray('.menu-entry, .value-item').forEach(el => {
     gsap.from(el, {
       opacity: 0, y: 40, duration: 0.7, ease: 'power2.out',
       scrollTrigger: { trigger: el, start: 'top 88%' },
