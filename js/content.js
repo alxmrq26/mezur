@@ -203,9 +203,9 @@
       '<div class="menu-entry">' +
         '<div class="menu-entry-left">' +
           '<p class="menu-entry-name">' + esc(item.nom) + '</p>' +
-          '<p class="menu-entry-desc">' + esc(item.desc) + '</p>' +
+          (item.desc ? '<p class="menu-entry-desc">' + esc(item.desc) + '</p>' : '') +
         '</div>' +
-        '<span class="menu-entry-price">' + esc(item.prix) + '</span>' +
+        (item.prix ? '<span class="menu-entry-price">' + esc(item.prix) + '</span>' : '') +
       '</div>'
     );
   }
