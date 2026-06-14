@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Direction Artistique — MEZUR</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0B1F4B;
+    --aubergine: #2A1B3A;
+    --or: #C9A96E;
+    --creme: #F5F0E8;
+    --blanc: #FFFFFF;
+    --gris-clair: #F7F7F7;
+    --gris-moyen: #9B9B9B;
+    --gris-texte: #3D3D3D;
+    --rouge-doux: #8B2E2E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--blanc);
+    color: var(--gris-texte);
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  /* ============ COVER ============ */
+  .cover {
+    background: var(--navy);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('https://static.wixstatic.com/media/11062b_0234bac6aabb4d45af0cbe02be372826f000.jpg/v1/fill/w_1920,h_1080,al_c,q_85,enc_avif/image.jpg') center/cover no-repeat;
+    opacity: 0.15;
+  }
+
+  .cover-content { position: relative; z-index: 1; max-width: 800px; }
+
+  .cover-eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 32px;
+  }
+
+  .cover-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(64px, 10vw, 120px);
+    font-weight: 300;
+    color: var(--blanc);
+    letter-spacing: 0.12em;
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+
+  .cover-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 64px;
+  }
+
+  .cover-meta {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .cover-line {
+    width: 1px;
+    height: 80px;
+    background: var(--or);
+    margin: 0 auto 40px;
+  }
+
+  /* ============ SECTIONS ============ */
+  .section {
+    padding: 100px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-dark {
+    background: var(--navy);
+    max-width: none;
+    color: var(--blanc);
+    padding: 100px 0;
+  }
+  .section-dark .section-inner { max-width: 1200px; margin: 0 auto; padding: 0 80px; }
+
+  .section-creme {
+    background: var(--creme);
+    max-width: none;
+    padding: 100px 0;
+  }
+  .section-creme .section-inner { max-width: 1200px; margin: 0 auto; padding: 0 80px; }
+
+  .section-number {
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 40px;
+  }
+
+  h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+
+  p { margin-bottom: 20px; font-size: 15px; }
+
+  .lead {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.5;
+    margin-bottom: 40px;
+    color: var(--gris-moyen);
+  }
+
+  /* ============ DIVIDER ============ */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin: 60px 0;
+  }
+  .divider-line { flex: 1; height: 1px; background: currentColor; opacity: 0.15; }
+  .divider-icon { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 18px; opacity: 0.4; }
+
+  /* ============ BRAND STORY ============ */
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .story-image {
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .values-list {
+    list-style: none;
+    margin-top: 32px;
+  }
+
+  .values-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    font-size: 14px;
+  }
+
+  .values-list li:last-child { border-bottom: none; }
+
+  .value-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 500;
+    min-width: 160px;
+    color: var(--navy);
+  }
+
+  /* ============ COULEURS ============ */
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .swatch {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+
+  .swatch-color {
+    height: 120px;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .swatch-info {
+    padding: 14px 0 0;
+  }
+
+  .swatch-name {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .swatch-hex {
+    font-size: 12px;
+    color: var(--gris-moyen);
+    font-family: monospace;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .swatch-usage {
+    font-size: 11px;
+    color: var(--gris-moyen);
+    display: block;
+    line-height: 1.5;
+  }
+
+  .swatch-tag {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--creme);
+    color: var(--gris-moyen);
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin-top: 6px;
+  }
+
+  .tag-existing { background: #FDECC8; color: #6B4E0C; }
+  .tag-new { background: #E8F0E8; color: #2A5A2A; }
+
+  /* ============ TYPO ============ */
+  .typo-sample {
+    margin-bottom: 60px;
+    padding-bottom: 60px;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .typo-sample:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .typo-meta {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gris-moyen);
+    margin-bottom: 20px;
+  }
+
+  .typo-display {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+
+  .typo-display-italic {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+
+  .typo-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-weight: 400;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+
+  .typo-body-sample {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    color: var(--gris-texte);
+    max-width: 600px;
+    line-height: 1.8;
+  }
+
+  .typo-caption {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gris-moyen);
+  }
+
+  .typo-or {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--or);
+  }
+
+  /* ============ PHOTOS ============ */
+  .photos-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 16px;
+    margin-top: 48px;
+  }
+
+  .photos-grid img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .photo-main { grid-row: 1 / 3; aspect-ratio: 2/3; }
+  .photo-secondary { aspect-ratio: 3/4; }
+  .photo-tertiary { aspect-ratio: 3/4; }
+
+  .photo-caption {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gris-moyen);
+    margin-top: 12px;
+  }
+
+  /* ============ LOGO AREA ============ */
+  .logo-demo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    background: var(--navy);
+    margin: 48px 0;
+  }
+
+  .logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 80px;
+    font-weight: 300;
+    letter-spacing: 0.35em;
+    color: var(--blanc);
+    text-transform: uppercase;
+  }
+
+  .logo-tagline {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--or);
+    text-align: center;
+    margin-top: -16px;
+  }
+
+  /* ============ GRID INSPIRATION ============ */
+  .inspo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin: 48px 0;
+    background: var(--gris-clair);
+  }
+
+  .inspo-cell {
+    background: var(--blanc);
+    aspect-ratio: 1;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .inspo-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+
+  .inspo-cell-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 40px;
+    text-align: center;
+  }
+
+  /* ============ COMPOSANTS UI ============ */
+  .ui-examples {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 48px;
+  }
+
+  .ui-card {
+    background: var(--blanc);
+    border: 1px solid rgba(0,0,0,0.08);
+    padding: 40px;
+  }
+
+  .ui-card.dark {
+    background: var(--navy);
+    border: none;
+    color: var(--blanc);
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 14px 36px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: var(--navy);
+    color: var(--blanc);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--navy);
+    border: 1px solid var(--navy);
+  }
+
+  .btn-or {
+    background: var(--or);
+    color: var(--blanc);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--blanc);
+    border: 1px solid rgba(255,255,255,0.4);
+  }
+
+  /* ============ PRINCIPES VISUELS ============ */
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+    margin-top: 48px;
+  }
+
+  .principle {
+    padding-top: 24px;
+    border-top: 1px solid var(--or);
+  }
+
+  .principle-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.12);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .principle-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--blanc);
+    margin-bottom: 12px;
+  }
+
+  .principle-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+  }
+
+  /* ============ SITE ACTUEL vs REFONTE ============ */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-top: 48px;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+
+  .compare-col { padding: 40px; }
+  .compare-col:first-child { border-right: 1px solid rgba(0,0,0,0.1); }
+
+  .compare-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .compare-before { color: var(--rouge-doux); }
+  .compare-after { color: #2A5A2A; }
+
+  .compare-list { list-style: none; }
+  .compare-list li {
+    font-size: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .compare-list li::before {
+    content: '—';
+    opacity: 0.3;
+    flex-shrink: 0;
+  }
+
+  .compare-list.after li::before { content: '→'; color: #2A5A2A; opacity: 1; }
+
+  /* ============ TON ÉDITORIAL ============ */
+  .quote-block {
+    padding: 60px 80px;
+    background: var(--creme);
+    border-left: 3px solid var(--or);
+    margin: 48px 0;
+    position: relative;
+  }
+
+  .quote-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 120px;
+    color: var(--or);
+    opacity: 0.2;
+    position: absolute;
+    top: -20px;
+    left: 40px;
+    line-height: 1;
+  }
+
+  .quote-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-style: italic;
+    color: var(--navy);
+    font-weight: 300;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+  }
+
+  .quote-attr {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gris-moyen);
+    margin-top: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ============ FOOTER DOC ============ */
+  .doc-footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.35);
+    text-align: center;
+    padding: 60px 40px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* ============ PRINT ============ */
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .cover { min-height: 100vh; page-break-after: always; }
+    .section, .section-dark, .section-creme { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- =========================================
+     PAGE DE COUVERTURE
+     ========================================= -->
+<div class="cover">
+  <div class="cover-content">
+    <div class="cover-eyebrow">Direction Artistique · Refonte digitale</div>
+    <div class="cover-line"></div>
+    <div class="cover-title">MEZUR</div>
+    <div class="cover-subtitle">Brasserie Gastronomique · Valence</div>
+    <div class="cover-meta">Juin 2026</div>
+  </div>
+</div>
+
+
+<!-- =========================================
+     SECTION 1 — IDENTITÉ DE MARQUE
+     ========================================= -->
+<div class="section">
+  <span class="section-number">01 — Identité de marque</span>
+  <h2>Qui est<br>MEZUR ?</h2>
+  <p class="lead">Un restaurant où la précision est une philosophie. Le nom dit tout : ni trop, ni trop peu. L'équilibre comme art de vivre gastronomique.</p>
+
+  <div class="story-grid">
+    <div>
+      <img
+        src="https://static.wixstatic.com/media/11062b_c9f7a46efe4843db98df7f032af9b196~mv2.jpg/v1/fill/w_800,h_1200,al_c,q_90,enc_avif/image.jpg"
+        alt="Plat gastronomique Mezur"
+        class="story-image"
+        onerror="this.style.background='#F5F0E8'; this.style.display='block'; this.style.minHeight='400px';"
+      />
+    </div>
+    <div>
+      <h3>L'histoire</h3>
+      <p>MEZUR naît de la passion commune de <strong>Pierre et Thomas Souptez</strong> pour la gastronomie et le vin. Deux frères. Une vision commune : faire de chaque repas un moment juste, lisible, mémorable.</p>
+      <p>Pierre, en cuisine, incarne l'élégance de la simplicité — une précision technique au service du produit. Thomas, en salle et à la cave, imagine les accords qui complètent l'expérience.</p>
+      <p>Le restaurant ouvre en 2026, au 4 rue de l'Université à Valence. Un lieu épuré, chaleureux, où tradition et modernité se rencontrent sans se contredire.</p>
+
+      <div class="divider"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+
+      <h3>Les valeurs fondatrices</h3>
+      <ul class="values-list">
+        <li>
+          <span class="value-name">La Mesure</span>
+          <span>Rien de superflu. Chaque détail compte, rien n'est en excès. L'équilibre est une discipline.</span>
+        </li>
+        <li>
+          <span class="value-name">L'Authenticité</span>
+          <span>Produits locaux, de saison, mis en valeur sans artifice. La vérité du goût avant tout.</span>
+        </li>
+        <li>
+          <span class="value-name">La Précision</span>
+          <span>Technique rigoureuse, assiettes lisibles, chaque geste compte. Le savoir-faire comme signature.</span>
+        </li>
+        <li>
+          <span class="value-name">La Convivialité</span>
+          <span>Un lieu de partage. L'élégance n'exclut pas la chaleur humaine — elle la sublime.</span>
+        </li>
+        <li>
+          <span class="value-name">Le Terroir</span>
+          <span>Ancrage dans la Drôme et ses richesses. Modernité dans l'expression, fidélité dans les racines.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- =========================================
+     SECTION 2 — POSITIONNEMENT LOGO
+     ========================================= -->
+<div class="section-dark">
+  <div class="section-inner">
+    <span class="section-number">02 — Logo & Identité visuelle</span>
+    <h2 style="color: var(--blanc);">Le nom comme<br>identité complète</h2>
+    <p style="color: rgba(255,255,255,0.6); max-width: 600px;">MEZUR est un nom rare, court, mémorable. Il joue sur "mesure" — à la fois précision culinaire, tailleur sur mesure, et expérience personnalisée. Il n'a pas besoin de béquilles décoratives : il doit respirer, être espacé, traité avec sobriété.</p>
+
+    <div class="logo-demo">
+      <div>
+        <div class="logo-text">MEZUR</div>
+        <div class="logo-tagline">Brasserie Gastronomique · Valence</div>
+      </div>
+    </div>
+
+    <div class="principles-grid">
+      <div class="principle">
+        <div class="principle-number">1</div>
+        <div class="principle-title">Espacement généreux</div>
+        <div class="principle-desc">Le letter-spacing du logo doit être large. Le blanc autour du nom participe à la lecture premium. Éviter la compression, favoriser l'air.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-number">2</div>
+        <div class="principle-title">Déclinaisons sobres</div>
+        <div class="principle-desc">Navy sur blanc, blanc sur navy, or sur noir. Jamais de contours complexes. Le nom seul suffit — pas besoin d'un pictogramme supplémentaire.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-number">3</div>
+        <div class="principle-title">Cohérence print/digital</div>
+        <div class="principle-desc">Le logo en usage print (cartes, menus, packaging) doit être identique à la version digitale. Pas de version "allégée" — une seule vérité.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- =========================================
+     SECTION 3 — PALETTE DE COULEURS
+     ========================================= -->
+<div class="section">
+  <span class="section-number">03 — Palette de couleurs</span>
+  <h2>Une palette<br>sobre et profonde</h2>
+  <p class="lead">Inspirée des matières nobles — encre, lin, or, pierre — la palette de MEZUR est construite pour durer. Les couleurs existantes (navy, blanc) sont conservées comme socle. L'or et le crème viennent apporter chaleur et premium sans ostentation.</p>
+
+  <div class="palette-grid">
+    <!-- Couleurs existantes (print) -->
+    <div class="swatch">
+      <div class="swatch-color" style="background: #0B1F4B;"></div>
+      <div class="swatch-info">
+        <span class="swatch-name">Navy Profond</span>
+        <span class="swatch-hex">#0B1F4B · rgb(11, 31, 75)</span>
+        <span class="swatch-usage">Couleur principale. Fond dark, texte sur clair, logo.</span>
+        <span class="swatch-tag tag-existing">Existant — Print</span>
+      </div>
+    </div>
+
+    <div class="swatch">
+      <div class="swatch-color" style="background: #2A1B3A;"></div>
+      <div class="swatch-info">
+        <span class="swatch-name">Aubergine</span>
+        <span class="swatch-hex">#2A1B3A · rgb(42, 27, 58)</span>
+        <span class="swatch-usage">Nuance secondaire sombre. Dégradés, superpositions.</span>
+        <span class="swatch-tag tag-existing">Existant — Print</span>
+      </div>
+    </div>
+
+    <div class="swatch">
+      <div class="swatch-color" style="background: #FFFFFF; border: 1px solid #eee;"></div>
+      <div class="swatch-info">
+        <span class="swatch-name">Blanc Pur</span>
+        <span class="swatch-hex">#FFFFFF</span>
+        <span class="swatch-usage">Fond principal. Espace négatif. Air et lisibilité.</span>
+        <span class="swatch-tag tag-existing">Existant — Print</span>
+      </div>
+    </div>
+
+    <!-- Couleurs nouvelles recommandées -->
+    <div class="swatch">
+      <div class="swatch-color" style="background: #C9A96E;"></div>
+      <div class="swatch-info">
+        <span class="swatch-name">Or Champagne</span>
+        <span class="swatch-hex">#C9A96E</span>
+        <span class="swatch-usage">Accent premium. Séparateurs, highlights, CTA secondaires, détails.</span>
+        <span class="swatch-tag tag-new">Recommandé — Nouveau</span>
+      </div>
+    </div>
+
+    <div class="swatch">
+      <div class="swatch-color" style="background: #F5F0E8;"></div>
+      <div class="swatch-info">
+        <span class="swatch-name">Crème Lin</span>
+        <span class="swatch-hex">#F5F0E8</span>
+        <span class="swatch-usage">Fond secondaire chaud. Sections alternatives. Contexte organique.</span>
+        <span class="swatch-tag tag-new">Recommandé — Nouveau</span>
+      </div>
+    </div>
+
+    <div class="swatch">
+      <div class="swatch-color" style="background: #3D3D3D;"></div>
+      <div class="swatch-info">
+        <span class="swatch-name">Ardoise</span>
+        <span class="swatch-hex">#3D3D3D</span>
+        <span class="swatch-usage">Corps de texte. Plus doux qu'un noir pur, lecture confortable.</span>
+        <span class="swatch-tag tag-new">Recommandé — Nouveau</span>
+      </div>
+    </div>
+
+    <div class="swatch">
+      <div class="swatch-color" style="background: #9B9B9B;"></div>
+      <div class="swatch-info">
+        <span class="swatch-name">Gris Pierre</span>
+        <span class="swatch-hex">#9B9B9B</span>
+        <span class="swatch-usage">Métadonnées, captions, texte secondaire.</span>
+        <span class="swatch-tag tag-new">Recommandé — Nouveau</span>
+      </div>
+    </div>
+
+    <div class="swatch">
+      <div class="swatch-color" style="background: #F7F7F7;"></div>
+      <div class="swatch-info">
+        <span class="swatch-name">Gris Nacre</span>
+        <span class="swatch-hex">#F7F7F7</span>
+        <span class="swatch-usage">Fond de cartes, zones de formulaire, arrières-plans discrets.</span>
+        <span class="swatch-tag tag-existing">Existant — Digital</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+
+  <h3>Règles d'usage</h3>
+  <p>Le <strong>navy</strong> est la couleur dominante — il structure et donne de l'autorité. Le <strong>blanc</strong> lui laisse de l'espace pour respirer. L'<strong>or champagne</strong> intervient avec parcimonie : un séparateur, une icône, un bouton d'action — jamais une surface complète. Le <strong>crème lin</strong> apporte la chaleur organique nécessaire pour éviter la froideur d'un univers trop monochrome.</p>
+  <p>En aucun cas utiliser de couleurs vives (rouge, vert, bleu électrique). La palette doit fonctionner en impression offset comme en digital sans perte d'identité.</p>
+</div>
+
+
+<!-- =========================================
+     SECTION 4 — TYPOGRAPHIE
+     ========================================= -->
+<div class="section-creme">
+  <div class="section-inner">
+    <span class="section-number">04 — Typographie</span>
+    <h2>Le duo<br>Cormorant × Jost</h2>
+    <p class="lead">La typographie est l'outil le plus puissant de la direction artistique. Elle communique avant que le contenu soit lu. Chez MEZUR, le choix repose sur un contraste assumé : la grâce serif d'un côté, la clarté sans-serif de l'autre.</p>
+
+    <div class="typo-sample">
+      <div class="typo-meta">Police principale · Cormorant Garamond · Titres, citations, éléments signature</div>
+      <div class="typo-display">MEZUR</div>
+      <div class="typo-display-italic">La mesure du goût</div>
+      <div class="typo-heading">Brasserie gastronomique</div>
+      <div class="typo-or">« Chaque assiette est un chef-d'œuvre »</div>
+      <div style="margin-top: 20px; font-size: 13px; color: var(--gris-moyen); font-style: italic;">Cormorant Garamond — Police serif à hauts contrastes, inspirée des caractères d'imprimerie classiques. Déjà utilisée sur le site actuel. Sa finesse est idéale pour des établissements gastronomiques. Corps recommandé : 28px minimum digital, 12pt print.</div>
+    </div>
+
+    <div class="typo-sample">
+      <div class="typo-meta">Police secondaire · Jost · Corps de texte, navigation, étiquettes, formulaires</div>
+      <div class="typo-caption" style="margin-bottom: 16px;">RÉSERVATIONS — MENU — À PROPOS — CONTACT</div>
+      <div class="typo-body-sample">Chez MEZUR, Pierre incarne l'élégance de la simplicité. Chaque ingrédient est soigneusement mis en valeur — ni camouflé, ni surchargé. La cuisine parle d'elle-même.</div>
+      <div style="margin-top: 20px; font-size: 13px; color: var(--gris-moyen); font-style: italic;">Jost — Grotesque géométrique. Claire, neutre, contemporaine. Parfaite en corps de texte et en interface. Disponible gratuitement sur Google Fonts. Remplace Brandon Grotesque qui nécessite une licence.</div>
+    </div>
+
+    <div class="typo-sample">
+      <div class="typo-meta">Hiérarchie recommandée</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 20px;">
+        <div>
+          <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.3em; color: var(--gris-moyen); margin-bottom: 20px;">Digital</p>
+          <p><strong>H1 Display</strong> — Cormorant 64–96px, weight 300</p>
+          <p><strong>H2 Titre</strong> — Cormorant 40–56px, weight 400</p>
+          <p><strong>H3 Section</strong> — Cormorant 26–32px, weight 400</p>
+          <p><strong>Eyebrow</strong> — Jost 10–11px, 0.35em spacing, uppercase</p>
+          <p><strong>Corps</strong> — Jost 15–16px, weight 300, line-height 1.7</p>
+          <p><strong>Caption</strong> — Jost 11–12px, weight 400, gris</p>
+        </div>
+        <div>
+          <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.3em; color: var(--gris-moyen); margin-bottom: 20px;">Print (menus, cartes)</p>
+          <p><strong>Titre menu</strong> — Cormorant 18–22pt, weight 300</p>
+          <p><strong>Plat</strong> — Cormorant 13–14pt, weight 400</p>
+          <p><strong>Description</strong> — Jost 9–10pt, weight 300, italique</p>
+          <p><strong>Prix</strong> — Jost 10pt, weight 400</p>
+          <p><strong>Catégorie</strong> — Jost 7–8pt, uppercase, 0.3em spacing</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- =========================================
+     SECTION 5 — PHOTOGRAPHIE
+     ========================================= -->
+<div class="section">
+  <span class="section-number">05 — Direction photo</span>
+  <h2>L'image comme<br>premier plat</h2>
+  <p class="lead">La photographie est le vecteur émotionnel le plus direct. Sur le site actuel, elle est sous-exploitée. Dans la refonte, elle devient le moteur de l'expérience.</p>
+
+  <!-- Images du site actuel -->
+  <div class="photos-grid">
+    <div class="photo-main">
+      <img
+        src="https://static.wixstatic.com/media/11062b_c9f7a46efe4843db98df7f032af9b196~mv2.jpg/v1/fill/w_900,h_1400,al_c,q_90,enc_avif/image.jpg"
+        alt="Plat Mezur"
+        onerror="this.style.background='#E8E4DC'; this.alt='';"
+      />
+    </div>
+    <div class="photo-secondary">
+      <img
+        src="https://static.wixstatic.com/media/11062b_da2455ee49e143968569af92d726adc5~mv2.jpg/v1/fill/w_600,h_800,al_c,q_90,enc_avif/image.jpg"
+        alt="Vins Mezur"
+        onerror="this.style.background='#D4C9B8'; this.alt='';"
+      />
+    </div>
+    <div class="photo-tertiary">
+      <img
+        src="https://static.wixstatic.com/media/c00db5_538c3ea595f149ff92b5a81289f64af6~mv2.jpeg/v1/fill/w_600,h_800,al_c,q_90,enc_avif/image.jpg"
+        alt="Ambiance Mezur"
+        onerror="this.style.background='#C4C0C8'; this.alt='';"
+      />
+    </div>
+  </div>
+  <p class="photo-caption">Visuels existants — site mezurvalence.com</p>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+
+  <h3>Principes à respecter pour la refonte</h3>
+
+  <div class="principles-grid" style="margin-top: 0;">
+    <div class="principle" style="border-top-color: #0B1F4B; border-top-width: 2px;">
+      <div class="principle-number" style="color: rgba(11,31,75,0.12);"></div>
+      <div class="principle-title" style="color: var(--navy);">Lumière naturelle directe</div>
+      <div class="principle-desc" style="color: var(--gris-moyen);">Fenêtres en fond diffus, pas de flash frontal. Ombres douces et portées naturelles qui donnent du volume aux plats.</div>
+    </div>
+    <div class="principle" style="border-top-color: #0B1F4B; border-top-width: 2px;">
+      <div class="principle-number" style="color: rgba(11,31,75,0.12);"></div>
+      <div class="principle-title" style="color: var(--navy);">Fond sombre & neutre</div>
+      <div class="principle-desc" style="color: var(--gris-moyen);">Ardoise, bois sombre, lin. Pas de fond blanc aseptisé. La matière des supports renforce l'identité premium et artisanale.</div>
+    </div>
+    <div class="principle" style="border-top-color: #0B1F4B; border-top-width: 2px;">
+      <div class="principle-number" style="color: rgba(11,31,75,0.12);"></div>
+      <div class="principle-title" style="color: var(--navy);">Gros plans dramatiques</div>
+      <div class="principle-desc" style="color: var(--gris-moyen);">Images très proches, macro sur textures et détails. La précision en image reflète la précision en cuisine.</div>
+    </div>
+    <div class="principle" style="border-top-color: #0B1F4B; border-top-width: 2px;">
+      <div class="principle-number" style="color: rgba(11,31,75,0.12);"></div>
+      <div class="principle-title" style="color: var(--navy);">Portraits authentiques</div>
+      <div class="principle-desc" style="color: var(--gris-moyen);">Pierre en cuisine, Thomas en salle — dans l'action, pas posés. L'humain avant le storytelling corporatif.</div>
+    </div>
+    <div class="principle" style="border-top-color: #0B1F4B; border-top-width: 2px;">
+      <div class="principle-number" style="color: rgba(11,31,75,0.12);"></div>
+      <div class="principle-title" style="color: var(--navy);">Tons froids–chauds équilibrés</div>
+      <div class="principle-desc" style="color: var(--gris-moyen);">Postproduction cohérente : tons navy en ombres, teintes dorées dans les hautes lumières. Palette photo qui reflète la charte couleurs.</div>
+    </div>
+    <div class="principle" style="border-top-color: #0B1F4B; border-top-width: 2px;">
+      <div class="principle-number" style="color: rgba(11,31,75,0.12);"></div>
+      <div class="principle-title" style="color: var(--navy);">Composition minimaliste</div>
+      <div class="principle-desc" style="color: var(--gris-moyen);">Une assiette, un verre, un couvert — pas plus. Chaque cadre doit avoir un seul sujet clair. La mesure en photographie.</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- =========================================
+     SECTION 6 — COMPOSANTS UI
+     ========================================= -->
+<div class="section-dark">
+  <div class="section-inner">
+    <span class="section-number">06 — Composants UI</span>
+    <h2 style="color: var(--blanc);">Boutons, cartes<br>et interfaces</h2>
+    <p style="color: rgba(255,255,255,0.6); max-width: 600px; margin-bottom: 48px;">Chaque élément d'interface doit refléter la même sobriété que la cuisine de Pierre : rien d'inutile, chaque composant a une fonction précise.</p>
+
+    <div class="ui-examples">
+      <!-- Boutons -->
+      <div class="ui-card dark">
+        <p style="font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 32px;">Boutons</p>
+        <div style="display: flex; flex-direction: column; gap: 16px; align-items: flex-start;">
+          <button class="btn btn-or">Réserver une table</button>
+          <button class="btn btn-ghost">Voir le menu</button>
+          <button class="btn" style="background: var(--blanc); color: var(--navy);">Nous contacter</button>
+        </div>
+        <p style="font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 24px; line-height: 1.6;">CTA principal en or — toujours l'action prioritaire (réservation). Secondaires en ghost. Jamais de boutons ronds ou de style trop "web app".</p>
+      </div>
+
+      <!-- Card menu -->
+      <div class="ui-card">
+        <p style="font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gris-moyen); margin-bottom: 32px;">Carte de menu</p>
+        <div style="padding: 32px; background: var(--creme);">
+          <p style="font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--or); margin-bottom: 8px;">Entrées</p>
+          <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(0,0,0,0.08);">
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <span style="font-family: 'Cormorant Garamond', serif; font-size: 18px;">Tomates, Burrata</span>
+              <span style="font-size: 13px; color: var(--gris-moyen);">—</span>
+            </div>
+            <p style="font-size: 12px; color: var(--gris-moyen); font-style: italic; margin-top: 4px; margin-bottom: 0;">Tomates anciennes du marché, burrata crémeuse, basilic frais</p>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <span style="font-family: 'Cormorant Garamond', serif; font-size: 18px;">Œuf mollet, Mousseline</span>
+              <span style="font-size: 13px; color: var(--gris-moyen);">—</span>
+            </div>
+            <p style="font-size: 12px; color: var(--gris-moyen); font-style: italic; margin-top: 4px; margin-bottom: 0;">Œuf fermier, mousseline de céleri, éclats de noisette</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="ui-card" style="grid-column: 1 / -1; background: var(--navy);">
+        <p style="font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 24px;">Navigation principale</p>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1);">
+          <span style="font-family: 'Cormorant Garamond', serif; font-size: 28px; letter-spacing: 0.25em; color: var(--blanc);">MEZUR</span>
+          <div style="display: flex; gap: 48px; align-items: center;">
+            <span style="font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.6);">Menu</span>
+            <span style="font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.6);">À propos</span>
+            <span style="font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.6);">Contact</span>
+            <button class="btn btn-or" style="padding: 10px 24px; font-size: 10px;">Réserver</button>
+          </div>
+        </div>
+        <p style="font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 16px; line-height: 1.6;">Navigation sur fond navy, logo en Cormorant Garamond, liens en Jost spacing large. Le bouton "Réserver" en or est présent à tout moment.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- =========================================
+     SECTION 7 — TON ÉDITORIAL
+     ========================================= -->
+<div class="section">
+  <span class="section-number">07 — Ton éditorial</span>
+  <h2>La voix<br>de MEZUR</h2>
+  <p class="lead">Un restaurant premium ne parle pas comme un restaurant lambda. Chaque mot est un ingrédient. La voix de MEZUR est sobre, confiante, sensuelle — jamais commerciale.</p>
+
+  <div class="quote-block">
+    <div class="quote-mark">"</div>
+    <p class="quote-text">Un restaurant où l'art de la gastronomie se mêle à une ambiance chaleureuse et épurée. Ici, chaque détail, des plats soigneusement élaborés à l'accueil attentif, est pensé pour offrir une expérience culinaire authentique et agréable.</p>
+    <p class="quote-attr">— mezurvalence.com, page d'accueil actuelle</p>
+  </div>
+
+  <h3>Ce qui fonctionne, ce qui peut être amélioré</h3>
+
+  <div class="compare-grid">
+    <div class="compare-col">
+      <span class="compare-label compare-before">À affiner</span>
+      <ul class="compare-list">
+        <li>"Expérience culinaire authentique et agréable" — trop générique, tout restaurant peut dire ça</li>
+        <li>Accumulation d'adjectifs : "soigneusement élaborés", "attentif", "authentique" — dilue l'impact</li>
+        <li>Titre de site par défaut : "My Site 1" — besoin d'uniformité totale</li>
+        <li>Ton parfois hésitant, cherchant à tout promettre plutôt qu'à affirmer une identité</li>
+      </ul>
+    </div>
+    <div class="compare-col">
+      <span class="compare-label compare-after">Direction recommandée</span>
+      <ul class="compare-list after">
+        <li>Phrases courtes, affirmatives. "L'équilibre comme art de vivre." Pas de justification.</li>
+        <li>Mettre en avant le nom du chef et son histoire — la personnalité vend mieux que les attributs</li>
+        <li>Laisser les plats parler : "Tomates. Burrata." — pas de description superflue en hero</li>
+        <li>Utiliser le jeu sur "mesure" dans tous les supports : "Une expérience à votre mesure", "Réservez votre moment"</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+
+  <h3>Exemples de formulations pour la refonte</h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 24px;">
+    <div style="padding: 32px; background: var(--gris-clair);">
+      <p style="font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gris-moyen); margin-bottom: 16px;">Hero — Accroche</p>
+      <p style="font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--navy); line-height: 1.4;">"La précision au service du plaisir."</p>
+    </div>
+    <div style="padding: 32px; background: var(--gris-clair);">
+      <p style="font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gris-moyen); margin-bottom: 16px;">Sous-titre — Concept</p>
+      <p style="font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--navy); line-height: 1.4;">"Brasserie gastronomique. Valence."</p>
+    </div>
+    <div style="padding: 32px; background: var(--gris-clair);">
+      <p style="font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gris-moyen); margin-bottom: 16px;">À propos — Ouverture</p>
+      <p style="font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--navy); line-height: 1.4;">"MEZUR est né d'une obsession : faire juste."</p>
+    </div>
+    <div style="padding: 32px; background: var(--gris-clair);">
+      <p style="font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gris-moyen); margin-bottom: 16px;">CTA — Réservation</p>
+      <p style="font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--navy); line-height: 1.4;">"Votre table vous attend."</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- =========================================
+     SECTION 8 — SITE ACTUEL vs REFONTE
+     ========================================= -->
+<div class="section-creme">
+  <div class="section-inner">
+    <span class="section-number">08 — Diagnostic & Recommandations</span>
+    <h2>Site actuel<br>vs Refonte proposée</h2>
+    <p class="lead">Le site actuel est construit sur Wix. Il reflète le début d'une aventure, pas encore une identité aboutie. La structure et les valeurs sont là — le contenant doit se mettre à la hauteur du contenu.</p>
+
+    <div class="compare-grid" style="background: var(--blanc);">
+      <div class="compare-col">
+        <span class="compare-label compare-before">Site actuel — Points faibles</span>
+        <ul class="compare-list">
+          <li>Wix visible dans les titres ("My Site 1") — manque de professionnalisme</li>
+          <li>Hiérarchie typographique peu lisible, manque de contraste</li>
+          <li>Photos en nombre insuffisant, souvent floutées en hero</li>
+          <li>Palette couleurs mal exploitée — le navy est là mais pas affirmé</li>
+          <li>Navigation basique, pas de sticky header avec CTA "Réserver"</li>
+          <li>Page menu sans prix affichés clairement</li>
+          <li>Aucune page Instagram/réseaux sociaux intégrée au site</li>
+          <li>Formulaire de contact peu rassurant visuellement</li>
+          <li>Pas de section "presse" ou "reconnaissances" (4,9/5 Google non exploité)</li>
+        </ul>
+      </div>
+      <div class="compare-col">
+        <span class="compare-label compare-after">Refonte — Axes prioritaires</span>
+        <ul class="compare-list after">
+          <li>Plateforme dédiée (Framer, Webflow) pour un rendu vraiment premium</li>
+          <li>Typographie Cormorant + Jost avec hiérarchie stricte et respiration</li>
+          <li>Shooting photo complet : plats, chef, salle, détails — 20+ visuels minimum</li>
+          <li>Navy comme couleur structurante, or comme accent précis</li>
+          <li>Header sticky dark avec logo + "Réserver" en or — toujours visible</li>
+          <li>Page menu épurée, lisible, avec prix, formules et saisonnalité</li>
+          <li>Widget Instagram feed en bas de page (preuve sociale vivante)</li>
+          <li>Formulaire de réservation intégré et élégant (Resy, TheFork, ou custom)</li>
+          <li>Note Google 4,9 visible sur la homepage, avec quelques verbatims choisis</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+
+    <h3>Architecture de page recommandée</h3>
+    <p>La home page de la refonte doit suivre ce séquençage narratif :</p>
+    <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 2px;">
+      <div style="background: var(--navy); color: var(--blanc); padding: 20px 32px; display: flex; align-items: center; gap: 24px;">
+        <span style="font-family: 'Cormorant Garamond', serif; font-size: 32px; opacity: 0.3;">01</span>
+        <div><strong>Hero fullscreen</strong> — Photo immersive, logo, accroche courte, CTA "Réserver"</div>
+      </div>
+      <div style="background: var(--blanc); border: 1px solid rgba(0,0,0,0.06); padding: 20px 32px; display: flex; align-items: center; gap: 24px;">
+        <span style="font-family: 'Cormorant Garamond', serif; font-size: 32px; opacity: 0.2; color: var(--navy);">02</span>
+        <div style="color: var(--navy);"><strong>Le concept en 3 mots</strong> — La Mesure, L'Authenticité, Le Plaisir — avec icônes sobres</div>
+      </div>
+      <div style="background: var(--creme); padding: 20px 32px; display: flex; align-items: center; gap: 24px;">
+        <span style="font-family: 'Cormorant Garamond', serif; font-size: 32px; opacity: 0.2; color: var(--navy);">03</span>
+        <div style="color: var(--navy);"><strong>Extrait du menu</strong> — 2–3 plats signature avec photo, prix, esprit de saison</div>
+      </div>
+      <div style="background: var(--navy); color: var(--blanc); padding: 20px 32px; display: flex; align-items: center; gap: 24px;">
+        <span style="font-family: 'Cormorant Garamond', serif; font-size: 32px; opacity: 0.3;">04</span>
+        <div><strong>La maison</strong> — Photo Pierre + Thomas, histoire en 2 phrases, lien "En savoir plus"</div>
+      </div>
+      <div style="background: var(--blanc); border: 1px solid rgba(0,0,0,0.06); padding: 20px 32px; display: flex; align-items: center; gap: 24px;">
+        <span style="font-family: 'Cormorant Garamond', serif; font-size: 32px; opacity: 0.2; color: var(--navy);">05</span>
+        <div style="color: var(--navy);"><strong>Preuve sociale</strong> — Note 4,9 ★ Google + 2–3 avis clients sélectionnés</div>
+      </div>
+      <div style="background: var(--creme); padding: 20px 32px; display: flex; align-items: center; gap: 24px;">
+        <span style="font-family: 'Cormorant Garamond', serif; font-size: 32px; opacity: 0.2; color: var(--navy);">06</span>
+        <div style="color: var(--navy);"><strong>Feed Instagram</strong> — Grille 3×2 dynamique, lien @maison_mezur</div>
+      </div>
+      <div style="background: var(--navy); color: var(--blanc); padding: 20px 32px; display: flex; align-items: center; gap: 24px;">
+        <span style="font-family: 'Cormorant Garamond', serif; font-size: 32px; opacity: 0.3;">07</span>
+        <div><strong>CTA Réservation</strong> — Fond navy, texte blanc, bouton or. "Réservez votre moment."</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- =========================================
+     SECTION 9 — RÉFÉRENCES
+     ========================================= -->
+<div class="section">
+  <span class="section-number">09 — Références & Inspirations</span>
+  <h2>L'univers<br>de référence</h2>
+  <p class="lead">Ces établissements et marques partagent un ADN visuel proche de ce que MEZUR peut devenir. Non pas pour les copier, mais pour calibrer le niveau d'exigence attendu.</p>
+
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px;">
+    <div style="padding: 32px; background: var(--gris-clair); border-top: 2px solid var(--navy);">
+      <h3 style="font-size: 20px; margin-bottom: 8px;">La Cachette</h3>
+      <p style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gris-moyen); margin-bottom: 12px;">Valence · Concurrent direct</p>
+      <p style="font-size: 13px;">Référence locale gastronomique avec une présence digitale plus mature. Observer leur approche éditoriale et photographique.</p>
+    </div>
+    <div style="padding: 32px; background: var(--gris-clair); border-top: 2px solid var(--navy);">
+      <h3 style="font-size: 20px; margin-bottom: 8px;">Frenchie</h3>
+      <p style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gris-moyen); margin-bottom: 12px;">Paris · Brasserie de chef</p>
+      <p style="font-size: 13px;">Même positionnement brasserie-gastronomique. Site épuré, typographie forte, photos de plats en gros plan dramatiques.</p>
+    </div>
+    <div style="padding: 32px; background: var(--gris-clair); border-top: 2px solid var(--navy);">
+      <h3 style="font-size: 20px; margin-bottom: 8px;">Septime</h3>
+      <p style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gris-moyen); margin-bottom: 12px;">Paris · Restaurant bistronomique</p>
+      <p style="font-size: 13px;">Exemple d'une DA minimaliste mais chargée d'émotion. Beaucoup de blanc, une typo très sobre, des images qui font tout le travail.</p>
+    </div>
+    <div style="padding: 32px; background: var(--gris-clair); border-top: 2px solid var(--or);">
+      <h3 style="font-size: 20px; margin-bottom: 8px;">maison.co</h3>
+      <p style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gris-moyen); margin-bottom: 12px;">Référence digitale · Hôtellerie</p>
+      <p style="font-size: 13px;">Pour l'architecture de page et l'utilisation du scroll comme narration. Très bonne référence pour la structure Hero → Story → CTA.</p>
+    </div>
+    <div style="padding: 32px; background: var(--gris-clair); border-top: 2px solid var(--or);">
+      <h3 style="font-size: 20px; margin-bottom: 8px;">Cormorant (font)</h3>
+      <p style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gris-moyen); margin-bottom: 12px;">Typographie · Google Fonts</p>
+      <p style="font-size: 13px;">Déjà en place sur le site. À exploiter davantage : ses graisses fines en display, ses italiques pour les citations, ses variantes Infant pour la douceur.</p>
+    </div>
+    <div style="padding: 32px; background: var(--gris-clair); border-top: 2px solid var(--or);">
+      <h3 style="font-size: 20px; margin-bottom: 8px;">Framer / Webflow</h3>
+      <p style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gris-moyen); margin-bottom: 12px;">Plateformes · Migration Wix</p>
+      <p style="font-size: 13px;">Deux alternatives sérieuses à Wix pour obtenir un rendu premium sans développement custom. Framer pour la vitesse, Webflow pour le contrôle.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- =========================================
+     FOOTER DOCUMENT
+     ========================================= -->
+<div class="doc-footer">
+  <div style="font-family: 'Cormorant Garamond', serif; font-size: 32px; letter-spacing: 0.3em; color: rgba(255,255,255,0.5); font-weight: 300; margin-bottom: 16px; text-transform: uppercase;">MEZUR</div>
+  <div style="margin-bottom: 8px;">Direction Artistique — Refonte Digitale</div>
+  <div>Juin 2026 · Valence, Drôme</div>
+  <div style="margin-top: 40px; display: flex; justify-content: center; gap: 60px; font-size: 10px;">
+    <span>mezurvalence.com</span>
+    <span>@maison_mezur</span>
+    <span>4 Rue de l'Université · 26000 Valence</span>
+    <span>04 75 41 22 86</span>
+  </div>
+</div>
+
+</body>
+</html>

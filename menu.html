@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Le menu de MEZUR — Brasserie gastronomique à Valence. Entrées, plats, desserts et carte des vins composés par Pierre Souptez.">
+  <meta name="theme-color" content="#0B1F4B">
+  <title>Le Menu — MEZUR · Brasserie Gastronomique</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="cursor" aria-hidden="true"></div>
+
+  <!-- Mobile Bottom Bar -->
+  <div class="mobile-bottom-bar" role="complementary" aria-label="Réserver une table">
+    <div class="mobile-bottom-bar-info">
+      <span class="mobile-bottom-bar-name">MEZUR</span>
+      <span class="mobile-bottom-bar-hours">Lun–Sam · Valence</span>
+    </div>
+    <a href="reservations.html" class="btn btn-primary">Réserver</a>
+  </div>
+
+  <div class="page-transition-overlay" aria-hidden="true" style="
+    position: fixed; inset: 0; background: var(--navy);
+    z-index: 8000; transform-origin: top; transform: scaleY(1);
+    pointer-events: none;
+    display: flex; align-items: center; justify-content: center;
+  ">
+    <span style="font-family: 'Cormorant Garamond', serif; font-size: clamp(32px,6vw,64px); font-weight:300; letter-spacing:0.35em; color:#fff; text-transform:uppercase; opacity: 0.6;">MEZUR</span>
+  </div>
+
+  <!-- Navigation -->
+  <header class="site-header is-solid" role="banner">
+    <div class="header-inner">
+      <a href="index.html" class="logo">MEZUR</a>
+      <nav role="navigation" aria-label="Navigation principale">
+        <ul class="main-nav">
+          <li><a href="menu.html" class="active">Menu</a></li>
+          <li><a href="a-propos.html">La Maison</a></li>
+          <li><a href="reservations.html">Réservations</a></li>
+        </ul>
+      </nav>
+      <a href="reservations.html" class="btn-reserve-nav">Réserver</a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero compact -->
+    <section class="page-hero" aria-label="Le Menu">
+      <div class="page-hero-media">
+        <img
+          src="images/Plat gastronomique.avif"
+          alt="Plat gastronomique MEZUR"
+          loading="eager"
+        >
+      </div>
+      <div class="page-hero-overlay" aria-hidden="true"></div>
+      <div class="page-hero-content">
+        <span class="eyebrow">Printemps — Été 2026</span>
+        <h1>Le Menu</h1>
+      </div>
+    </section>
+
+    <!-- Menu editorial note -->
+    <div style="background: var(--navy); padding: 40px var(--container-pad);">
+      <div style="max-width: 860px; margin: 0 auto; text-align: center;">
+        <p style="
+          font-family: 'Cormorant Garamond', serif;
+          font-size: clamp(17px, 2vw, 22px);
+          font-style: italic;
+          font-weight: 300;
+          color: rgba(255,255,255,0.65);
+          line-height: 1.7;
+        ">
+          Ce que Pierre propose ce mois-ci — une cuisine de saison ancrée dans le terroir drômois, renouvelée selon les arrivages du marché et l'inspiration du moment.
+        </p>
+      </div>
+    </div>
+
+    <!-- Menu content -->
+    <div class="menu-page">
+
+      <!-- Entrées -->
+      <div class="menu-section">
+        <h2 class="menu-section-title">Entrées</h2>
+
+        <div class="menu-entry">
+          <div class="menu-entry-left">
+            <p class="menu-entry-name">Céviche de Saint-Jacques</p>
+            <p class="menu-entry-desc">Lait de tigre agrumes, concombre, coriandre fraîche, piment d'Espelette</p>
+          </div>
+          <span class="menu-entry-price">22 €</span>
+        </div>
+
+        <div class="menu-entry">
+          <div class="menu-entry-left">
+            <p class="menu-entry-name">Burrata, Tomates Anciennes</p>
+            <p class="menu-entry-desc">Tomates du marché de Valence, burrata crémeuse, basilic frais, huile d'olive Drômoise</p>
+          </div>
+          <span class="menu-entry-price">18 €</span>
+        </div>
+
+        <div class="menu-entry">
+          <div class="menu-entry-left">
+            <p class="menu-entry-name">Œuf Parfait, Truffe Estivale</p>
+            <p class="menu-entry-desc">Œuf cuit à 63°, émulsion parmesan, copeaux de truffe d'été, mouillettes au beurre</p>
+          </div>
+          <span class="menu-entry-price">26 €</span>
+        </div>
+
+        <div class="menu-entry">
+          <div class="menu-entry-left">
+            <p class="menu-entry-name">Tartare de Bœuf au Couteau</p>
+            <p class="menu-entry-desc">Bœuf de la Drôme, câpres, cornichons, moutarde à l'ancienne, jaune d'œuf</p>
+          </div>
+          <span class="menu-entry-price">24 €</span>
+        </div>
+
+        <div class="menu-entry">
+          <div class="menu-entry-left">
+            <p class="menu-entry-name">Terrine de Campagne Maison</p>
+            <p class="menu-entry-desc">Cochon de pays, pistaches, cornichons, pain de campagne toasté</p>
+          </div>
+          <span class="menu-entry-price">16 €</span>
+        </div>
+
+        <div class="menu-entry">
+          <div class="menu-entry-left">
+            <p class="menu-entry-name">Soupe de Légumes Rôtis</p>
+            <p class="menu-entry-desc">Légumes du moment, bouillon corsé, huile de basilic, croûtons dorés</p>
+          </div>
+          <span class="menu-entry-price">14 €</span>
+        </div>
+      </div>
+
+      <!-- Plats -->
+      <div class="menu-section" style="background: var(--pearl); padding: clamp(48px,6vw,80px) var(--container-pad);">
+        <div style="max-width: 860px; margin: 0 auto;">
+          <h2 class="menu-section-title">Plats</h2>
+
+          <div class="menu-entry">
+            <div class="menu-entry-left">
+              <p class="menu-entry-name">Agneau de la Drôme</p>
+              <p class="menu-entry-desc">Selle rôtie, jus aux herbes de Provence, légumes de saison confits, condiment basilic</p>
+            </div>
+            <span class="menu-entry-price">34 €</span>
+          </div>
+
+          <div class="menu-entry">
+            <div class="menu-entry-left">
+              <p class="menu-entry-name">Sole Meunière</p>
+              <p class="menu-entry-desc">Beurre noisette, câpres, citron confit, pommes grenaille, persil plat</p>
+            </div>
+            <span class="menu-entry-price">38 €</span>
+          </div>
+
+          <div class="menu-entry">
+            <div class="menu-entry-left">
+              <p class="menu-entry-name">Filet de Veau, Morilles</p>
+              <p class="menu-entry-desc">Filet cuit à la perfection, crème de morilles, asperges vertes, jus de veau réduit</p>
+            </div>
+            <span class="menu-entry-price">42 €</span>
+          </div>
+
+          <div class="menu-entry">
+            <div class="menu-entry-left">
+              <p class="menu-entry-name">Risotto Homard, Bisque</p>
+              <p class="menu-entry-desc">Riz arborio, queue de homard poêlée, bisque corsée, parmesan 24 mois, herbes fines</p>
+            </div>
+            <span class="menu-entry-price">46 €</span>
+          </div>
+
+          <div class="menu-entry">
+            <div class="menu-entry-left">
+              <p class="menu-entry-name">Poulet Fermier Rôti</p>
+              <p class="menu-entry-desc">Poulet noir de la Drôme, jus au thym, gnocchis à la ricotta, courgettes fleur</p>
+            </div>
+            <span class="menu-entry-price">29 €</span>
+          </div>
+
+          <div class="menu-entry">
+            <div class="menu-entry-left">
+              <p class="menu-entry-name">Plat Végétarien du Moment</p>
+              <p class="menu-entry-desc">Composé chaque jour selon les arrivages — demandez au serveur</p>
+            </div>
+            <span class="menu-entry-price">26 €</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desserts -->
+      <div class="menu-section">
+        <h2 class="menu-section-title">Desserts</h2>
+
+        <div class="menu-entry">
+          <div class="menu-entry-left">
+            <p class="menu-entry-name">Chocolat Grand Cru, Caramel</p>
+            <p class="menu-entry-desc">Ganache intense Valrhona, caramel beurre salé, fleur de sel, glace vanille</p>
+          </div>
+          <span class="menu-entry-price">14 €</span>
+        </div>
+
+        <div class="menu-entry">
+          <div class="menu-entry-left">
+            <p class="menu-entry-name">Mille-feuille à la Vanille</p>
+            <p class="menu-entry-desc">Pâte feuilletée croustillante, crème légère vanille Bourbon, caramel au beurre</p>
+          </div>
+          <span class="menu-entry-price">13 €</span>
+        </div>
+
+        <div class="menu-entry">
+          <div class="menu-entry-left">
+            <p class="menu-entry-name">Île Flottante, Pralin</p>
+            <p class="menu-entry-desc">Œufs en neige, crème anglaise vanillée, pralin croustillant, caramel blond</p>
+          </div>
+          <span class="menu-entry-price">11 €</span>
+        </div>
+
+        <div class="menu-entry">
+          <div class="menu-entry-left">
+            <p class="menu-entry-name">Tarte aux Fruits de Saison</p>
+            <p class="menu-entry-desc">Pâte sablée, crème d'amandes, fruits du marché, nappage léger</p>
+          </div>
+          <span class="menu-entry-price">12 €</span>
+        </div>
+
+        <div class="menu-entry">
+          <div class="menu-entry-left">
+            <p class="menu-entry-name">Assiette de Fromages Affinés</p>
+            <p class="menu-entry-desc">Sélection de fromages de la région, pain aux noix, confiture maison</p>
+          </div>
+          <span class="menu-entry-price">16 €</span>
+        </div>
+
+        <div class="menu-note">
+          <p>La carte évolue selon les saisons et les arrivages du marché. Allergènes disponibles sur demande. Une attention particulière est portée aux intolérances alimentaires — n'hésitez pas à en informer votre serveur.</p>
+        </div>
+      </div>
+
+      <!-- Vins -->
+      <div class="menu-section" style="background: var(--navy); max-width: none; padding: clamp(48px,6vw,80px) var(--container-pad);">
+        <div style="max-width: 860px; margin: 0 auto;">
+          <span class="eyebrow" style="color: var(--or);">Sélection de</span>
+          <h2 style="color: var(--blanc); margin-bottom: 48px; font-size: var(--text-h2); font-family: 'Cormorant Garamond', serif; font-weight: 300;">Thomas</h2>
+
+          <div class="menu-entry" style="border-bottom-color: rgba(255,255,255,0.1);">
+            <div class="menu-entry-left">
+              <p class="menu-entry-name" style="color: var(--blanc);">Crozes-Hermitage Blanc</p>
+              <p class="menu-entry-desc" style="color: rgba(255,255,255,0.45);">Domaine du Murinais — Marsanne, Roussanne · Drôme</p>
+            </div>
+            <span class="menu-entry-price" style="color: var(--or);">38 € / btl</span>
+          </div>
+
+          <div class="menu-entry" style="border-bottom-color: rgba(255,255,255,0.1);">
+            <div class="menu-entry-left">
+              <p class="menu-entry-name" style="color: var(--blanc);">Saint-Joseph Rouge</p>
+              <p class="menu-entry-desc" style="color: rgba(255,255,255,0.45);">Yves Cuilleron — Syrah · Vallée du Rhône</p>
+            </div>
+            <span class="menu-entry-price" style="color: var(--or);">52 € / btl</span>
+          </div>
+
+          <div class="menu-entry" style="border-bottom-color: rgba(255,255,255,0.1);">
+            <div class="menu-entry-left">
+              <p class="menu-entry-name" style="color: var(--blanc);">Champagne Blanc de Blancs</p>
+              <p class="menu-entry-desc" style="color: rgba(255,255,255,0.45);">Pierre Peters — Extra Brut · Côte des Blancs</p>
+            </div>
+            <span class="menu-entry-price" style="color: var(--or);">88 € / btl</span>
+          </div>
+
+          <div class="menu-entry" style="border-bottom-color: rgba(255,255,255,0.1);">
+            <div class="menu-entry-left">
+              <p class="menu-entry-name" style="color: var(--blanc);">Côtes du Rhône Rosé</p>
+              <p class="menu-entry-desc" style="color: rgba(255,255,255,0.45);">Château Maris — Grenache, Cinsault · Languedoc</p>
+            </div>
+            <span class="menu-entry-price" style="color: var(--or);">28 € / btl</span>
+          </div>
+
+          <p style="margin-top: 40px; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: rgba(255,255,255,0.4); line-height: 1.7;">
+            Thomas compose chaque accord mets-vins selon votre commande. N'hésitez pas à lui demander conseil — c'est son art.
+          </p>
+        </div>
+      </div>
+
+    </div><!-- /menu-page -->
+
+    <!-- CTA Section -->
+    <section class="cta-reservation" aria-labelledby="menu-cta-title">
+      <div class="cta-reservation-content">
+        <span class="eyebrow">Prêt à passer à table ?</span>
+        <h2 id="menu-cta-title">Votre table<br>vous attend.</h2>
+        <p>Réservez en ligne ou appelez-nous directement</p>
+        <a href="reservations.html" class="btn btn-primary">Réserver une table</a><br><br>
+        <a href="tel:+33475412286" class="cta-phone">04 75 41 22 86</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-logo-block">
+        <a href="index.html" class="footer-logo">MEZUR</a>
+        <p class="footer-tagline">Brasserie Gastronomique</p>
+        <p style="font-size:13px; line-height:1.75; margin-bottom: 24px;">
+          Une cuisine de précision au cœur de Valence, fondée par Pierre et Thomas Souptez en 2026.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Adresse</h4>
+        <address>4 Rue de l'Université<br>26000 Valence<br>Drôme, France</address>
+      </div>
+      <div class="footer-col">
+        <h4>Horaires</h4>
+        <p>Lun – Ven : 11h30 – 14h30 / 19h – 21h30<br>Samedi : 10h – 22h</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="tel:+33475412286">04 75 41 22 86</a>
+        <a href="https://www.instagram.com/maison_mezur/" target="_blank" rel="noopener">@maison_mezur</a>
+        <a href="reservations.html">Réserver en ligne</a>
+      </div>
+    </div>
+    <div class="footer-bottom" style="max-width: var(--container-max); margin: 0 auto; padding: 24px var(--container-pad);">
+      <span>© 2026 MEZUR — Tous droits réservés</span>
+      <span>Valence, Drôme</span>
+    </div>
+  </footer>
+
+  <!-- Sticky CTA -->
+  <a href="reservations.html" class="btn btn-primary sticky-reserve">Réserver</a>
+
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Réservez votre table chez MEZUR — Brasserie gastronomique à Valence. En ligne ou par téléphone au 04 75 41 22 86.">
+  <meta name="theme-color" content="#0B1F4B">
+  <title>Réservations — MEZUR · Brasserie Gastronomique</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* Extra styles specific to reservations page */
+    .reservation-hero {
+      background: var(--navy);
+      padding: clamp(120px, 16vw, 180px) var(--container-pad) clamp(60px, 8vw, 100px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .reservation-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('images/11062b_0234bac6aabb4d45af0cbe02be372826f000.avif') center / cover no-repeat;
+      opacity: 0.07;
+    }
+
+    .reservation-hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+
+    .reservation-hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: var(--text-h1);
+      font-weight: 300;
+      color: var(--blanc);
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+
+    .reservation-hero p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(17px, 2vw, 22px);
+      font-style: italic;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .info-card {
+      background: var(--blanc);
+      padding: 32px;
+      margin-bottom: 24px;
+      border-left: 2px solid var(--or);
+    }
+
+    .info-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .info-card p,
+    .info-card a {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--slate);
+      line-height: 1.85;
+      display: block;
+      transition: color 200ms;
+    }
+
+    .info-card a:hover {
+      color: var(--or);
+    }
+
+    .info-card .label {
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--stone);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .hours-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4px 20px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--slate);
+      line-height: 1.9;
+    }
+
+    .hours-day {
+      color: var(--stone);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding-top: 2px;
+    }
+
+    .hours-closed {
+      color: var(--stone);
+      font-style: italic;
+    }
+
+    .google-map-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--pearl);
+      border: 1px solid rgba(11,31,75,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .google-map-placeholder p {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--stone);
+    }
+
+    .google-map-placeholder a {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--navy);
+      border-bottom: 1px solid var(--or);
+      padding-bottom: 2px;
+      transition: color 200ms;
+    }
+
+    .google-map-placeholder a:hover {
+      color: var(--or);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" aria-hidden="true"></div>
+
+  <div class="page-transition-overlay" aria-hidden="true" style="
+    position: fixed; inset: 0; background: var(--navy);
+    z-index: 8000; transform-origin: top; transform: scaleY(1);
+    pointer-events: none;
+    display: flex; align-items: center; justify-content: center;
+  ">
+    <span style="font-family: 'Cormorant Garamond', serif; font-size: clamp(32px,6vw,64px); font-weight:300; letter-spacing:0.35em; color:#fff; text-transform:uppercase; opacity: 0.6;">MEZUR</span>
+  </div>
+
+  <!-- Navigation -->
+  <header class="site-header is-solid" role="banner">
+    <div class="header-inner">
+      <a href="index.html" class="logo">MEZUR</a>
+      <nav role="navigation" aria-label="Navigation principale">
+        <ul class="main-nav">
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="a-propos.html">La Maison</a></li>
+          <li><a href="reservations.html" class="active">Réservations</a></li>
+        </ul>
+      </nav>
+      <a href="tel:+33475412286" class="btn-reserve-nav">04 75 41 22 86</a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <div class="reservation-hero">
+      <div class="reservation-hero-content">
+        <span class="eyebrow">Une table chez MEZUR</span>
+        <h1>Réservations</h1>
+        <p>Votre table vous attend. Réservez en quelques instants.</p>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="reservation-page" style="padding-top: clamp(48px,7vw,80px);">
+      <div class="reservation-inner">
+
+        <!-- Info column -->
+        <div>
+          <span class="eyebrow">Informations pratiques</span>
+
+          <div class="info-card">
+            <h3>Adresse</h3>
+            <span class="label">Nous trouver</span>
+            <p>4 Rue de l'Université<br>26000 Valence<br>Drôme, France</p>
+          </div>
+
+          <div class="info-card">
+            <h3>Horaires d'ouverture</h3>
+            <div class="hours-grid">
+              <span class="hours-day">Lundi</span>
+              <span>11h30 – 14h30 / 19h00 – 21h30</span>
+
+              <span class="hours-day">Mardi</span>
+              <span>11h30 – 14h30 / 19h00 – 21h30</span>
+
+              <span class="hours-day">Mercredi</span>
+              <span>11h30 – 14h30 / 19h00 – 21h30</span>
+
+              <span class="hours-day">Jeudi</span>
+              <span>11h30 – 14h30 / 19h00 – 21h30</span>
+
+              <span class="hours-day">Vendredi</span>
+              <span>11h30 – 14h30 / 19h00 – 21h30</span>
+
+              <span class="hours-day">Samedi</span>
+              <span>10h00 – 22h00 (service continu)</span>
+
+              <span class="hours-day">Dimanche</span>
+              <span class="hours-closed">Fermé</span>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <h3>Contact direct</h3>
+            <span class="label">Téléphone</span>
+            <a href="tel:+33475412286" style="font-size:18px; font-family:'Cormorant Garamond',serif; color:var(--navy); margin-bottom:16px;">04 75 41 22 86</a>
+            <span class="label" style="margin-top:16px;">Instagram</span>
+            <a href="https://www.instagram.com/maison_mezur/" target="_blank" rel="noopener">@maison_mezur</a>
+          </div>
+
+          <!-- Map placeholder -->
+          <div class="google-map-placeholder">
+            <p>4 Rue de l'Université, 26000 Valence</p>
+            <a href="https://maps.google.com/?q=4+Rue+de+l'Université,+26000+Valence" target="_blank" rel="noopener">
+              Ouvrir dans Google Maps &rarr;
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Form column -->
+        <div class="reservation-form">
+          <h2 class="form-title">Réserver une table</h2>
+
+          <form class="reservation-form-el" novalidate>
+            <div class="form-fields">
+              <div class="form-grid">
+
+                <div class="form-group">
+                  <label for="res-date">Date souhaitée</label>
+                  <input
+                    type="date"
+                    id="res-date"
+                    name="date"
+                    required
+                    min=""
+                  >
+                </div>
+
+                <div class="form-group">
+                  <label for="res-time">Heure souhaitée</label>
+                  <select id="res-time" name="time" required>
+                    <option value="" disabled selected>Choisir un créneau</option>
+                    <optgroup label="Déjeuner">
+                      <option value="11:30">11h30</option>
+                      <option value="12:00">12h00</option>
+                      <option value="12:30">12h30</option>
+                      <option value="13:00">13h00</option>
+                      <option value="13:30">13h30</option>
+                      <option value="14:00">14h00</option>
+                    </optgroup>
+                    <optgroup label="Dîner">
+                      <option value="19:00">19h00</option>
+                      <option value="19:30">19h30</option>
+                      <option value="20:00">20h00</option>
+                      <option value="20:30">20h30</option>
+                      <option value="21:00">21h00</option>
+                    </optgroup>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="res-covers">Nombre de couverts</label>
+                  <select id="res-covers" name="covers" required>
+                    <option value="" disabled selected>Nombre de personnes</option>
+                    <option value="1">1 personne</option>
+                    <option value="2">2 personnes</option>
+                    <option value="3">3 personnes</option>
+                    <option value="4">4 personnes</option>
+                    <option value="5">5 personnes</option>
+                    <option value="6">6 personnes</option>
+                    <option value="7+">7 personnes et plus</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="res-occasion">Occasion</label>
+                  <select id="res-occasion" name="occasion">
+                    <option value="" disabled selected>Type d'occasion (optionnel)</option>
+                    <option value="repas">Repas en famille / entre amis</option>
+                    <option value="business">Repas d'affaires</option>
+                    <option value="anniversaire">Anniversaire</option>
+                    <option value="romantique">Repas romantique</option>
+                    <option value="autre">Autre</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="res-nom">Nom</label>
+                  <input
+                    type="text"
+                    id="res-nom"
+                    name="nom"
+                    placeholder="Votre nom"
+                    required
+                    autocomplete="family-name"
+                  >
+                </div>
+
+                <div class="form-group">
+                  <label for="res-prenom">Prénom</label>
+                  <input
+                    type="text"
+                    id="res-prenom"
+                    name="prenom"
+                    placeholder="Votre prénom"
+                    autocomplete="given-name"
+                  >
+                </div>
+
+                <div class="form-group">
+                  <label for="res-tel">Téléphone</label>
+                  <input
+                    type="tel"
+                    id="res-tel"
+                    name="telephone"
+                    placeholder="06 xx xx xx xx"
+                    required
+                    autocomplete="tel"
+                  >
+                </div>
+
+                <div class="form-group">
+                  <label for="res-email">Email</label>
+                  <input
+                    type="email"
+                    id="res-email"
+                    name="email"
+                    placeholder="votre@email.fr"
+                    autocomplete="email"
+                  >
+                </div>
+
+                <div class="form-group full-width">
+                  <label for="res-message">Message ou allergènes à signaler</label>
+                  <textarea
+                    id="res-message"
+                    name="message"
+                    placeholder="Allergènes, régimes alimentaires, demande particulière..."
+                  ></textarea>
+                </div>
+
+              </div><!-- /form-grid -->
+
+              <div class="form-submit">
+                <button type="submit" class="btn btn-primary" style="border:none; width:100%; font-size:11px; cursor:none;">
+                  Confirmer ma réservation
+                </button>
+                <p class="form-note">
+                  Nous vous confirmerons votre réservation par téléphone dans les 2 heures.<br>
+                  Pour les groupes de 7 personnes et plus, merci de nous appeler directement.
+                </p>
+              </div>
+
+            </div><!-- /form-fields -->
+
+            <!-- Success state -->
+            <div class="form-success" role="alert" aria-live="polite">
+              <div class="or-line" style="margin-bottom:32px;"></div>
+              <h3>Demande envoyée.</h3>
+              <p>
+                Merci pour votre demande de réservation.<br>
+                Nous vous confirmerons votre table par téléphone dans les 2 heures.<br><br>
+                À très bientôt chez MEZUR.
+              </p>
+              <div class="or-line" style="margin-top:32px;"></div>
+            </div>
+
+          </form>
+        </div><!-- /reservation-form -->
+
+      </div><!-- /reservation-inner -->
+    </div>
+
+    <!-- Note de bas de page -->
+    <div style="background: var(--navy); padding: 48px var(--container-pad); text-align: center;">
+      <p style="
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(18px,2.2vw,26px);
+        font-style: italic;
+        font-weight: 300;
+        color: rgba(255,255,255,0.5);
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.7;
+      ">
+        « Une expérience à votre mesure — sur mesure, pour chaque convive. »
+      </p>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-logo-block">
+        <a href="index.html" class="footer-logo">MEZUR</a>
+        <p class="footer-tagline">Brasserie Gastronomique</p>
+        <p style="font-size:13px; line-height:1.75; margin-bottom: 24px;">
+          Une cuisine de précision au cœur de Valence, fondée par Pierre et Thomas Souptez en 2026.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Adresse</h4>
+        <address>4 Rue de l'Université<br>26000 Valence<br>Drôme, France</address>
+      </div>
+      <div class="footer-col">
+        <h4>Horaires</h4>
+        <p>Lun – Ven : 11h30 – 14h30 / 19h – 21h30<br>Samedi : 10h – 22h</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="tel:+33475412286">04 75 41 22 86</a>
+        <a href="https://www.instagram.com/maison_mezur/" target="_blank" rel="noopener">@maison_mezur</a>
+        <a href="menu.html">Le menu</a>
+        <a href="a-propos.html">La maison</a>
+      </div>
+    </div>
+    <div class="footer-bottom" style="max-width: var(--container-max); margin: 0 auto; padding: 24px var(--container-pad);">
+      <span>© 2026 MEZUR — Tous droits réservés</span>
+      <span>Valence, Drôme</span>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    // Set min date to today
+    const dateInput = document.getElementById('res-date');
+    if (dateInput) {
+      const today = new Date().toISOString().split('T')[0];
+      dateInput.setAttribute('min', today);
+    }
+  </script>
+</body>
+</html>
