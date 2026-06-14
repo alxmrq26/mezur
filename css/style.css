@@ -110,8 +110,7 @@ a {
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
-  transition: transform 0.15s var(--ease-premium),
-              background 0.2s, border 0.2s, width 0.3s, height 0.3s;
+  transition: background 0.2s, border 0.2s, width 0.3s, height 0.3s;
   opacity: 0.85;
 }
 
