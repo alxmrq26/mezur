@@ -1109,7 +1109,7 @@ a {
   content: '';
   position: absolute;
   inset: 0;
-  background: url('../images/11062b_0234bac6aabb4d45af0cbe02be372826f000.avif') center / cover no-repeat;
+  background: var(--mz-cta-bg, url('../images/Trinquer avec verres de vin.avif')) center / cover no-repeat;
   opacity: 0.08;
 }
 
