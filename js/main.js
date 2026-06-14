@@ -632,6 +632,22 @@ function initForm() {
 
     if (!formContent || !success) return;
 
+    // Sauvegarde de la réservation (back office)
+    if (window.MezurContent) {
+      const data = new FormData(form);
+      window.MezurContent.addReservation({
+        date: data.get('date') || '',
+        time: data.get('time') || '',
+        covers: data.get('covers') || '',
+        occasion: data.get('occasion') || '',
+        nom: data.get('nom') || '',
+        prenom: data.get('prenom') || '',
+        telephone: data.get('telephone') || '',
+        email: data.get('email') || '',
+        message: data.get('message') || ''
+      });
+    }
+
     gsap.to(formContent, {
       opacity: 0,
       y: -20,

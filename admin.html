@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0B1F4B">
+  <title>MEZUR — Back Office</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- ============ ÉCRAN DE CONNEXION ============ -->
+  <div id="login-screen" class="login-screen">
+    <form id="login-form" class="login-card" autocomplete="off">
+      <span class="login-logo">MEZUR</span>
+      <span class="login-sub">Espace restaurateur</span>
+      <label for="login-pw">Mot de passe</label>
+      <input type="password" id="login-pw" placeholder="••••••••" autocomplete="current-password">
+      <button type="submit" class="btn btn-gold">Se connecter</button>
+      <p id="login-error" class="login-error" role="alert"></p>
+      <p class="login-hint">Mot de passe par défaut : <strong>mezur2026</strong> — pensez à le changer dans Réglages.</p>
+    </form>
+  </div>
+
+  <!-- ============ APPLICATION ============ -->
+  <div id="app" class="app" hidden>
+
+    <!-- Barre supérieure -->
+    <header class="topbar">
+      <button class="topbar-burger" id="burger" aria-label="Menu">☰</button>
+      <span class="topbar-logo">MEZUR <em>Back Office</em></span>
+      <div class="topbar-actions">
+        <span id="dirty-flag" class="dirty-flag" hidden>● Modifications non publiées</span>
+        <a href="index.html" target="_blank" rel="noopener" class="btn btn-ghost">Voir le site ↗</a>
+        <button id="btn-publish" class="btn btn-gold">Publier les modifications</button>
+        <button id="btn-logout" class="btn btn-ghost btn-logout" title="Déconnexion">⏻</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <!-- Navigation -->
+      <nav class="sidebar" id="sidebar">
+        <button class="nav-link is-active" data-view="dashboard"><span>📊</span> Tableau de bord</button>
+        <button class="nav-link" data-view="reservations"><span>📅</span> Réservations <span class="nav-badge" id="nav-res-badge"></span></button>
+        <button class="nav-link" data-view="menu"><span>🍽️</span> Menu</button>
+        <button class="nav-link" data-view="content"><span>✍️</span> Textes &amp; Images</button>
+        <button class="nav-link" data-view="hours"><span>🕒</span> Horaires &amp; Contact</button>
+        <button class="nav-link" data-view="settings"><span>⚙️</span> Réglages</button>
+      </nav>
+
+      <!-- Contenu -->
+      <main class="content">
+
+        <!-- TABLEAU DE BORD -->
+        <section class="view" data-view="dashboard">
+          <h1>Tableau de bord</h1>
+          <div class="stats-grid" id="stats-grid"></div>
+          <h2>Prochaines réservations</h2>
+          <div id="dashboard-upcoming" class="card-list"></div>
+        </section>
+
+        <!-- RÉSERVATIONS -->
+        <section class="view" data-view="reservations" hidden>
+          <div class="view-head">
+            <h1>Réservations</h1>
+            <div class="view-head-actions">
+              <input type="search" id="res-search" placeholder="Rechercher un nom…">
+              <select id="res-filter">
+                <option value="all">Tous les statuts</option>
+                <option value="nouvelle">Nouvelles</option>
+                <option value="confirmee">Confirmées</option>
+                <option value="annulee">Annulées</option>
+              </select>
+              <button class="btn btn-ghost" id="btn-export-csv">Exporter CSV</button>
+            </div>
+          </div>
+          <div id="reservations-list" class="card-list"></div>
+        </section>
+
+        <!-- MENU -->
+        <section class="view" data-view="menu" hidden>
+          <h1>Menu</h1>
+          <p class="view-intro">Modifiez vos plats, leurs descriptions et leurs prix. N'oubliez pas de <strong>publier</strong> après vos changements.</p>
+          <div id="menu-editor"></div>
+        </section>
+
+        <!-- TEXTES & IMAGES -->
+        <section class="view" data-view="content" hidden>
+          <h1>Textes &amp; Images</h1>
+          <h2>Photos du site</h2>
+          <p class="view-intro">Cliquez sur une photo pour la remplacer. Les images sont automatiquement optimisées.</p>
+          <div id="images-editor" class="images-grid"></div>
+          <h2 style="margin-top:40px;">Textes</h2>
+          <div id="texts-editor"></div>
+        </section>
+
+        <!-- HORAIRES & CONTACT -->
+        <section class="view" data-view="hours" hidden>
+          <h1>Horaires &amp; Contact</h1>
+          <h2>Horaires d'ouverture</h2>
+          <div id="hours-editor" class="hours-editor"></div>
+          <h2 style="margin-top:40px;">Coordonnées</h2>
+          <div id="contact-editor" class="contact-editor"></div>
+        </section>
+
+        <!-- RÉGLAGES -->
+        <section class="view" data-view="settings" hidden>
+          <h1>Réglages</h1>
+
+          <div class="setting-block">
+            <h2>Sauvegarde &amp; transfert</h2>
+            <p class="view-intro">Exportez tout votre contenu dans un fichier pour le sauvegarder ou le transférer vers le site en ligne / un autre appareil.</p>
+            <div class="btn-row">
+              <button class="btn btn-gold" id="btn-export-json">Exporter le contenu (JSON)</button>
+              <label class="btn btn-ghost" for="import-json">Importer un fichier JSON</label>
+              <input type="file" id="import-json" accept="application/json,.json" hidden>
+              <button class="btn btn-danger" id="btn-reset-content">Réinitialiser au contenu d'origine</button>
+            </div>
+          </div>
+
+          <div class="setting-block">
+            <h2>Mot de passe</h2>
+            <div class="contact-editor">
+              <label>Nouveau mot de passe
+                <input type="password" id="new-pw" placeholder="Nouveau mot de passe">
+              </label>
+              <button class="btn btn-gold" id="btn-change-pw">Changer le mot de passe</button>
+            </div>
+          </div>
+
+          <div class="setting-block info-banner">
+            <h3>ℹ️ À propos de cet espace (mode démo)</h3>
+            <p>
+              Les modifications et les réservations sont enregistrées <strong>dans ce navigateur uniquement</strong>.
+              Pour qu'elles apparaissent sur le site en ligne ou sur un autre appareil, utilisez
+              <strong>Exporter / Importer</strong> ci-dessus. Une version connectée à un serveur pourra être
+              ajoutée plus tard sans rien changer à l'interface.
+            </p>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast" hidden></div>
+  </div>
+
+  <script>window.MEZUR_NO_AUTOHYDRATE = true;</script>
+  <script src="js/content.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
