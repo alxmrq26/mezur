@@ -10,22 +10,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/admin.css?v=5">
-  <!-- Filet de sécurité : remonte toute erreur technique à l'écran au lieu
-       d'échouer en silence, y compris les fichiers 404 (capture). -->
+  <link rel="stylesheet" href="css/admin.css?v=6">
   <script>
     function mzShowErr(msg) {
       var el = document.getElementById('login-error');
       if (el) el.textContent = msg;
     }
-    // Erreurs JS classiques
     window.addEventListener('error', function (e) {
       if (e && e.target && (e.target.tagName === 'SCRIPT' || e.target.tagName === 'LINK')) {
         mzShowErr('Fichier non chargé (404 ?) : ' + (e.target.src || e.target.href));
       } else {
         mzShowErr('Erreur technique : ' + (e && e.message ? e.message : e));
       }
-    }, true); // capture = true → attrape aussi les échecs de chargement de scripts
+    }, true);
   </script>
 </head>
 <body>
@@ -39,10 +36,8 @@
       <input type="password" id="login-pw" placeholder="••••••••" autocomplete="current-password">
       <button type="submit" class="btn btn-gold">Se connecter</button>
       <p id="login-error" class="login-error" role="alert"></p>
-      <p class="login-hint">Mot de passe par défaut : <strong>mezur2026</strong> — pensez à le changer dans Réglages.</p>
       <p class="login-hint"><a href="#" id="login-reset">Mot de passe oublié ? Réinitialiser l'accès</a></p>
-      <p id="login-reset-done" class="login-hint" style="color:var(--ok)" hidden>Accès réinitialisé — saisissez <strong>mezur2026</strong> puis « Se connecter ».</p>
-      <p class="login-hint" style="opacity:.5;font-size:10px;">build v5</p>
+      <p id="login-reset-done" class="login-hint" style="color:var(--ok)" hidden>Accès réinitialisé — saisissez le mot de passe par défaut puis « Se connecter ».</p>
     </form>
   </div>
 
@@ -51,25 +46,57 @@
 
     <!-- Barre supérieure -->
     <header class="topbar">
-      <button class="topbar-burger" id="burger" aria-label="Menu">☰</button>
+      <button class="topbar-burger" id="burger" aria-label="Menu">
+        <i data-lucide="menu"></i>
+      </button>
       <span class="topbar-logo">MEZUR <em>Back Office</em></span>
       <div class="topbar-actions">
-        <span id="dirty-flag" class="dirty-flag" hidden>● Modifications non publiées</span>
-        <a href="index.html" target="_blank" rel="noopener" class="btn btn-ghost">Voir le site ↗</a>
-        <button id="btn-publish" class="btn btn-gold">Publier les modifications</button>
-        <button id="btn-logout" class="btn btn-ghost btn-logout" title="Déconnexion">⏻</button>
+        <span id="dirty-flag" class="dirty-flag" hidden>
+          <i data-lucide="circle-alert"></i>
+          <span class="dirty-text">Non sauvegardé</span>
+        </span>
+        <a href="index.html" target="_blank" rel="noopener" class="btn btn-ghost">
+          <i data-lucide="external-link"></i>
+          <span class="btn-label">Voir le site</span>
+        </a>
+        <button id="btn-publish" class="btn btn-gold">
+          <i data-lucide="send"></i>
+          <span class="btn-label">Publier</span>
+        </button>
+        <button id="btn-logout" class="btn btn-ghost btn-logout" title="Déconnexion">
+          <i data-lucide="log-out"></i>
+        </button>
       </div>
     </header>
 
     <div class="layout">
       <!-- Navigation -->
       <nav class="sidebar" id="sidebar">
-        <button class="nav-link is-active" data-view="dashboard"><span>📊</span> Tableau de bord</button>
-        <button class="nav-link" data-view="reservations"><span>📅</span> Réservations <span class="nav-badge" id="nav-res-badge"></span></button>
-        <button class="nav-link" data-view="menu"><span>🍽️</span> Menu</button>
-        <button class="nav-link" data-view="content"><span>✍️</span> Textes &amp; Images</button>
-        <button class="nav-link" data-view="hours"><span>🕒</span> Horaires &amp; Contact</button>
-        <button class="nav-link" data-view="settings"><span>⚙️</span> Réglages</button>
+        <button class="nav-link is-active" data-view="dashboard">
+          <i data-lucide="layout-dashboard"></i>
+          <span>Tableau de bord</span>
+        </button>
+        <button class="nav-link" data-view="reservations">
+          <i data-lucide="calendar-days"></i>
+          <span>Réservations</span>
+          <span class="nav-badge" id="nav-res-badge"></span>
+        </button>
+        <button class="nav-link" data-view="menu">
+          <i data-lucide="utensils-crossed"></i>
+          <span>Menu</span>
+        </button>
+        <button class="nav-link" data-view="content">
+          <i data-lucide="pen-line"></i>
+          <span>Textes &amp; Images</span>
+        </button>
+        <button class="nav-link" data-view="hours">
+          <i data-lucide="clock"></i>
+          <span>Horaires &amp; Contact</span>
+        </button>
+        <button class="nav-link" data-view="settings">
+          <i data-lucide="settings"></i>
+          <span>Réglages</span>
+        </button>
       </nav>
 
       <!-- Contenu -->
@@ -79,7 +106,9 @@
         <section class="view" data-view="dashboard">
           <h1>Tableau de bord</h1>
           <div class="stats-grid" id="stats-grid"></div>
-          <h2>Prochaines réservations</h2>
+          <div class="section-head">
+            <h2>Prochaines réservations</h2>
+          </div>
           <div id="dashboard-upcoming" class="card-list"></div>
         </section>
 
@@ -89,13 +118,22 @@
             <h1>Réservations</h1>
             <div class="view-head-actions">
               <input type="search" id="res-search" placeholder="Rechercher un nom…">
+              <input type="date" id="res-date-filter" title="Filtrer par date">
               <select id="res-filter">
                 <option value="all">Tous les statuts</option>
                 <option value="nouvelle">Nouvelles</option>
                 <option value="confirmee">Confirmées</option>
                 <option value="annulee">Annulées</option>
+                <option value="no-show">No-show</option>
               </select>
-              <button class="btn btn-ghost" id="btn-export-csv">Exporter CSV</button>
+              <button class="btn btn-gold" id="btn-new-res">
+                <i data-lucide="plus"></i>
+                <span class="btn-label">Réservation</span>
+              </button>
+              <button class="btn btn-ghost" id="btn-export-csv">
+                <i data-lucide="download"></i>
+                <span class="btn-label">CSV</span>
+              </button>
             </div>
           </div>
           <div id="reservations-list" class="card-list"></div>
@@ -135,31 +173,43 @@
             <h2>Sauvegarde &amp; transfert</h2>
             <p class="view-intro">Exportez tout votre contenu dans un fichier pour le sauvegarder ou le transférer vers le site en ligne / un autre appareil.</p>
             <div class="btn-row">
-              <button class="btn btn-gold" id="btn-export-json">Exporter le contenu (JSON)</button>
-              <label class="btn btn-ghost" for="import-json">Importer un fichier JSON</label>
+              <button class="btn btn-gold" id="btn-export-json">
+                <i data-lucide="download"></i> Exporter (JSON)
+              </button>
+              <label class="btn btn-ghost" for="import-json">
+                <i data-lucide="upload"></i> Importer un JSON
+              </label>
               <input type="file" id="import-json" accept="application/json,.json" hidden>
-              <button class="btn btn-danger" id="btn-reset-content">Réinitialiser au contenu d'origine</button>
+              <button class="btn btn-danger" id="btn-reset-content">
+                <i data-lucide="rotate-ccw"></i> Réinitialiser
+              </button>
             </div>
           </div>
 
           <div class="setting-block">
             <h2>Mot de passe</h2>
-            <div class="contact-editor">
+            <div class="pw-form">
               <label>Nouveau mot de passe
-                <input type="password" id="new-pw" placeholder="Nouveau mot de passe">
+                <input type="password" id="new-pw" placeholder="Minimum 6 caractères">
               </label>
-              <button class="btn btn-gold" id="btn-change-pw">Changer le mot de passe</button>
+              <label>Confirmer le mot de passe
+                <input type="password" id="confirm-pw" placeholder="Répéter le mot de passe">
+              </label>
+              <button class="btn btn-gold" id="btn-change-pw">
+                <i data-lucide="key-round"></i> Changer le mot de passe
+              </button>
             </div>
           </div>
 
           <div class="setting-block info-banner">
-            <h3>ℹ️ À propos de cet espace (mode démo)</h3>
+            <h3><i data-lucide="info"></i> Mode démo — données locales</h3>
             <p>
               Les modifications et les réservations sont enregistrées <strong>dans ce navigateur uniquement</strong>.
               Pour qu'elles apparaissent sur le site en ligne ou sur un autre appareil, utilisez
               <strong>Exporter / Importer</strong> ci-dessus. Une version connectée à un serveur pourra être
               ajoutée plus tard sans rien changer à l'interface.
             </p>
+            <span class="version-tag">Back Office v6</span>
           </div>
         </section>
 
@@ -168,18 +218,87 @@
 
     <!-- Toast -->
     <div id="toast" class="toast" hidden></div>
-  </div>
 
+    <!-- ============ MODAL : NOUVELLE RÉSERVATION ============ -->
+    <div id="modal-new-res" class="modal-overlay" hidden aria-modal="true" role="dialog" aria-labelledby="modal-title">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2 id="modal-title">Nouvelle réservation</h2>
+          <button class="icon-btn" id="modal-close" title="Fermer">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+        <form id="form-new-res" class="new-res-form" novalidate>
+          <div class="form-row">
+            <label>Date <abbr title="requis">*</abbr>
+              <input type="date" id="nr-date" required>
+            </label>
+            <label>Heure <abbr title="requis">*</abbr>
+              <input type="time" id="nr-time" step="900" value="19:30" required>
+            </label>
+            <label>Couverts <abbr title="requis">*</abbr>
+              <input type="number" id="nr-covers" min="1" max="30" value="2" required>
+            </label>
+          </div>
+          <div class="form-row">
+            <label>Prénom <abbr title="requis">*</abbr>
+              <input type="text" id="nr-prenom" required autocomplete="off">
+            </label>
+            <label>Nom
+              <input type="text" id="nr-nom" autocomplete="off">
+            </label>
+          </div>
+          <div class="form-row">
+            <label>Téléphone
+              <input type="tel" id="nr-tel">
+            </label>
+            <label>Email
+              <input type="email" id="nr-email">
+            </label>
+          </div>
+          <div class="form-row">
+            <label>Occasion
+              <select id="nr-occasion">
+                <option value="">— Aucune —</option>
+                <option>Anniversaire</option>
+                <option>Repas d'affaires</option>
+                <option>Repas romantique</option>
+                <option>Réunion de famille</option>
+                <option>Autre</option>
+              </select>
+            </label>
+            <label>Statut initial
+              <select id="nr-status">
+                <option value="confirmee">Confirmée</option>
+                <option value="nouvelle">Nouvelle</option>
+              </select>
+            </label>
+          </div>
+          <label>Notes / Demandes spéciales
+            <textarea id="nr-message" rows="3" placeholder="Allergies, chaise bébé, accès PMR, intolérances…"></textarea>
+          </label>
+          <div class="form-actions">
+            <button type="button" class="btn btn-ghost" id="modal-cancel">Annuler</button>
+            <button type="submit" class="btn btn-gold">
+              <i data-lucide="check"></i> Créer la réservation
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div><!-- /#app -->
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script>window.MEZUR_NO_AUTOHYDRATE = true;</script>
-  <script src="js/content.js?v=5"></script>
-  <script src="js/admin.js?v=5"></script>
-  <!-- Auto-diagnostic : si admin.js ne s'est pas exécuté, on le dit clairement. -->
+  <script src="js/content.js?v=6"></script>
+  <script src="js/admin.js?v=6"></script>
   <script>
     setTimeout(function () {
       if (!window.__MEZUR_ADMIN_READY) {
         var el = document.getElementById('login-error');
         if (el && !el.textContent) {
-          el.textContent = "⚠️ Le script admin.js ne s'est pas chargé. Vérifie que le dossier « js » (js/admin.js et js/content.js) est bien présent à côté de admin.html sur le serveur.";
+          el.textContent = "Le script admin.js ne s'est pas chargé. Vérifiez que le dossier js/ (admin.js et content.js) est bien présent sur le serveur.";
         }
       }
     }, 1500);

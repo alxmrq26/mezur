@@ -1,0 +1,16 @@
+{
+  "hook": {
+    "enabled": true,
+    "ignoreRules": [],
+    "ignoreFiles": [
+      "tests/fixtures/**",
+      "tests/detect-antipatterns.test.js",
+      "site/pages/slop/**"
+    ],
+    "ignoreValues": [],
+    "limits": {
+      "maxFindings": 5,
+      "maxChars": 8000
+    }
+  }
+}

@@ -13,14 +13,13 @@
   <link rel="stylesheet" href="css/style.css">
 
   <style>
-    /* Extra styles specific to reservations page */
+    /* ── Hero ── */
     .reservation-hero {
       background: var(--navy);
       padding: clamp(120px, 16vw, 180px) var(--container-pad) clamp(60px, 8vw, 100px);
       position: relative;
       overflow: hidden;
     }
-
     .reservation-hero::before {
       content: '';
       position: absolute;
@@ -28,14 +27,12 @@
       background: var(--mz-reservation-bg, url('images/c837a6_b8d8d3abc0454d2ba22d8bc30dd2bd89~mv2.avif')) center / cover no-repeat;
       opacity: 0.07;
     }
-
     .reservation-hero-content {
       position: relative;
       z-index: 1;
       max-width: var(--container-max);
       margin: 0 auto;
     }
-
     .reservation-hero h1 {
       font-family: 'Cormorant Garamond', serif;
       font-size: var(--text-h1);
@@ -44,45 +41,53 @@
       line-height: 1.05;
       margin-bottom: 16px;
     }
-
     .reservation-hero p {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(17px, 2vw, 22px);
       font-style: italic;
       font-weight: 300;
-      color: rgba(255, 255, 255, 0.75);
+      color: rgba(255,255,255,0.75);
     }
 
+    /* ── Layout ── */
+    .reservation-page {
+      padding: clamp(48px, 7vw, 80px) var(--container-pad);
+      background: var(--creme);
+    }
+    .reservation-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 64px;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      align-items: start;
+    }
+
+    /* ── Info sidebar ── */
     .info-card {
       background: var(--blanc);
-      padding: 32px;
-      margin-bottom: 24px;
+      padding: 28px 32px;
+      margin-bottom: 20px;
       border-left: 2px solid var(--or);
     }
-
     .info-card h3 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 400;
       color: var(--navy);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
-
     .info-card p,
     .info-card a {
       font-family: var(--font-body);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 300;
       color: var(--slate);
-      line-height: 1.85;
+      line-height: 1.9;
       display: block;
       transition: color 200ms;
     }
-
-    .info-card a:hover {
-      color: var(--or);
-    }
-
+    .info-card a:hover { color: var(--or); }
     .info-card .label {
       font-size: 9px;
       font-weight: 400;
@@ -93,31 +98,55 @@
       margin-bottom: 6px;
     }
 
+    /* Hours grid */
     .hours-grid {
       display: grid;
       grid-template-columns: auto 1fr;
       gap: 4px 20px;
       font-family: var(--font-body);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 300;
       color: var(--slate);
-      line-height: 1.9;
+      line-height: 2;
     }
-
     .hours-day {
       color: var(--stone);
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding-top: 3px;
+    }
+    .hours-closed { color: var(--stone); font-style: italic; }
+
+    /* Services summary badges */
+    .services-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .service-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--navy);
+      color: var(--blanc);
+      font-family: var(--font-body);
       font-size: 10px;
       font-weight: 400;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      padding-top: 2px;
+      padding: 7px 14px;
+    }
+    .service-badge .badge-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--or);
+      flex-shrink: 0;
     }
 
-    .hours-closed {
-      color: var(--stone);
-      font-style: italic;
-    }
-
+    /* Map placeholder */
     .google-map-placeholder {
       width: 100%;
       aspect-ratio: 16/9;
@@ -127,21 +156,19 @@
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
       text-align: center;
       padding: 24px;
     }
-
     .google-map-placeholder p {
       font-family: var(--font-body);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 300;
       color: var(--stone);
     }
-
     .google-map-placeholder a {
       font-family: var(--font-body);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 400;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -150,9 +177,788 @@
       padding-bottom: 2px;
       transition: color 200ms;
     }
+    .google-map-placeholder a:hover { color: var(--or); }
 
-    .google-map-placeholder a:hover {
+    /* ── Form card ── */
+    .reservation-form-card {
+      background: var(--blanc);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Steps */
+    .form-steps {
+      display: flex;
+      border-bottom: 1px solid rgba(11,31,75,0.06);
+    }
+    .form-step-tab {
+      flex: 1;
+      padding: 18px 12px;
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--stone);
+      border-bottom: 2px solid transparent;
+      transition: color 200ms, border-color 200ms;
+      position: relative;
+    }
+    .form-step-tab.active {
+      color: var(--navy);
+      border-bottom-color: var(--or);
+    }
+    .form-step-tab .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--pearl);
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--stone);
+      margin-right: 8px;
+      transition: background 200ms, color 200ms;
+    }
+    .form-step-tab.active .step-num {
+      background: var(--navy);
+      color: var(--blanc);
+    }
+    .form-step-tab.done .step-num {
+      background: var(--or);
+      color: var(--blanc);
+    }
+    .form-step-tab.done { color: var(--or); }
+
+    /* Step panels */
+    .form-step-panel {
+      display: none;
+      padding: clamp(28px, 5vw, 48px);
+    }
+    .form-step-panel.active { display: block; }
+
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 300;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .step-subtitle {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--stone);
+      margin-bottom: 28px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Date field ── */
+    .date-field-large {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .date-field-large label {
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+    .date-field-large input[type="date"] {
+      font-family: var(--font-body);
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--navy);
+      background: var(--pearl);
+      border: 1px solid transparent;
+      padding: 18px 22px;
+      outline: none;
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      transition: border-color 200ms, background 200ms;
+      letter-spacing: 0.02em;
+    }
+    .date-field-large input[type="date"]:focus {
+      border-color: var(--or);
+      background: var(--blanc);
+    }
+    .date-field-large input[type="date"]::-webkit-calendar-picker-indicator {
+      opacity: 0.4;
+      cursor: pointer;
+    }
+
+    /* ── Service toggle ── */
+    .service-label {
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .service-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      margin-bottom: 24px;
+      border: 1px solid rgba(11,31,75,0.1);
+    }
+    .service-btn {
+      padding: 20px 16px;
+      background: var(--blanc);
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      transition: background 200ms, color 200ms;
+      position: relative;
+    }
+    .service-btn + .service-btn {
+      border-left: 1px solid rgba(11,31,75,0.1);
+    }
+    .service-btn.active {
+      background: var(--navy);
+    }
+    .service-btn.active .svc-icon { color: var(--or); }
+    .service-btn.active .svc-name { color: var(--blanc); }
+    .service-btn.active .svc-hours { color: rgba(255,255,255,0.55); }
+    .svc-icon {
+      font-size: 22px;
+      display: block;
+      margin-bottom: 6px;
+      color: var(--stone);
+      transition: color 200ms;
+    }
+    .svc-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--navy);
+      display: block;
+      margin-bottom: 4px;
+      transition: color 200ms;
+    }
+    .svc-hours {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--stone);
+      display: block;
+      transition: color 200ms;
+    }
+
+    /* ── Time slots ── */
+    .slots-label {
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .slots-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .slot-btn {
+      padding: 12px 18px;
+      background: var(--pearl);
+      border: 1px solid transparent;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--navy);
+      cursor: pointer;
+      transition: background 180ms, border-color 180ms, color 180ms;
+      letter-spacing: 0.03em;
+      min-width: 72px;
+      text-align: center;
+    }
+    .slot-btn:hover {
+      background: var(--blanc);
+      border-color: rgba(11,31,75,0.2);
+    }
+    .slot-btn.active {
+      background: var(--or);
+      color: var(--blanc);
+      border-color: var(--or);
+    }
+    .slots-hidden {
+      display: none;
+    }
+
+    /* ── Covers stepper ── */
+    .covers-label {
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .covers-stepper {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1px solid rgba(11,31,75,0.1);
+      width: fit-content;
+    }
+    .covers-btn {
+      width: 52px; height: 52px;
+      background: var(--pearl);
+      border: none;
+      font-family: var(--font-body);
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--navy);
+      cursor: pointer;
+      transition: background 150ms;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .covers-btn:hover { background: rgba(11,31,75,0.08); }
+    .covers-btn:disabled { opacity: 0.3; cursor: default; }
+    .covers-display {
+      min-width: 80px;
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 300;
+      color: var(--navy);
+      padding: 0 12px;
+      border-left: 1px solid rgba(11,31,75,0.1);
+      border-right: 1px solid rgba(11,31,75,0.1);
+      line-height: 52px;
+    }
+    .covers-unit {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--stone);
+      font-weight: 300;
+      line-height: 52px;
+      padding: 0 14px 0 6px;
+    }
+    .covers-note {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--stone);
+      font-weight: 300;
+      margin-top: 10px;
+      display: none;
+    }
+    .covers-note.visible { display: block; }
+
+    /* Summary bar (step 1 recap before step 2) */
+    .step-recap {
+      background: var(--navy);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .recap-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .recap-label {
+      font-family: var(--font-body);
+      font-size: 8px;
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+    }
+    .recap-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--blanc);
+    }
+    .recap-separator {
+      width: 1px;
+      height: 32px;
+      background: rgba(255,255,255,0.15);
+    }
+
+    /* ── Occasion chips ── */
+    .occasion-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .occasion-chip {
+      padding: 10px 18px;
+      background: var(--pearl);
+      border: 1px solid transparent;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--navy);
+      cursor: pointer;
+      transition: background 180ms, border-color 180ms, color 180ms;
+      letter-spacing: 0.04em;
+    }
+    .occasion-chip:hover {
+      border-color: rgba(11,31,75,0.2);
+      background: var(--blanc);
+    }
+    .occasion-chip.active {
+      background: var(--navy);
+      color: var(--blanc);
+    }
+
+    /* ── Form group (step 2) ── */
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+    .form-group-2 {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-group-2.full { grid-column: 1 / -1; }
+    .form-group-2 label {
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+    .form-group-2 input,
+    .form-group-2 textarea {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--slate);
+      background: var(--pearl);
+      border: 1px solid transparent;
+      padding: 14px 16px;
+      outline: none;
+      transition: border-color 200ms, background 200ms;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+    }
+    .form-group-2 textarea {
+      resize: none;
+      height: 100px;
+      line-height: 1.7;
+    }
+    .form-group-2 input:focus,
+    .form-group-2 textarea:focus {
+      border-color: var(--or);
+      background: var(--blanc);
+    }
+
+    /* ── Nav buttons ── */
+    .form-nav {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .btn-back {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--stone);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: color 200ms;
+    }
+    .btn-back:hover { color: var(--navy); }
+    .btn-next {
+      flex: 1;
+      background: var(--navy);
+      color: var(--blanc);
+      border: none;
+      padding: 18px 24px;
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 200ms;
+    }
+    .btn-next:hover { background: #0e2a66; }
+    .btn-submit {
+      flex: 1;
+      background: var(--or);
+      color: var(--blanc);
+      border: none;
+      padding: 18px 24px;
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 200ms, opacity 200ms;
+    }
+    .btn-submit:hover { background: #b8924a; }
+
+    .form-note-small {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 300;
+      color: var(--stone);
+      line-height: 1.65;
+      margin-top: 14px;
+      text-align: center;
+    }
+
+    /* ── Success ── */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 56px 40px;
+    }
+    .form-success.visible { display: block; }
+    .form-success h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 34px;
+      font-weight: 300;
+      color: var(--navy);
+      margin-bottom: 14px;
+    }
+    .form-success p {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--stone);
+      line-height: 1.85;
+    }
+
+    /* ────────────────────────────────────
+       SECTION TRAITEUR & ÉVÉNEMENTS
+    ──────────────────────────────────── */
+    .traiteur-section {
+      background: var(--navy);
+      padding: clamp(64px, 9vw, 112px) var(--container-pad);
+      position: relative;
+      overflow: hidden;
+    }
+    .traiteur-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('images/Trinquer avec verres de vin.avif') center / cover no-repeat;
+      opacity: 0.06;
+    }
+    .traiteur-inner {
+      position: relative;
+      z-index: 1;
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+    .traiteur-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: end;
+      margin-bottom: 56px;
+    }
+    .traiteur-header-left .eyebrow {
       color: var(--or);
+      opacity: 0.85;
+    }
+    .traiteur-header-left h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 4.5vw, 54px);
+      font-weight: 300;
+      color: var(--blanc);
+      line-height: 1.08;
+      margin-top: 14px;
+    }
+    .traiteur-header-right p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(16px, 1.8vw, 20px);
+      font-style: italic;
+      font-weight: 300;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .traiteur-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .traiteur-cta a.btn-call {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--or);
+      color: var(--blanc);
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      padding: 16px 28px;
+      transition: background 200ms;
+    }
+    .traiteur-cta a.btn-call:hover { background: #b8924a; }
+    .traiteur-cta a.btn-email {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      border-bottom: 1px solid rgba(201,169,110,0.4);
+      padding-bottom: 2px;
+      transition: color 200ms, border-color 200ms;
+    }
+    .traiteur-cta a.btn-email:hover {
+      color: var(--or);
+      border-color: var(--or);
+    }
+
+    /* Service cards grid */
+    .traiteur-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .traiteur-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 32px 28px;
+      transition: background 250ms;
+    }
+    .traiteur-card:hover {
+      background: rgba(255,255,255,0.08);
+    }
+    .traiteur-card-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+      display: block;
+      opacity: 0.8;
+    }
+    .traiteur-card h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--blanc);
+      margin-bottom: 10px;
+    }
+    .traiteur-card p {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.75;
+    }
+    .traiteur-card .card-tag {
+      display: inline-block;
+      margin-top: 14px;
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--or);
+      opacity: 0.8;
+    }
+
+    /* Traiteur form */
+    .traiteur-form-section {
+      margin-top: 56px;
+      padding-top: 48px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .traiteur-form-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 300;
+      color: var(--blanc);
+      margin-bottom: 28px;
+    }
+    .traiteur-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .traiteur-form-grid .full { grid-column: 1 / -1; }
+    .traiteur-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .traiteur-form-group label {
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+    .traiteur-form-group input,
+    .traiteur-form-group select,
+    .traiteur-form-group textarea {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--blanc);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 13px 16px;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      transition: border-color 200ms, background 200ms;
+    }
+    .traiteur-form-group input::placeholder,
+    .traiteur-form-group textarea::placeholder {
+      color: rgba(255,255,255,0.25);
+    }
+    .traiteur-form-group input:focus,
+    .traiteur-form-group select:focus,
+    .traiteur-form-group textarea:focus {
+      border-color: var(--or);
+      background: rgba(255,255,255,0.1);
+    }
+    .traiteur-form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      background-color: rgba(255,255,255,0.06);
+      padding-right: 40px;
+      cursor: pointer;
+      color: rgba(255,255,255,0.65);
+    }
+    .traiteur-form-group select option {
+      background: var(--navy);
+      color: var(--blanc);
+    }
+    .traiteur-form-group textarea {
+      resize: none;
+      height: 110px;
+      line-height: 1.7;
+    }
+    .traiteur-type-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .traiteur-chip {
+      padding: 9px 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      cursor: pointer;
+      transition: background 150ms, border-color 150ms, color 150ms;
+    }
+    .traiteur-chip:hover {
+      background: rgba(255,255,255,0.1);
+      color: var(--blanc);
+    }
+    .traiteur-chip.active {
+      background: var(--or);
+      border-color: var(--or);
+      color: var(--blanc);
+    }
+    .traiteur-submit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .traiteur-note {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.35);
+      line-height: 1.6;
+    }
+    .btn-traiteur-submit {
+      background: rgba(255,255,255,0.1);
+      color: var(--blanc);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 16px 36px;
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 200ms, border-color 200ms;
+    }
+    .btn-traiteur-submit:hover {
+      background: var(--or);
+      border-color: var(--or);
+    }
+    .traiteur-success {
+      display: none;
+      text-align: center;
+      padding: 36px 24px;
+    }
+    .traiteur-success.visible { display: block; }
+    .traiteur-success h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--blanc);
+      margin-bottom: 12px;
+    }
+    .traiteur-success p {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.8;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 960px) {
+      .reservation-inner { grid-template-columns: 1fr; gap: 40px; }
+      .traiteur-header { grid-template-columns: 1fr; gap: 28px; }
+      .traiteur-cards { grid-template-columns: 1fr 1fr; }
+      .traiteur-form-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .form-grid-2 { grid-template-columns: 1fr; }
+      .traiteur-cards { grid-template-columns: 1fr; }
+      .traiteur-form-grid { grid-template-columns: 1fr; }
+      .traiteur-form-grid .full { grid-column: 1; }
+      .service-toggle { grid-template-columns: 1fr 1fr; }
+      .form-steps { overflow-x: auto; }
+      .form-step-tab { min-width: 110px; }
     }
   </style>
 </head>
@@ -198,23 +1004,27 @@
       </div>
     </div>
 
-    <!-- Main content -->
-    <div class="reservation-page" style="padding-top: clamp(48px,7vw,80px);">
+    <!-- Reservation form section -->
+    <div class="reservation-page">
       <div class="reservation-inner">
 
-        <!-- Info column -->
+        <!-- ── Info sidebar ── -->
         <div>
           <span class="eyebrow">Informations pratiques</span>
 
           <div class="info-card">
-            <h3>Adresse</h3>
-            <span class="label">Nous trouver</span>
-            <p data-mz-contact="adresse">4 Pl. de l'Université<br>26000 Valence<br>France</p>
+            <h3>Horaires d'ouverture</h3>
+            <div class="services-badges">
+              <span class="service-badge"><span class="badge-dot"></span>Midi · 12h00 – 14h00</span>
+              <span class="service-badge"><span class="badge-dot"></span>Soir · 19h00 – 22h00</span>
+            </div>
+            <div class="hours-grid" style="margin-top: 18px;" data-mz-hours="grid"></div>
           </div>
 
           <div class="info-card">
-            <h3>Horaires d'ouverture</h3>
-            <div class="hours-grid" data-mz-hours="grid"></div>
+            <h3>Adresse</h3>
+            <span class="label">Nous trouver</span>
+            <p data-mz-contact="adresse">4 Rue de l'Université<br>26000 Valence<br>France</p>
           </div>
 
           <div class="info-card">
@@ -223,183 +1033,346 @@
             <a href="tel:+33475412286" data-mz-contact="tel" style="font-size:18px; font-family:'Cormorant Garamond',serif; color:var(--navy); margin-bottom:16px;">04 75 41 22 86</a>
             <span class="label" style="margin-top:16px;">Email</span>
             <a href="mailto:mezurvalence@gmail.com" data-mz-contact="email">mezurvalence@gmail.com</a>
-            <span class="label" style="margin-top:16px;">Instagram</span>
-            <a href="https://www.instagram.com/" target="_blank" rel="noopener" data-mz-contact="instagram">Instagram</a>
           </div>
 
-          <!-- Map placeholder -->
           <div class="google-map-placeholder">
-            <p>4 Pl. de l'Université, 26000 Valence</p>
-            <a href="https://maps.google.com/?q=4+Place+de+l'Université,+26000+Valence" target="_blank" rel="noopener">
+            <p>4 Rue de l'Université, 26000 Valence</p>
+            <a href="https://maps.google.com/?q=4+Rue+de+l'Université,+26000+Valence" target="_blank" rel="noopener">
               Ouvrir dans Google Maps &rarr;
             </a>
           </div>
-
         </div>
 
-        <!-- Form column -->
-        <div class="reservation-form">
-          <h2 class="form-title">Réserver une table</h2>
+        <!-- ── Form card ── -->
+        <div class="reservation-form-card">
+
+          <!-- Step tabs -->
+          <div class="form-steps" role="tablist">
+            <div class="form-step-tab active" id="tab-1" role="tab" aria-selected="true">
+              <span class="step-num">1</span>Date &amp; Créneau
+            </div>
+            <div class="form-step-tab" id="tab-2" role="tab" aria-selected="false">
+              <span class="step-num">2</span>Vos informations
+            </div>
+          </div>
 
           <form class="reservation-form-el" novalidate>
-            <div class="form-fields">
-              <div class="form-grid">
 
-                <div class="form-group">
-                  <label for="res-date">Date souhaitée</label>
-                  <input
-                    type="date"
-                    id="res-date"
-                    name="date"
-                    required
-                    min=""
-                  >
+            <!-- ── STEP 1 ── -->
+            <div class="form-step-panel active" id="step-1">
+
+              <div style="padding: clamp(28px,5vw,48px) clamp(28px,5vw,48px) 24px;">
+
+                <p class="step-title">Quand souhaitez-vous venir ?</p>
+                <p class="step-subtitle">Choisissez votre date, puis sélectionnez le service et l'horaire souhaités.</p>
+
+                <!-- Date -->
+                <div class="date-field-large">
+                  <label for="res-date">Date de votre visite</label>
+                  <input type="date" id="res-date" name="date" required min="">
                 </div>
 
-                <div class="form-group">
-                  <label for="res-time">Heure souhaitée</label>
-                  <select id="res-time" name="time" required>
-                    <option value="" disabled selected>Choisir un créneau</option>
-                    <optgroup label="Déjeuner (service du midi)">
-                      <option value="12:00">12h00</option>
-                      <option value="12:30">12h30</option>
-                      <option value="13:00">13h00</option>
-                      <option value="13:30">13h30</option>
-                      <option value="14:00">14h00</option>
-                    </optgroup>
-                  </select>
+                <!-- Service toggle -->
+                <span class="service-label">Service</span>
+                <div class="service-toggle" role="group" aria-label="Choisir le service">
+                  <button type="button" class="service-btn" data-service="midi">
+                    <span class="svc-icon">☀️</span>
+                    <span class="svc-name">Déjeuner</span>
+                    <span class="svc-hours">12h00 – 14h00</span>
+                  </button>
+                  <button type="button" class="service-btn" data-service="soir">
+                    <span class="svc-icon">🌙</span>
+                    <span class="svc-name">Dîner</span>
+                    <span class="svc-hours">19h00 – 22h00</span>
+                  </button>
+                </div>
+                <input type="hidden" id="res-service" name="service">
+
+                <!-- Time slots -->
+                <div id="slots-section" class="slots-hidden">
+                  <span class="slots-label">Heure d'arrivée souhaitée</span>
+                  <div class="slots-grid" id="slots-midi">
+                    <button type="button" class="slot-btn" data-time="12:00">12h00</button>
+                    <button type="button" class="slot-btn" data-time="12:30">12h30</button>
+                    <button type="button" class="slot-btn" data-time="13:00">13h00</button>
+                    <button type="button" class="slot-btn" data-time="13:30">13h30</button>
+                    <button type="button" class="slot-btn" data-time="14:00">14h00</button>
+                  </div>
+                  <div class="slots-grid slots-hidden" id="slots-soir">
+                    <button type="button" class="slot-btn" data-time="19:00">19h00</button>
+                    <button type="button" class="slot-btn" data-time="19:30">19h30</button>
+                    <button type="button" class="slot-btn" data-time="20:00">20h00</button>
+                    <button type="button" class="slot-btn" data-time="20:30">20h30</button>
+                    <button type="button" class="slot-btn" data-time="21:00">21h00</button>
+                    <button type="button" class="slot-btn" data-time="21:30">21h30</button>
+                  </div>
+                  <input type="hidden" id="res-time" name="time">
                 </div>
 
-                <div class="form-group">
-                  <label for="res-covers">Nombre de couverts</label>
-                  <select id="res-covers" name="covers" required>
-                    <option value="" disabled selected>Nombre de personnes</option>
-                    <option value="1">1 personne</option>
-                    <option value="2">2 personnes</option>
-                    <option value="3">3 personnes</option>
-                    <option value="4">4 personnes</option>
-                    <option value="5">5 personnes</option>
-                    <option value="6">6 personnes</option>
-                    <option value="7+">7 personnes et plus</option>
-                  </select>
+                <!-- Covers -->
+                <div style="margin-top: 24px;">
+                  <span class="covers-label">Nombre de personnes</span>
+                  <div class="covers-stepper">
+                    <button type="button" class="covers-btn" id="covers-minus" aria-label="Moins">−</button>
+                    <span class="covers-display" id="covers-display">2</span>
+                    <span class="covers-unit" id="covers-unit">personnes</span>
+                    <button type="button" class="covers-btn" id="covers-plus" aria-label="Plus">+</button>
+                  </div>
+                  <p class="covers-note" id="covers-note-group">Pour les groupes de 8 personnes et plus, merci de nous contacter directement.</p>
+                  <input type="hidden" id="res-covers" name="covers" value="2">
                 </div>
 
-                <div class="form-group">
-                  <label for="res-occasion">Occasion</label>
-                  <select id="res-occasion" name="occasion">
-                    <option value="" disabled selected>Type d'occasion (optionnel)</option>
-                    <option value="repas">Repas en famille / entre amis</option>
-                    <option value="business">Repas d'affaires</option>
-                    <option value="anniversaire">Anniversaire</option>
-                    <option value="romantique">Repas romantique</option>
-                    <option value="autre">Autre</option>
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label for="res-nom">Nom</label>
-                  <input
-                    type="text"
-                    id="res-nom"
-                    name="nom"
-                    placeholder="Votre nom"
-                    required
-                    autocomplete="family-name"
-                  >
-                </div>
-
-                <div class="form-group">
-                  <label for="res-prenom">Prénom</label>
-                  <input
-                    type="text"
-                    id="res-prenom"
-                    name="prenom"
-                    placeholder="Votre prénom"
-                    autocomplete="given-name"
-                  >
-                </div>
-
-                <div class="form-group">
-                  <label for="res-tel">Téléphone</label>
-                  <input
-                    type="tel"
-                    id="res-tel"
-                    name="telephone"
-                    placeholder="06 xx xx xx xx"
-                    required
-                    autocomplete="tel"
-                  >
-                </div>
-
-                <div class="form-group">
-                  <label for="res-email">Email</label>
-                  <input
-                    type="email"
-                    id="res-email"
-                    name="email"
-                    placeholder="votre@email.fr"
-                    autocomplete="email"
-                  >
-                </div>
-
-                <div class="form-group full-width">
-                  <label for="res-message">Message ou allergènes à signaler</label>
-                  <textarea
-                    id="res-message"
-                    name="message"
-                    placeholder="Allergènes, régimes alimentaires, demande particulière..."
-                  ></textarea>
-                </div>
-
-              </div><!-- /form-grid -->
-
-              <div class="form-submit">
-                <button type="submit" class="btn btn-primary" style="border:none; width:100%; font-size:11px;">
-                  Confirmer ma réservation
-                </button>
-                <p class="form-note">
-                  Nous vous confirmerons votre réservation par téléphone dans les 2 heures.<br>
-                  Pour les groupes de 7 personnes et plus, merci de nous appeler directement.
-                </p>
               </div>
 
-            </div><!-- /form-fields -->
+              <div style="padding: 0 clamp(28px,5vw,48px) clamp(28px,5vw,48px);">
+                <button type="button" class="btn-next" id="btn-to-step-2">
+                  Continuer — Mes informations
+                </button>
+                <p class="form-note-small">Dimanche : fermé. Votre réservation sera confirmée par téléphone sous 2 heures.</p>
+              </div>
 
-            <!-- Success state -->
+            </div>
+
+            <!-- ── STEP 2 ── -->
+            <div class="form-step-panel" id="step-2">
+
+              <!-- Recap bar -->
+              <div class="step-recap" id="step-recap"></div>
+
+              <div style="padding: clamp(24px,4vw,40px) clamp(28px,5vw,48px) 0;">
+                <p class="step-title">Vos coordonnées</p>
+                <p class="step-subtitle">Nous vous confirmerons par téléphone dans les 2 heures.</p>
+
+                <div class="form-grid-2">
+                  <div class="form-group-2">
+                    <label for="res-nom">Nom *</label>
+                    <input type="text" id="res-nom" name="nom" placeholder="Dupont" required autocomplete="family-name">
+                  </div>
+                  <div class="form-group-2">
+                    <label for="res-prenom">Prénom</label>
+                    <input type="text" id="res-prenom" name="prenom" placeholder="Marie" autocomplete="given-name">
+                  </div>
+                  <div class="form-group-2">
+                    <label for="res-tel">Téléphone *</label>
+                    <input type="tel" id="res-tel" name="telephone" placeholder="06 xx xx xx xx" required autocomplete="tel">
+                  </div>
+                  <div class="form-group-2">
+                    <label for="res-email">Email</label>
+                    <input type="email" id="res-email" name="email" placeholder="votre@email.fr" autocomplete="email">
+                  </div>
+                </div>
+
+                <!-- Occasion chips -->
+                <div style="margin-bottom: 20px;">
+                  <span class="slots-label" style="margin-bottom:10px; display:block;">Occasion <span style="opacity:.5;">(optionnel)</span></span>
+                  <div class="occasion-chips" role="group">
+                    <button type="button" class="occasion-chip" data-occasion="">Aucune en particulier</button>
+                    <button type="button" class="occasion-chip" data-occasion="repas">En famille / amis</button>
+                    <button type="button" class="occasion-chip" data-occasion="business">Repas d'affaires</button>
+                    <button type="button" class="occasion-chip" data-occasion="anniversaire">Anniversaire</button>
+                    <button type="button" class="occasion-chip" data-occasion="romantique">Romantique</button>
+                  </div>
+                  <input type="hidden" id="res-occasion" name="occasion">
+                </div>
+
+                <div class="form-group-2 full" style="margin-bottom:0;">
+                  <label for="res-message">Allergènes ou demande particulière</label>
+                  <textarea id="res-message" name="message" placeholder="Allergènes, intolérances, régimes, chaise bébé, fauteuil roulant…"></textarea>
+                </div>
+              </div>
+
+              <div style="padding: 20px clamp(28px,5vw,48px) clamp(28px,5vw,48px);">
+                <div class="form-nav">
+                  <button type="button" class="btn-back" id="btn-back-1">← Retour</button>
+                  <button type="submit" class="btn-submit">Confirmer ma réservation</button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Success -->
             <div class="form-success" role="alert" aria-live="polite">
-              <div class="or-line" style="margin-bottom:32px;"></div>
+              <div class="or-line" style="margin-bottom:36px;"></div>
               <h3>Demande envoyée.</h3>
               <p>
                 Merci pour votre demande de réservation.<br>
                 Nous vous confirmerons votre table par téléphone dans les 2 heures.<br><br>
                 À très bientôt chez MEZUR.
               </p>
-              <div class="or-line" style="margin-top:32px;"></div>
+              <div class="or-line" style="margin-top:36px;"></div>
             </div>
 
           </form>
-        </div><!-- /reservation-form -->
+        </div>
 
-      </div><!-- /reservation-inner -->
+      </div>
     </div>
 
-    <!-- Note de bas de page -->
-    <div style="background: var(--navy); padding: 48px var(--container-pad); text-align: center;">
-      <p style="
-        font-family: 'Cormorant Garamond', serif;
-        font-size: clamp(18px,2.2vw,26px);
-        font-style: italic;
-        font-weight: 300;
-        color: rgba(255,255,255,0.75);
-        max-width: 600px;
-        margin: 0 auto;
-        line-height: 1.7;
-      ">
-        Sélectionnez vos détails et nous ferons notre possible pour satisfaire votre demande.
-      </p>
-    </div>
+    <!-- ════════════════════════════════════
+         TRAITEUR & ÉVÉNEMENTS
+    ════════════════════════════════════ -->
+    <section class="traiteur-section" aria-labelledby="traiteur-heading">
+      <div class="traiteur-inner">
+
+        <div class="traiteur-header">
+          <div class="traiteur-header-left">
+            <span class="eyebrow">Prestations sur-mesure</span>
+            <h2 id="traiteur-heading">Traiteur &amp;<br>Événements</h2>
+          </div>
+          <div class="traiteur-header-right">
+            <p>Pour vos événements professionnels ou personnels, MEZUR compose des prestations sur-mesure — de la sélection des mets à la mise en place, en passant par le service.</p>
+            <div class="traiteur-cta">
+              <a href="tel:+33475412286" class="btn-call">📞 &nbsp;04 75 41 22 86</a>
+              <a href="mailto:mezurvalence@gmail.com" class="btn-email">Par email</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Service cards -->
+        <div class="traiteur-cards">
+          <div class="traiteur-card">
+            <span class="traiteur-card-icon">🥂</span>
+            <h4>Privatisation</h4>
+            <p>Réservez l'intégralité de la salle pour vos réceptions, séminaires ou dîners de gala. Jusqu'à 40 convives.</p>
+            <span class="card-tag">Sur demande</span>
+          </div>
+          <div class="traiteur-card">
+            <span class="traiteur-card-icon">🍽️</span>
+            <h4>Repas d'entreprise</h4>
+            <p>Menus déjeuner ou dîner adaptés pour vos équipes, clients ou partenaires. Formules à partir de 8 personnes.</p>
+            <span class="card-tag">Devis personnalisé</span>
+          </div>
+          <div class="traiteur-card">
+            <span class="traiteur-card-icon">🎂</span>
+            <h4>Anniversaires &amp; célébrations</h4>
+            <p>Cocktail, repas à table ou buffet — chaque étape de votre événement est pensée avec soin et précision.</p>
+            <span class="card-tag">Sur-mesure</span>
+          </div>
+          <div class="traiteur-card">
+            <span class="traiteur-card-icon">💍</span>
+            <h4>Mariages &amp; fiançailles</h4>
+            <p>Pierre et Thomas vous accompagnent dans la composition du menu, du vin et de l'ambiance de votre grand jour.</p>
+            <span class="card-tag">Consultation offerte</span>
+          </div>
+          <div class="traiteur-card">
+            <span class="traiteur-card-icon">🍾</span>
+            <h4>Cocktails dinatoires</h4>
+            <p>Plateaux de mignardises, bouchées gastronomiques et sélection de vins pour vos cocktails debout ou assis.</p>
+            <span class="card-tag">À partir de 15 pers.</span>
+          </div>
+          <div class="traiteur-card">
+            <span class="traiteur-card-icon">📦</span>
+            <h4>Plateaux &amp; traiteur à emporter</h4>
+            <p>Plateaux repas, corbeilles gourmandes ou buffets à emporter pour vos équipes ou occasions privées.</p>
+            <span class="card-tag">Commande 48h avant</span>
+          </div>
+        </div>
+
+        <!-- Traiteur inquiry form -->
+        <div class="traiteur-form-section">
+          <p class="traiteur-form-title">Demande de devis ou d'information</p>
+
+          <form class="traiteur-form-el" novalidate>
+            <div style="margin-bottom: 18px;">
+              <span class="traiteur-form-group" style="display:block; margin-bottom:10px;">
+                <label style="font-family:var(--font-body);font-size:9px;font-weight:400;letter-spacing:0.35em;text-transform:uppercase;color:rgba(255,255,255,0.4);">Type de prestation</label>
+              </span>
+              <div class="traiteur-type-chips" role="group">
+                <button type="button" class="traiteur-chip" data-type="privatisation">Privatisation</button>
+                <button type="button" class="traiteur-chip" data-type="entreprise">Repas d'entreprise</button>
+                <button type="button" class="traiteur-chip" data-type="anniversaire">Anniversaire</button>
+                <button type="button" class="traiteur-chip" data-type="mariage">Mariage / Fiançailles</button>
+                <button type="button" class="traiteur-chip" data-type="cocktail">Cocktail dinatoire</button>
+                <button type="button" class="traiteur-chip" data-type="plateau">Plateaux à emporter</button>
+                <button type="button" class="traiteur-chip" data-type="autre">Autre</button>
+              </div>
+              <input type="hidden" id="traiteur-type" name="traiteur_type">
+            </div>
+
+            <div class="traiteur-form-grid">
+              <div class="traiteur-form-group">
+                <label for="t-nom">Nom *</label>
+                <input type="text" id="t-nom" name="nom" placeholder="Votre nom" required>
+              </div>
+              <div class="traiteur-form-group">
+                <label for="t-tel">Téléphone *</label>
+                <input type="tel" id="t-tel" name="telephone" placeholder="06 xx xx xx xx" required>
+              </div>
+              <div class="traiteur-form-group">
+                <label for="t-email">Email</label>
+                <input type="email" id="t-email" name="email" placeholder="votre@email.fr">
+              </div>
+              <div class="traiteur-form-group">
+                <label for="t-date">Date envisagée</label>
+                <input type="date" id="t-date" name="date">
+              </div>
+              <div class="traiteur-form-group">
+                <label for="t-guests">Nombre de personnes</label>
+                <input type="number" id="t-guests" name="guests" placeholder="Ex : 25" min="1">
+              </div>
+              <div class="traiteur-form-group full">
+                <label for="t-message">Décrivez votre projet</label>
+                <textarea id="t-message" name="message" placeholder="Lieu, thème, budget approximatif, contraintes alimentaires, toute information utile…"></textarea>
+              </div>
+            </div>
+
+            <div class="traiteur-submit-row">
+              <p class="traiteur-note">Nous vous répondons sous 24h. Pour un projet urgent,<br>appelez-nous directement au 04 75 41 22 86.</p>
+              <button type="submit" class="btn-traiteur-submit">Envoyer ma demande</button>
+            </div>
+
+            <div class="traiteur-success" role="alert" aria-live="polite">
+              <h3>Demande reçue.</h3>
+              <p>Merci pour votre intérêt. Notre équipe vous contactera sous 24 heures pour construire votre événement ensemble.</p>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </section>
 
   </main>
+
+  <!-- Google Maps -->
+  <div style="width:100%; height:420px; display:block; position:relative; background:var(--pearl);">
+    <iframe
+      title="MEZUR — 4 Rue de l'Université, 26000 Valence"
+      src="https://maps.google.com/maps?q=4+Rue+de+l%27Universit%C3%A9%2C+26000+Valence%2C+France&hl=fr&z=16&output=embed"
+      width="100%"
+      height="420"
+      style="border:0; display:block;"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      aria-label="Carte Google Maps — MEZUR Valence"
+    ></iframe>
+    <!-- Bandeau adresse superposé -->
+    <div style="
+      position:absolute;
+      bottom:0; left:0; right:0;
+      background:var(--navy);
+      padding:18px clamp(24px,5vw,64px);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:16px;
+    ">
+      <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
+        <span style="font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:300; color:var(--blanc);">MEZUR — 4 Rue de l'Université, 26000 Valence</span>
+        <span style="width:1px; height:18px; background:rgba(255,255,255,0.2); flex-shrink:0;"></span>
+        <a href="tel:+33475412286" style="font-family:var(--font-body); font-size:11px; font-weight:400; letter-spacing:0.2em; color:var(--or); text-transform:uppercase; transition:opacity 200ms;" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">04 75 41 22 86</a>
+      </div>
+      <a
+        href="https://maps.google.com/?q=4+Rue+de+l'Université,+26000+Valence"
+        target="_blank"
+        rel="noopener"
+        style="font-family:var(--font-body); font-size:10px; font-weight:400; letter-spacing:0.25em; text-transform:uppercase; color:rgba(255,255,255,0.55); border-bottom:1px solid rgba(201,169,110,0.35); padding-bottom:2px; transition:color 200ms, border-color 200ms;"
+        onmouseover="this.style.color='#C9A96E'; this.style.borderColor='#C9A96E';"
+        onmouseout="this.style.color='rgba(255,255,255,0.55)'; this.style.borderColor='rgba(201,169,110,0.35)';"
+      >Ouvrir dans Google Maps →</a>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="site-footer" role="contentinfo">
@@ -413,17 +1386,17 @@
       </div>
       <div class="footer-col">
         <h4>Adresse</h4>
-        <address>4 Pl. de l'Université<br>26000 Valence<br>France</address>
+        <address>4 Rue de l'Université<br>26000 Valence<br>France</address>
       </div>
       <div class="footer-col">
         <h4>Horaires</h4>
-        <p>Le midi<br>du lundi au vendredi<br>(hors jours fériés)</p>
+        <p>Lun – Sam<br>12h00–14h00<br>19h00–22h00<br>Dimanche fermé</p>
       </div>
       <div class="footer-col">
         <h4>Contact</h4>
         <a href="tel:+33475412286">04 75 41 22 86</a>
         <a href="mailto:mezurvalence@gmail.com" data-mz-contact="email">mezurvalence@gmail.com</a>
-        <a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.instagram.com/maison_mezur" target="_blank" rel="noopener">@maison_mezur</a>
         <a href="menu.html">Le menu</a>
         <a href="a-propos.html">La maison</a>
       </div>
@@ -441,12 +1414,222 @@
   <script src="js/main.js"></script>
 
   <script>
-    // Set min date to today
+  (function () {
+
+    /* ─── Date min ─── */
     const dateInput = document.getElementById('res-date');
-    if (dateInput) {
-      const today = new Date().toISOString().split('T')[0];
-      dateInput.setAttribute('min', today);
+    if (dateInput) dateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
+
+    /* ─── Service toggle ─── */
+    let selectedService = '';
+    const serviceBtns = document.querySelectorAll('.service-btn');
+    const slotsSection = document.getElementById('slots-section');
+    const slotsMidi = document.getElementById('slots-midi');
+    const slotsSoir = document.getElementById('slots-soir');
+    const serviceHidden = document.getElementById('res-service');
+
+    serviceBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        serviceBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedService = btn.dataset.service;
+        serviceHidden.value = selectedService;
+
+        slotsSection.classList.remove('slots-hidden');
+        if (selectedService === 'midi') {
+          slotsMidi.classList.remove('slots-hidden');
+          slotsSoir.classList.add('slots-hidden');
+        } else {
+          slotsSoir.classList.remove('slots-hidden');
+          slotsMidi.classList.add('slots-hidden');
+        }
+        // clear any active slot
+        document.querySelectorAll('.slot-btn').forEach(s => s.classList.remove('active'));
+        document.getElementById('res-time').value = '';
+      });
+    });
+
+    /* ─── Time slots ─── */
+    document.querySelectorAll('.slot-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.slot-btn').forEach(s => s.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('res-time').value = btn.dataset.time;
+      });
+    });
+
+    /* ─── Covers stepper ─── */
+    let covers = 2;
+    const coversDisplay = document.getElementById('covers-display');
+    const coversUnit = document.getElementById('covers-unit');
+    const coversHidden = document.getElementById('res-covers');
+    const coversNote = document.getElementById('covers-note-group');
+    const minusBtn = document.getElementById('covers-minus');
+    const plusBtn = document.getElementById('covers-plus');
+
+    function updateCovers () {
+      coversDisplay.textContent = covers;
+      coversUnit.textContent = covers === 1 ? 'personne' : 'personnes';
+      coversHidden.value = covers;
+      minusBtn.disabled = covers <= 1;
+      coversNote.classList.toggle('visible', covers >= 8);
     }
+    minusBtn.addEventListener('click', () => { if (covers > 1) { covers--; updateCovers(); } });
+    plusBtn.addEventListener('click', () => { covers++; updateCovers(); });
+    updateCovers();
+
+    /* ─── Occasion chips ─── */
+    document.querySelectorAll('.occasion-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.occasion-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        document.getElementById('res-occasion').value = chip.dataset.occasion;
+      });
+    });
+
+    /* ─── Step navigation ─── */
+    const tab1 = document.getElementById('tab-1');
+    const tab2 = document.getElementById('tab-2');
+    const step1 = document.getElementById('step-1');
+    const step2 = document.getElementById('step-2');
+    const recap = document.getElementById('step-recap');
+
+    function buildRecap () {
+      const dateVal = dateInput.value;
+      const timeVal = document.getElementById('res-time').value;
+      const serviceVal = selectedService;
+      const coversVal = coversHidden.value;
+
+      const formatDate = (d) => {
+        if (!d) return '—';
+        const dt = new Date(d + 'T12:00:00');
+        return dt.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'long' });
+      };
+      const formatTime = (t) => t ? t.replace(':', 'h') : '—';
+      const serviceLabel = serviceVal === 'midi' ? 'Déjeuner' : serviceVal === 'soir' ? 'Dîner' : '—';
+
+      recap.innerHTML = `
+        <div class="recap-item">
+          <span class="recap-label">Date</span>
+          <span class="recap-value">${formatDate(dateVal)}</span>
+        </div>
+        <div class="recap-separator"></div>
+        <div class="recap-item">
+          <span class="recap-label">Service</span>
+          <span class="recap-value">${serviceLabel}</span>
+        </div>
+        <div class="recap-separator"></div>
+        <div class="recap-item">
+          <span class="recap-label">Heure</span>
+          <span class="recap-value">${formatTime(timeVal)}</span>
+        </div>
+        <div class="recap-separator"></div>
+        <div class="recap-item">
+          <span class="recap-label">Couverts</span>
+          <span class="recap-value">${coversVal} pers.</span>
+        </div>
+      `;
+    }
+
+    document.getElementById('btn-to-step-2').addEventListener('click', () => {
+      const date = dateInput.value;
+      const time = document.getElementById('res-time').value;
+      if (!date) { dateInput.focus(); dateInput.reportValidity(); return; }
+      if (!selectedService) { alert('Veuillez sélectionner un service (Déjeuner ou Dîner).'); return; }
+      if (!time) { alert('Veuillez sélectionner un horaire.'); return; }
+
+      step1.classList.remove('active');
+      step2.classList.add('active');
+      tab1.classList.remove('active');
+      tab1.classList.add('done');
+      tab2.classList.add('active');
+      buildRecap();
+      window.scrollTo({ top: document.querySelector('.reservation-form-card').offsetTop - 80, behavior: 'smooth' });
+    });
+
+    document.getElementById('btn-back-1').addEventListener('click', () => {
+      step2.classList.remove('active');
+      step1.classList.add('active');
+      tab2.classList.remove('active');
+      tab1.classList.remove('done');
+      tab1.classList.add('active');
+    });
+
+    /* ─── Reservation form submit ─── */
+    document.querySelector('.reservation-form-el').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nom = document.getElementById('res-nom').value.trim();
+      const tel = document.getElementById('res-tel').value.trim();
+      if (!nom) { document.getElementById('res-nom').focus(); return; }
+      if (!tel) { document.getElementById('res-tel').focus(); return; }
+
+      const data = {
+        id: Date.now(),
+        date: dateInput.value,
+        service: selectedService,
+        time: document.getElementById('res-time').value,
+        covers: coversHidden.value,
+        occasion: document.getElementById('res-occasion').value,
+        nom, prenom: document.getElementById('res-prenom').value,
+        telephone: tel,
+        email: document.getElementById('res-email').value,
+        message: document.getElementById('res-message').value,
+        status: 'pending',
+        created: new Date().toISOString()
+      };
+
+      try {
+        const existing = JSON.parse(localStorage.getItem('mezur_reservations') || '[]');
+        existing.push(data);
+        localStorage.setItem('mezur_reservations', JSON.stringify(existing));
+      } catch (_) {}
+
+      document.getElementById('step-2').classList.remove('active');
+      document.querySelector('.form-steps').style.display = 'none';
+      document.querySelector('.form-success').classList.add('visible');
+    });
+
+    /* ─── Traiteur type chips ─── */
+    document.querySelectorAll('.traiteur-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        chip.classList.toggle('active');
+        const selected = [...document.querySelectorAll('.traiteur-chip.active')].map(c => c.dataset.type).join(',');
+        document.getElementById('traiteur-type').value = selected;
+      });
+    });
+
+    /* ─── Traiteur form submit ─── */
+    const traiteurForm = document.querySelector('.traiteur-form-el');
+    const traiteurSuccess = document.querySelector('.traiteur-success');
+    const traiteurSubmitRow = document.querySelector('.traiteur-submit-row');
+
+    traiteurForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nom = document.getElementById('t-nom').value.trim();
+      const tel = document.getElementById('t-tel').value.trim();
+      if (!nom || !tel) return;
+
+      const data = {
+        id: 't_' + Date.now(),
+        type: document.getElementById('traiteur-type').value,
+        nom, telephone: tel,
+        email: document.getElementById('t-email').value,
+        date: document.getElementById('t-date').value,
+        guests: document.getElementById('t-guests').value,
+        message: document.getElementById('t-message').value,
+        created: new Date().toISOString()
+      };
+      try {
+        const existing = JSON.parse(localStorage.getItem('mezur_traiteur_requests') || '[]');
+        existing.push(data);
+        localStorage.setItem('mezur_traiteur_requests', JSON.stringify(existing));
+      } catch (_) {}
+
+      traiteurSubmitRow.style.display = 'none';
+      traiteurSuccess.classList.add('visible');
+    });
+
+  })();
   </script>
 </body>
 </html>
