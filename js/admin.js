@@ -88,16 +88,26 @@
     boot();
   }
 
-  $('#login-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const pw = ($('#login-pw').value || '').trim();
-    if (pw === storedPw()) {
-      ssSet(SESSION_KEY, '1');   // best-effort : n'empêche jamais l'accès
-      openApp();
-    } else {
-      $('#login-error').textContent = 'Mot de passe incorrect. (Par défaut : mezur2026)';
+  function doLogin() {
+    try {
+      const pw = ($('#login-pw').value || '').trim();
+      if (pw === storedPw()) {
+        ssSet(SESSION_KEY, '1');   // best-effort : n'empêche jamais l'accès
+        openApp();
+      } else {
+        $('#login-error').textContent = 'Mot de passe incorrect. (Par défaut : mezur2026)';
+      }
+    } catch (err) {
+      const el = $('#login-error');
+      if (el) el.textContent = 'Erreur : ' + (err && err.message ? err.message : err);
     }
-  });
+  }
+
+  $('#login-form').addEventListener('submit', (e) => { e.preventDefault(); doLogin(); });
+  // Filet supplémentaire : clic direct sur le bouton (au cas où l'événement
+  // submit ne se déclencherait pas sur certains navigateurs/mobiles).
+  const loginBtn = $('#login-form button[type="submit"]');
+  if (loginBtn) loginBtn.addEventListener('click', (e) => { e.preventDefault(); doLogin(); });
 
   // Lien de secours : réinitialise le mot de passe au défaut
   const resetLink = $('#login-reset');
@@ -473,4 +483,7 @@
   } else {
     $('#login-pw').focus();
   }
+
+  /* Marqueur : admin.js s'est bien exécuté jusqu'au bout (auto-diagnostic) */
+  window.__MEZUR_ADMIN_READY = true;
 })();

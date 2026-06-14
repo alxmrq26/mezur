@@ -10,14 +10,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/admin.css?v=3">
+  <link rel="stylesheet" href="css/admin.css?v=4">
   <!-- Filet de sécurité : remonte toute erreur technique à l'écran au lieu
-       d'échouer en silence, et empêche tout rechargement de page. -->
+       d'échouer en silence, y compris les fichiers 404 (capture). -->
   <script>
-    window.addEventListener('error', function (e) {
+    function mzShowErr(msg) {
       var el = document.getElementById('login-error');
-      if (el) el.textContent = 'Erreur technique : ' + (e && e.message ? e.message : e) + ' — préviens le développeur.';
-    });
+      if (el) el.textContent = msg;
+    }
+    // Erreurs JS classiques
+    window.addEventListener('error', function (e) {
+      if (e && e.target && (e.target.tagName === 'SCRIPT' || e.target.tagName === 'LINK')) {
+        mzShowErr('Fichier non chargé (404 ?) : ' + (e.target.src || e.target.href));
+      } else {
+        mzShowErr('Erreur technique : ' + (e && e.message ? e.message : e));
+      }
+    }, true); // capture = true → attrape aussi les échecs de chargement de scripts
   </script>
 </head>
 <body>
@@ -34,7 +42,7 @@
       <p class="login-hint">Mot de passe par défaut : <strong>mezur2026</strong> — pensez à le changer dans Réglages.</p>
       <p class="login-hint"><a href="#" id="login-reset">Mot de passe oublié ? Réinitialiser l'accès</a></p>
       <p id="login-reset-done" class="login-hint" style="color:var(--ok)" hidden>Accès réinitialisé — saisissez <strong>mezur2026</strong> puis « Se connecter ».</p>
-      <p class="login-hint" style="opacity:.5;font-size:10px;">build v3</p>
+      <p class="login-hint" style="opacity:.5;font-size:10px;">build v4</p>
     </form>
   </div>
 
@@ -163,7 +171,18 @@
   </div>
 
   <script>window.MEZUR_NO_AUTOHYDRATE = true;</script>
-  <script src="js/content.js?v=3"></script>
-  <script src="js/admin.js?v=3"></script>
+  <script src="js/content.js?v=4"></script>
+  <script src="js/admin.js?v=4"></script>
+  <!-- Auto-diagnostic : si admin.js ne s'est pas exécuté, on le dit clairement. -->
+  <script>
+    setTimeout(function () {
+      if (!window.__MEZUR_ADMIN_READY) {
+        var el = document.getElementById('login-error');
+        if (el && !el.textContent) {
+          el.textContent = "⚠️ Le script admin.js ne s'est pas chargé. Vérifie que le dossier « js » (js/admin.js et js/content.js) est bien présent à côté de admin.html sur le serveur.";
+        }
+      }
+    }, 1500);
+  </script>
 </body>
 </html>
