@@ -23,6 +23,10 @@
 
 * { box-sizing: border-box; }
 
+/* L'attribut hidden doit TOUJOURS l'emporter (sinon display:flex/grid des
+   classes l'écrase et l'écran de connexion ne disparaît jamais après login). */
+[hidden] { display: none !important; }
+
 html, body {
   margin: 0;
   font-family: 'Jost', system-ui, sans-serif;

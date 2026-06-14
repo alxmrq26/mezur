@@ -62,16 +62,13 @@
       vins: []
     },
 
-    // Le site d'origine indique seulement : service le midi, du lundi au
-    // vendredi (hors jours fériés). Aucun horaire précis ni service du soir
-    // / week-end n'est annoncé — à confirmer auprès du restaurant.
     hours: [
-      { jour: 'Lundi',    texte: 'Le midi', ferme: false },
-      { jour: 'Mardi',    texte: 'Le midi', ferme: false },
-      { jour: 'Mercredi', texte: 'Le midi', ferme: false },
-      { jour: 'Jeudi',    texte: 'Le midi', ferme: false },
-      { jour: 'Vendredi', texte: 'Le midi', ferme: false },
-      { jour: 'Samedi',   texte: 'Fermé', ferme: true },
+      { jour: 'Lundi',    texte: '12h00–14h00  ·  19h00–22h00', ferme: false },
+      { jour: 'Mardi',    texte: '12h00–14h00  ·  19h00–22h00', ferme: false },
+      { jour: 'Mercredi', texte: '12h00–14h00  ·  19h00–22h00', ferme: false },
+      { jour: 'Jeudi',    texte: '12h00–14h00  ·  19h00–22h00', ferme: false },
+      { jour: 'Vendredi', texte: '12h00–14h00  ·  19h00–22h00', ferme: false },
+      { jour: 'Samedi',   texte: '12h00–14h00  ·  19h00–22h00', ferme: false },
       { jour: 'Dimanche', texte: 'Fermé', ferme: true }
     ],
 
