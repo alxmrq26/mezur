@@ -46,17 +46,23 @@
     // / entrée-plat-dessert 29 €. Le site d'origine ne détaille ni description
     // ni prix par plat — on n'invente donc rien.
     menu: {
+      // Formules du menu de la maison (servi le midi, lundi–vendredi)
+      formules: [
+        { nom: 'Plat seul',                      desc: 'Menu de la maison — midi uniquement (lun.–ven.)', prix: '19 €' },
+        { nom: 'Entrée + Plat  ou  Plat + Dessert', desc: 'Menu de la maison — midi uniquement (lun.–ven.)', prix: '24 €' },
+        { nom: 'Entrée + Plat + Dessert',         desc: 'Menu de la maison — midi uniquement (lun.–ven.)', prix: '29 €' }
+      ],
       entrees: [
-        { nom: 'Tomates, Burrata', desc: '', prix: '' },
-        { nom: 'Œuf mollet, Mousseline', desc: '', prix: '' }
+        { nom: 'Tomates, Burrata',        desc: '', prix: '' },
+        { nom: 'Œuf mollet, Mousseline',  desc: '', prix: '' }
       ],
       plats: [
         { nom: 'Orichiettes, crevettes & bisque', desc: '', prix: '' },
-        { nom: 'Blanquette de veau', desc: '', prix: '' }
+        { nom: 'Blanquette de veau',              desc: '', prix: '' }
       ],
       desserts: [
         { nom: "Fraises, Herbes, Huile d'olive", desc: '', prix: '' },
-        { nom: 'Pavlova, Citron', desc: '', prix: '' }
+        { nom: 'Pavlova, Citron',                 desc: '', prix: '' }
       ],
       // Le site d'origine ne publie pas de carte des vins nommée.
       vins: []
@@ -143,7 +149,7 @@
       const list = this.getReservations();
       res.id = 'res_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
       res.createdAt = new Date().toISOString();
-      res.status = 'nouvelle';
+      res.status = res.status || 'nouvelle';
       list.push(res);
       this.saveReservations(list);
       return res;
@@ -221,10 +227,11 @@
 
   function renderMenu(c) {
     const map = {
-      entrees: entryMarkup,
-      plats: entryMarkup,
-      desserts: entryMarkup,
-      vins: vinMarkup
+      formules:  entryMarkup,
+      entrees:   entryMarkup,
+      plats:     entryMarkup,
+      desserts:  entryMarkup,
+      vins:      vinMarkup
     };
     Object.keys(map).forEach((section) => {
       const container = document.querySelector('[data-mz-menu="' + section + '"]');
