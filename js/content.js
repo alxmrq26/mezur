@@ -75,7 +75,7 @@
       { jour: 'Jeudi',    texte: '12h00–14h00  ·  19h00–22h00', ferme: false },
       { jour: 'Vendredi', texte: '12h00–14h00  ·  19h00–22h00', ferme: false },
       { jour: 'Samedi',   texte: '12h00–14h00  ·  19h00–22h00', ferme: false },
-      { jour: 'Dimanche', texte: 'Fermé', ferme: true }
+      { jour: 'Dimanche', texte: '18h00–23h30', ferme: false }
     ],
 
     contact: {
@@ -255,6 +255,25 @@
       el.innerHTML = c.hours
         .map((h) => esc(h.jour) + ' : ' + esc(h.texte))
         .join('<br>');
+    });
+    // Compact (footers colonnes, CTAs) — jours consécutifs au même horaire regroupés
+    document.querySelectorAll('[data-mz-hours="compact"]').forEach((el) => {
+      const groups = [];
+      c.hours.forEach((h) => {
+        const key = h.ferme ? null : h.texte;
+        const prev = groups[groups.length - 1];
+        if (prev && prev.key === key) {
+          prev.end = h.jour;
+        } else {
+          groups.push({ start: h.jour, end: h.jour, key, texte: h.texte, ferme: h.ferme });
+        }
+      });
+      el.innerHTML = groups.map((g) => {
+        const d = g.start === g.end
+          ? esc(g.start)
+          : esc(g.start.slice(0, 3)) + '&ndash;' + esc(g.end.slice(0, 3));
+        return g.ferme ? (d + ' : Fermé') : (d + ' : ' + esc(g.texte));
+      }).join('<br>');
     });
   }
 
