@@ -468,11 +468,12 @@
       file.addEventListener('change', () => {
         const f = file.files[0];
         if (!f) return;
+        toast('Optimisation en cours…');
         downscaleToDataURL(f, 1600, (dataUrl) => {
           state.images[key] = dataUrl;
           img.src = dataUrl;
           markDirty();
-          toast('Image mise à jour — pensez à publier');
+          toast('Image convertie en WebP — pensez à publier');
         });
       });
       img.addEventListener('click', () => file.click());
@@ -498,9 +499,10 @@
         canvas.width = w; canvas.height = h;
         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
         let out;
-        try { out = canvas.toDataURL('image/webp', 0.82); }
-        catch (e) { out = canvas.toDataURL('image/jpeg', 0.85); }
-        if (out.length > 2600000) out = canvas.toDataURL('image/jpeg', 0.7);
+        for (const q of [0.85, 0.72, 0.60, 0.48]) {
+          out = canvas.toDataURL('image/webp', q);
+          if (out.startsWith('data:image/webp') && out.length <= 2_000_000) break;
+        }
         cb(out);
       };
       img.src = reader.result;
