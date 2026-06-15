@@ -151,15 +151,23 @@
   });
 
   /* ============ NAVIGATION ============ */
+  function setSidebarOpen(open) {
+    $('#sidebar').classList.toggle('open', open);
+    const overlay = $('#sidebar-overlay');
+    if (overlay) overlay.classList.toggle('visible', open);
+  }
+
   function showView(name) {
     $$('.nav-link').forEach((b) => b.classList.toggle('is-active', b.dataset.view === name));
     $$('.view').forEach((v) => { v.hidden = v.dataset.view !== name; });
-    $('#sidebar').classList.remove('open');
+    setSidebarOpen(false);
     if (name === 'dashboard')    renderDashboard();
     if (name === 'reservations') renderReservations();
   }
   $$('.nav-link').forEach((b) => b.addEventListener('click', () => showView(b.dataset.view)));
-  $('#burger').addEventListener('click', () => $('#sidebar').classList.toggle('open'));
+  $('#burger').addEventListener('click', () => setSidebarOpen(!$('#sidebar').classList.contains('open')));
+  const overlay = $('#sidebar-overlay');
+  if (overlay) overlay.addEventListener('click', () => setSidebarOpen(false));
 
   /* ============ PUBLISH ============ */
   $('#btn-publish').addEventListener('click', () => {
