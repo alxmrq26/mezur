@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/admin.css?v=6">
+  <link rel="stylesheet" href="css/admin.css?v=7">
   <script>
     function mzShowErr(msg) {
       var el = document.getElementById('login-error');
@@ -70,6 +70,9 @@
     </header>
 
     <div class="layout">
+      <!-- Overlay pour fermer le sidebar sur mobile -->
+      <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
       <!-- Navigation -->
       <nav class="sidebar" id="sidebar">
         <button class="nav-link is-active" data-view="dashboard">
@@ -209,7 +212,7 @@
               <strong>Exporter / Importer</strong> ci-dessus. Une version connectée à un serveur pourra être
               ajoutée plus tard sans rien changer à l'interface.
             </p>
-            <span class="version-tag">Back Office v6</span>
+            <span class="version-tag">Back Office v7</span>
           </div>
         </section>
 
@@ -291,8 +294,8 @@
 
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script>window.MEZUR_NO_AUTOHYDRATE = true;</script>
-  <script src="js/content.js?v=6"></script>
-  <script src="js/admin.js?v=6"></script>
+  <script src="js/content.js?v=7"></script>
+  <script src="js/admin.js?v=7"></script>
   <script>
     setTimeout(function () {
       if (!window.__MEZUR_ADMIN_READY) {
