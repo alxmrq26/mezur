@@ -290,6 +290,39 @@
       </div>
     </div>
 
+    <!-- ============ MODAL : RECADRAGE IMAGE ============ -->
+    <div id="crop-modal" class="modal-overlay" hidden aria-modal="true" role="dialog" aria-labelledby="crop-title-h">
+      <div class="crop-dialog">
+        <div class="crop-header">
+          <div>
+            <h2 id="crop-title-h" class="crop-title-h">Recadrer l'image</h2>
+            <p class="crop-subtitle" id="crop-subtitle"></p>
+          </div>
+          <button class="icon-btn" id="crop-close" title="Fermer"><i data-lucide="x"></i></button>
+        </div>
+        <div class="crop-body">
+          <p class="crop-hint">Faites glisser pour repositionner · molette ou curseur pour zoomer</p>
+          <div class="crop-stage">
+            <div class="crop-frame" id="crop-frame">
+              <img id="crop-img" draggable="false" alt="">
+              <div class="crop-grid"></div>
+            </div>
+          </div>
+          <div class="crop-zoom-row">
+            <i data-lucide="zoom-out"></i>
+            <input type="range" id="crop-zoom" min="0" max="200" value="0" step="1" aria-label="Zoom">
+            <i data-lucide="zoom-in"></i>
+          </div>
+        </div>
+        <div class="crop-footer">
+          <button class="btn btn-ghost" id="crop-cancel">Annuler</button>
+          <button class="btn btn-gold" id="crop-confirm">
+            <i data-lucide="crop"></i> Rogner &amp; Valider
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div><!-- /#app -->
 
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>

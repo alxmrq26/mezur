@@ -24,6 +24,18 @@
     ctaFond:         'Fond — bloc « Votre table vous attend »',
     reservationFond: 'Fond — bannière Réservations'
   };
+  /* Dimensions cibles de chaque emplacement image sur le site public */
+  const IMAGE_SPECS = {
+    maisonAccueil:   { w: 800,  h: 1067 },
+    pierrePortrait:  { w: 800,  h: 1067 },
+    thomasPortrait:  { w: 800,  h: 1067 },
+    aproposHero:     { w: 1600, h: 900  },
+    menuHero:        { w: 1600, h: 900  },
+    platSignature1:  { w: 800,  h: 1067 },
+    platSignature2:  { w: 800,  h: 1067 },
+    ctaFond:         { w: 1600, h: 900  },
+    reservationFond: { w: 1600, h: 900  },
+  };
   const TEXT_LABELS = {
     heroTagline:    'Accroche du hero (accueil)',
     manifesteIntro: 'Introduction manifeste (accueil)',
@@ -445,20 +457,26 @@
   /* ============ IMAGES EDITOR ============ */
   function renderImagesEditor() {
     const ed = $('#images-editor');
-    ed.innerHTML = Object.keys(IMAGE_LABELS).map((key) => `
-      <div class="image-slot" data-key="${key}">
-        <img class="thumb" src="${esc(state.images[key])}" alt="${esc(IMAGE_LABELS[key])}">
-        <div class="slot-body">
-          <div class="slot-name">${esc(IMAGE_LABELS[key])}</div>
-          <div class="slot-actions">
-            <label class="btn btn-gold btn-sm">
-              <i data-lucide="image-plus"></i> Remplacer
-              <input type="file" accept="image/*" hidden>
-            </label>
-            <button class="btn btn-ghost btn-sm reset">Défaut</button>
+    ed.innerHTML = Object.keys(IMAGE_LABELS).map((key) => {
+      const spec = IMAGE_SPECS[key];
+      const ratioLabel = spec.w > spec.h ? '16∶9' : '3∶4';
+      return `
+        <div class="image-slot" data-key="${key}">
+          <img class="thumb" src="${esc(state.images[key])}" alt="${esc(IMAGE_LABELS[key])}"
+               style="aspect-ratio:${spec.w}/${spec.h}">
+          <div class="slot-body">
+            <div class="slot-name">${esc(IMAGE_LABELS[key])}</div>
+            <div class="slot-fmt">${spec.w}×${spec.h} px · ${ratioLabel}</div>
+            <div class="slot-actions">
+              <label class="btn btn-gold btn-sm">
+                <i data-lucide="image-plus"></i> Remplacer
+                <input type="file" accept="image/*" hidden>
+              </label>
+              <button class="btn btn-ghost btn-sm reset">Défaut</button>
+            </div>
           </div>
-        </div>
-      </div>`).join('');
+        </div>`;
+    }).join('');
 
     $$('.image-slot', ed).forEach((slot) => {
       const key  = slot.dataset.key;
@@ -468,11 +486,12 @@
       file.addEventListener('change', () => {
         const f = file.files[0];
         if (!f) return;
-        downscaleToDataURL(f, 1600, (dataUrl) => {
+        file.value = '';
+        toast('Chargement de l\'image…');
+        loadImageFile(f, IMAGE_SPECS[key], (dataUrl) => {
           state.images[key] = dataUrl;
           img.src = dataUrl;
           markDirty();
-          toast('Image mise à jour — pensez à publier');
         });
       });
       img.addEventListener('click', () => file.click());
@@ -486,27 +505,162 @@
     refreshIcons();
   }
 
-  function downscaleToDataURL(file, maxW, cb) {
+  /* ============ IMAGE PROCESSING ============ */
+  function toWebP(canvas) {
+    let out;
+    for (const q of [0.85, 0.72, 0.60, 0.48]) {
+      out = canvas.toDataURL('image/webp', q);
+      if (out.startsWith('data:image/webp') && out.length <= 2_000_000) break;
+    }
+    return out;
+  }
+
+  function drawCrop(imgEl, srcX, srcY, srcW, srcH, spec) {
+    const canvas = document.createElement('canvas');
+    canvas.width  = spec.w;
+    canvas.height = spec.h;
+    canvas.getContext('2d').drawImage(imgEl, srcX, srcY, srcW, srcH, 0, 0, spec.w, spec.h);
+    return toWebP(canvas);
+  }
+
+  function loadImageFile(file, spec, onDone) {
     const reader = new FileReader();
-    reader.onload = () => {
-      const img = new Image();
-      img.onload = () => {
-        const scale = Math.min(1, maxW / img.width);
-        const w = Math.round(img.width * scale);
-        const h = Math.round(img.height * scale);
-        const canvas = document.createElement('canvas');
-        canvas.width = w; canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        let out;
-        try { out = canvas.toDataURL('image/webp', 0.82); }
-        catch (e) { out = canvas.toDataURL('image/jpeg', 0.85); }
-        if (out.length > 2600000) out = canvas.toDataURL('image/jpeg', 0.7);
-        cb(out);
+    reader.onload = (e) => {
+      const rawImg = new Image();
+      rawImg.onload = () => {
+        const targetRatio  = spec.w / spec.h;
+        const naturalRatio = rawImg.naturalWidth / rawImg.naturalHeight;
+        if (Math.abs(naturalRatio - targetRatio) / targetRatio < 0.02) {
+          const dataUrl = drawCrop(rawImg, 0, 0, rawImg.naturalWidth, rawImg.naturalHeight, spec);
+          toast('Image convertie en WebP — pensez à publier');
+          onDone(dataUrl);
+        } else {
+          cropTool.open(rawImg, spec, (dataUrl) => {
+            toast('Image rognée et convertie en WebP — pensez à publier');
+            onDone(dataUrl);
+          });
+        }
       };
-      img.src = reader.result;
+      rawImg.src = e.target.result;
     };
     reader.readAsDataURL(file);
   }
+
+  /* ============ CROP TOOL ============ */
+  const cropTool = (() => {
+    let _img = null, _spec = null, _onDone = null;
+    let _fw = 0, _fh = 0, _minScale = 1, _scale = 1;
+    let _tx = 0, _ty = 0;
+    let _dragging = false, _dsx = 0, _dsy = 0, _dtx = 0, _dty = 0;
+
+    const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+    function frameSize(spec) {
+      const maxW = Math.min(600, window.innerWidth - 80);
+      const maxH = Math.min(420, window.innerHeight - 320);
+      const ratio = spec.w / spec.h;
+      let fw = maxW, fh = Math.round(fw / ratio);
+      if (fh > maxH) { fh = maxH; fw = Math.round(fh * ratio); }
+      return [fw, fh];
+    }
+
+    function constrainPos(ntx, nty, ns) {
+      return {
+        tx: clamp(ntx, _fw - _img.naturalWidth  * ns, 0),
+        ty: clamp(nty, _fh - _img.naturalHeight * ns, 0),
+      };
+    }
+
+    function applyTransform() {
+      const ci = document.getElementById('crop-img');
+      if (ci) ci.style.transform = `translate(${_tx}px,${_ty}px) scale(${_scale})`;
+    }
+
+    function setScale(ns) {
+      ns = clamp(ns, _minScale, _minScale * 4);
+      const cx = (_fw / 2 - _tx) / _scale;
+      const cy = (_fh / 2 - _ty) / _scale;
+      const pos = constrainPos(_fw / 2 - cx * ns, _fh / 2 - cy * ns, ns);
+      _scale = ns; _tx = pos.tx; _ty = pos.ty;
+      applyTransform();
+      const zoomEl = document.getElementById('crop-zoom');
+      if (zoomEl) zoomEl.value = clamp((_scale - _minScale) / (_minScale * 3) * 200, 0, 200);
+    }
+
+    function initPos() {
+      _scale = _minScale;
+      const pos = constrainPos(
+        (_fw - _img.naturalWidth  * _scale) / 2,
+        (_fh - _img.naturalHeight * _scale) / 2,
+        _scale
+      );
+      _tx = pos.tx; _ty = pos.ty;
+      applyTransform();
+      const zoomEl = document.getElementById('crop-zoom');
+      if (zoomEl) zoomEl.value = 0;
+    }
+
+    function open(imgEl, spec, onDone) {
+      _img = imgEl; _spec = spec; _onDone = onDone;
+      const [fw, fh] = frameSize(spec);
+      _fw = fw; _fh = fh;
+      _minScale = Math.max(fw / imgEl.naturalWidth, fh / imgEl.naturalHeight);
+      const frame = document.getElementById('crop-frame');
+      frame.style.width  = fw + 'px';
+      frame.style.height = fh + 'px';
+      const ci = document.getElementById('crop-img');
+      ci.onload = () => { initPos(); document.getElementById('crop-modal').removeAttribute('hidden'); refreshIcons(); };
+      ci.src = imgEl.src;
+      const ratioLabel = spec.w > spec.h ? '16∶9' : '3∶4';
+      document.getElementById('crop-subtitle').textContent =
+        `Format cible : ${spec.w} × ${spec.h} px (${ratioLabel}) — glissez pour choisir la zone visible`;
+    }
+
+    function close() {
+      document.getElementById('crop-modal').setAttribute('hidden', '');
+      _img = null; _onDone = null;
+    }
+
+    function confirm() {
+      if (!_img || !_onDone) return;
+      const dataUrl = drawCrop(_img, -_tx / _scale, -_ty / _scale, _fw / _scale, _fh / _scale, _spec);
+      const cb = _onDone;
+      close();
+      cb(dataUrl);
+    }
+
+    function init() {
+      const frame = document.getElementById('crop-frame');
+      const modal = document.getElementById('crop-modal');
+      if (!frame || !modal) return;
+
+      frame.addEventListener('pointerdown', (e) => {
+        _dragging = true; _dsx = e.clientX; _dsy = e.clientY; _dtx = _tx; _dty = _ty;
+        frame.setPointerCapture(e.pointerId);
+      });
+      frame.addEventListener('pointermove', (e) => {
+        if (!_dragging) return;
+        const pos = constrainPos(_dtx + e.clientX - _dsx, _dty + e.clientY - _dsy, _scale);
+        _tx = pos.tx; _ty = pos.ty; applyTransform();
+      });
+      frame.addEventListener('pointerup',     () => { _dragging = false; });
+      frame.addEventListener('pointercancel', () => { _dragging = false; });
+      frame.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        setScale(_scale + _minScale * (e.deltaY > 0 ? -0.08 : 0.08));
+      }, { passive: false });
+
+      document.getElementById('crop-zoom').addEventListener('input', (e) => {
+        setScale(_minScale + (+e.target.value / 200) * _minScale * 3);
+      });
+      document.getElementById('crop-confirm').addEventListener('click', confirm);
+      document.getElementById('crop-cancel').addEventListener('click', close);
+      document.getElementById('crop-close').addEventListener('click', close);
+      modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+    }
+
+    return { open, init };
+  })();
 
   /* ============ TEXTS EDITOR ============ */
   function renderTextsEditor() {
@@ -649,6 +803,8 @@
   window.addEventListener('beforeunload', (e) => {
     if (dirty) { e.preventDefault(); e.returnValue = ''; }
   });
+
+  cropTool.init();
 
   /* Reprise de session ou focus mot de passe */
   if (ssGet(SESSION_KEY) === '1') {
