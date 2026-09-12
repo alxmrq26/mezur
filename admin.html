@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/admin.css?v=7">
+  <link rel="stylesheet" href="css/admin.css?v=8">
   <script>
     function mzShowErr(msg) {
       var el = document.getElementById('login-error');
@@ -32,12 +32,13 @@
     <form id="login-form" class="login-card" autocomplete="off" onsubmit="return false;">
       <span class="login-logo">MEZUR</span>
       <span class="login-sub">Espace restaurateur</span>
+      <label for="login-email">Email</label>
+      <input type="email" id="login-email" autocomplete="username" inputmode="email">
       <label for="login-pw">Mot de passe</label>
       <input type="password" id="login-pw" placeholder="••••••••" autocomplete="current-password">
       <button type="submit" class="btn btn-gold">Se connecter</button>
       <p id="login-error" class="login-error" role="alert"></p>
-      <p class="login-hint"><a href="#" id="login-reset">Mot de passe oublié ? Réinitialiser l'accès</a></p>
-      <p id="login-reset-done" class="login-hint" style="color:var(--ok)" hidden>Accès réinitialisé — saisissez le mot de passe par défaut puis « Se connecter ».</p>
+      <p class="login-hint">Mot de passe oublié : il se réinitialise depuis Supabase, Authentication &rarr; Users.</p>
     </form>
   </div>
 
@@ -190,29 +191,21 @@
           </div>
 
           <div class="setting-block">
-            <h2>Mot de passe</h2>
-            <div class="pw-form">
-              <label>Nouveau mot de passe
-                <input type="password" id="new-pw" placeholder="Minimum 6 caractères">
-              </label>
-              <label>Confirmer le mot de passe
-                <input type="password" id="confirm-pw" placeholder="Répéter le mot de passe">
-              </label>
-              <button class="btn btn-gold" id="btn-change-pw">
-                <i data-lucide="key-round"></i> Changer le mot de passe
-              </button>
-            </div>
+            <h2>Accès au back-office</h2>
+            <p class="view-intro">
+              La connexion utilise un compte Supabase. Pour ajouter un membre de
+              l'équipe ou changer un mot de passe, passez par votre projet Supabase,
+              rubrique <strong>Authentication &rarr; Users</strong>. Aucun mot de
+              passe n'est stocké dans ce site.
+            </p>
           </div>
 
           <div class="setting-block info-banner">
-            <h3><i data-lucide="info"></i> Mode démo — données locales</h3>
-            <p>
-              Les modifications et les réservations sont enregistrées <strong>dans ce navigateur uniquement</strong>.
-              Pour qu'elles apparaissent sur le site en ligne ou sur un autre appareil, utilisez
-              <strong>Exporter / Importer</strong> ci-dessus. Une version connectée à un serveur pourra être
-              ajoutée plus tard sans rien changer à l'interface.
+            <h3><i data-lucide="info"></i> <span id="mode-titre">Mode de fonctionnement</span></h3>
+            <p id="mode-texte">
+              Vérification de la connexion au serveur…
             </p>
-            <span class="version-tag">Back Office v7</span>
+            <span class="version-tag">Back Office v8</span>
           </div>
         </section>
 
@@ -327,8 +320,10 @@
 
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script>window.MEZUR_NO_AUTOHYDRATE = true;</script>
-  <script src="js/content.js?v=7"></script>
-  <script src="js/admin.js?v=7"></script>
+  <script src="js/supabase-config.js?v=8"></script>
+  <script src="js/content.js?v=8"></script>
+  <script src="js/admin-data.js?v=8"></script>
+  <script src="js/admin.js?v=8"></script>
   <script>
     setTimeout(function () {
       if (!window.__MEZUR_ADMIN_READY) {

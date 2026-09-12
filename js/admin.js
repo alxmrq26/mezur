@@ -5,9 +5,7 @@
 'use strict';
 
 (function () {
-  const PW_KEY      = 'mezur_admin_pw';
   const SESSION_KEY = 'mezur_admin_auth';
-  const DEFAULT_PW  = 'mezur2026';
 
   let state = null;
   let dirty = false;
@@ -110,15 +108,10 @@
   function ssDel(k)  { try { sessionStorage.removeItem(k); }         catch (e) {} }
 
   /* ============ AUTH ============ */
-  function storedPw() {
-    const v = lsGet(PW_KEY);
-    if (!v) return DEFAULT_PW;
-    try { return atob(v); } catch (e) { return DEFAULT_PW; }
-  }
-  function setPw(pw) {
-    try { lsSet(PW_KEY, btoa(unescape(encodeURIComponent(pw)))); }
-    catch (e) { lsSet(PW_KEY, btoa(pw)); }
-  }
+  /* L'accès passe par un compte Supabase. Le mot de passe n'est plus
+     ni écrit dans le code, ni stocké dans le navigateur.
+     Sans Supabase configuré, le back-office s'ouvre en mode local :
+     il n'y a alors aucune donnée à protéger, tout est sur ce poste. */
 
   function openApp() {
     $('#login-screen').hidden = true;
@@ -127,37 +120,56 @@
   }
 
   function doLogin() {
-    try {
-      const pw = ($('#login-pw').value || '').trim();
-      if (pw === storedPw()) {
-        ssSet(SESSION_KEY, '1');
-        openApp();
-      } else {
-        $('#login-error').textContent = 'Mot de passe incorrect.';
-      }
-    } catch (err) {
-      const el = $('#login-error');
-      if (el) el.textContent = 'Erreur : ' + (err && err.message ? err.message : err);
+    const err = $('#login-error');
+    err.textContent = '';
+
+    if (!MezurData.estDistant()) {
+      ssSet(SESSION_KEY, '1');
+      openApp();
+      return;
     }
+
+    const email = ($('#login-email') && $('#login-email').value || '').trim();
+    const pw = ($('#login-pw').value || '').trim();
+    if (!email || !pw) {
+      err.textContent = 'Renseignez votre email et votre mot de passe.';
+      return;
+    }
+
+    const bouton = $('#login-form button[type="submit"]');
+    if (bouton) { bouton.disabled = true; bouton.textContent = 'Connexion…'; }
+
+    MezurData.connexion(email, pw)
+      .then(openApp)
+      .catch((e) => { err.textContent = e.message || 'Connexion impossible.'; })
+      .then(() => {
+        if (bouton) { bouton.disabled = false; bouton.textContent = 'Se connecter'; }
+      });
   }
 
   $('#login-form').addEventListener('submit', (e) => { e.preventDefault(); doLogin(); });
-  const loginBtn = $('#login-form button[type="submit"]');
-  if (loginBtn) loginBtn.addEventListener('click', (e) => { e.preventDefault(); doLogin(); });
 
-  const resetLink = $('#login-reset');
-  if (resetLink) resetLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    lsDel(PW_KEY);
-    $('#login-error').textContent = '';
-    const pwInput = $('#login-pw');
-    pwInput.value = DEFAULT_PW;
-    pwInput.focus();
-    $('#login-reset-done').hidden = false;
-  });
+  /* Sans serveur configuré, il n'y a pas de compte : on n'affiche pas
+     un formulaire de connexion qui ne servirait à rien. */
+  (function preparerEcranConnexion() {
+    if (MezurData.estDistant()) return;
+    const champEmail = $('#login-email');
+    const champPw = $('#login-pw');
+    if (champEmail && champEmail.previousElementSibling) {
+      champEmail.previousElementSibling.hidden = true;
+      champEmail.hidden = true;
+    }
+    if (champPw && champPw.previousElementSibling) {
+      champPw.previousElementSibling.hidden = true;
+      champPw.hidden = true;
+    }
+    const indice = document.querySelector('.login-hint');
+    if (indice) indice.textContent = 'Mode local : les données restent sur cet appareil.';
+  })();
 
   $('#btn-logout').addEventListener('click', () => {
     if (dirty && !confirm('Des modifications ne sont pas publiées. Se déconnecter quand même ?')) return;
+    MezurData.deconnexion();
     ssDel(SESSION_KEY);
     location.reload();
   });
@@ -195,6 +207,12 @@
     if (!state.menu) state.menu = {};
     Object.keys(MENU_LABELS).forEach((k) => { if (!Array.isArray(state.menu[k])) state.menu[k] = []; });
 
+    /* Les réservations viennent du serveur : on peint une première fois,
+       puis on repeint dès qu'elles sont là. */
+    MezurData.charger()
+      .then(() => { renderDashboard(); renderReservations(); updateResBadge(); })
+      .catch((e) => toast(e.message || 'Lecture des réservations impossible', 'err'));
+
     renderDashboard();
     renderMenuEditor();
     renderImagesEditor();
@@ -211,7 +229,7 @@
   function todayISO() { return new Date().toISOString().slice(0, 10); }
 
   function renderDashboard() {
-    const res   = MezurContent.getReservations();
+    const res   = MezurData.tout();
     const today = todayISO();
     const in7   = new Date(Date.now() + 7 * 864e5).toISOString().slice(0, 10);
     const active     = res.filter((r) => r.status !== 'annulee');
@@ -257,7 +275,7 @@
   }
 
   function updateResBadge() {
-    const n = MezurContent.getReservations().filter((r) => r.status === 'nouvelle').length;
+    const n = MezurData.tout().filter((r) => (r.status || 'nouvelle') === 'nouvelle').length;
     $('#nav-res-badge').textContent = n ? n : '';
   }
 
@@ -289,7 +307,7 @@
         </div>
         <div class="res-actions">
           <span class="badge ${esc(status)}">${STATUS_LABELS[status] || status}</span>
-          <select class="res-status" aria-label="Statut">${statusSelectHTML(status)}</select>
+          <select class="res-status" aria-label="Statut" data-precedent="${esc(status)}">${statusSelectHTML(status)}</select>
           <button class="icon-btn del res-del" title="Supprimer"><i data-lucide="trash-2"></i></button>
         </div>
       </div>`;
@@ -299,7 +317,7 @@
     const q      = ($('#res-search').value || '').toLowerCase().trim();
     const filter = $('#res-filter').value;
     const date   = ($('#res-date-filter') && $('#res-date-filter').value) || '';
-    let list = MezurContent.getReservations()
+    let list = MezurData.tout().slice()
       .sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
     if (filter !== 'all') list = list.filter((r) => (r.status || 'nouvelle') === filter);
     if (date)  list = list.filter((r) => r.date === date);
@@ -317,17 +335,26 @@
       const id = card.dataset.id;
       const sel = $('.res-status', card);
       if (sel) sel.addEventListener('change', () => {
-        const list = MezurContent.getReservations();
-        const r = list.find((x) => x.id === id);
-        if (r) { r.status = sel.value; MezurContent.saveReservations(list); }
-        renderReservations(); renderDashboard(); updateResBadge();
+        const precedent = sel.dataset.precedent || '';
+        sel.disabled = true;
+        MezurData.changerStatut(id, sel.value)
+          .then(() => { renderReservations(); renderDashboard(); updateResBadge(); })
+          .catch((e) => {
+            // On ne laisse pas l'écran afficher un statut que le serveur a refusé.
+            if (precedent) sel.value = precedent;
+            toast(e.message || 'Changement de statut impossible', 'err');
+          })
+          .then(() => { sel.disabled = false; });
       });
       const del = $('.res-del', card);
       if (del) del.addEventListener('click', () => {
         if (!confirm('Supprimer cette réservation définitivement ?')) return;
-        MezurContent.saveReservations(MezurContent.getReservations().filter((x) => x.id !== id));
-        renderReservations(); renderDashboard(); updateResBadge();
-        toast('Réservation supprimée');
+        MezurData.supprimer(id)
+          .then(() => {
+            renderReservations(); renderDashboard(); updateResBadge();
+            toast('Réservation supprimée');
+          })
+          .catch((e) => toast(e.message || 'Suppression impossible', 'err'));
       });
     });
   }
@@ -338,7 +365,7 @@
   if (resDateFilter) resDateFilter.addEventListener('change', renderReservations);
 
   $('#btn-export-csv').addEventListener('click', () => {
-    const list = MezurContent.getReservations();
+    const list = MezurData.tout();
     if (!list.length) { toast('Aucune réservation à exporter', 'err'); return; }
     const cols = Object.keys(CSV_HEADERS);
     const header = Object.values(CSV_HEADERS).join(';');
@@ -391,10 +418,13 @@
         message:   ($('#nr-message').value  || '').trim(),
         status:    $('#nr-status').value || 'confirmee'
       };
-      MezurContent.addReservation(newRes);
-      closeModal();
-      renderReservations(); renderDashboard(); updateResBadge();
-      toast('Réservation créée', 'ok');
+      MezurData.ajouter(newRes)
+        .then(() => {
+          closeModal();
+          renderReservations(); renderDashboard(); updateResBadge();
+          toast('Réservation créée', 'ok');
+        })
+        .catch((e) => toast(e.message || 'Création impossible', 'err'));
     });
   }
 
@@ -776,16 +806,31 @@
       clearDirty();
       toast('Contenu réinitialisé', 'ok');
     });
-    $('#btn-change-pw').addEventListener('click', () => {
-      const pw      = ($('#new-pw').value     || '').trim();
-      const confirm = ($('#confirm-pw').value || '').trim();
-      if (pw.length < 6) { toast('Mot de passe trop court (minimum 6 caractères)', 'err'); return; }
-      if (pw !== confirm) { toast('Les mots de passe ne correspondent pas', 'err'); return; }
-      setPw(pw);
-      $('#new-pw').value = '';
-      $('#confirm-pw').value = '';
-      toast('Mot de passe modifié', 'ok');
-    });
+    /* Le mot de passe appartient au compte Supabase : il se change
+       depuis Authentication → Users, pas depuis cette page. */
+
+    /* On dit clairement où vivent les données : c'est la différence
+       entre « le restaurant reçoit les réservations » et « elles
+       restent sur ce téléphone ». */
+    const modeTitre = $('#mode-titre');
+    const modeTexte = $('#mode-texte');
+    if (modeTitre && modeTexte) {
+      if (MezurData.estDistant()) {
+        modeTitre.textContent = 'Connecté au serveur';
+        modeTexte.innerHTML =
+          'Les réservations prises sur le site arrivent ici, et sont visibles ' +
+          'depuis n\'importe quel appareil. Les textes et images du site restent, ' +
+          'eux, enregistrés dans ce navigateur : utilisez <strong>Exporter / ' +
+          'Importer</strong> pour les transférer.';
+      } else {
+        modeTitre.textContent = 'Mode local, le site ne transmet rien';
+        modeTexte.innerHTML =
+          'Supabase n\'est pas configuré : <strong>les réservations prises sur le ' +
+          'site n\'arrivent pas jusqu\'ici</strong>, et le formulaire public renvoie ' +
+          'les clients vers le téléphone. Pour recevoir les demandes, remplissez ' +
+          '<code>js/supabase-config.js</code> et exécutez <code>sql/schema.sql</code>.';
+      }
+    }
     refreshIcons();
   }
 

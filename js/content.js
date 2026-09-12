@@ -1,5 +1,5 @@
 /* ============================================================
-   MEZUR — Couche de contenu (content layer)
+   MEZUR, Couche de contenu (content layer)
    Source unique de vérité pour le contenu éditable du site.
 
    Stockage : localStorage (démo front-only).
@@ -28,29 +28,29 @@
       reservationFond: 'images/c837a6_b8d8d3abc0454d2ba22d8bc30dd2bd89~mv2.avif'
     },
 
+    // Textes rédigés d'après la section 11 du benchmark de direction
+    // artistique : voix sobre, affirmative, personnelle. Les adjectifs
+    // « savoureux », « délicieux », « exceptionnel » y sont bannis, et
+    // Pierre et Thomas sont nommés plutôt que « l'équipe ».
     texts: {
-      // Slogan affiché sur la page d'accueil (site d'origine)
-      heroTagline:    "« Chaque assiette est un chef-d'œuvre... »",
-      // Paragraphe de bienvenue (site d'origine)
-      manifesteIntro: "Un restaurant où l'art de la gastronomie se mêle à une ambiance chaleureuse et épurée. Ici, chaque détail, des plats soigneusement élaborés à l'accueil attentif, est pensé pour offrir une expérience culinaire authentique et agréable. Mezur vous invite à découvrir une cuisine qui met en avant la simplicité et la qualité, dans un cadre où l'élégance discrète crée une atmosphère propice à la détente et à la dégustation.",
-      // Concept du chef (site d'origine, page « À propos »)
-      maisonQuote:    "« MEZUR est une expérience gastronomique authentique, où l'équilibre et la mesure guident chaque création. »",
-      // Histoire (site d'origine, page « À propos »)
-      maisonText1:    "MEZUR est né de la passion commune de Pierre et Thomas Souptez pour la gastronomie et le vin. Ensemble, ils ont créé un lieu de partage et de convivialité, où la cuisine raffinée et la sélection des vins se répondent harmonieusement.",
-      maisonText2:    "Leur histoire est celle de deux frères animés par le goût, le produit et le désir de faire vivre à chaque convive un moment agréable, gourmand et inoubliable.",
-      aproposIntro:   "Chez MEZUR, Pierre incarne l'élégance de la simplicité. Animé par une grande précision technique, il propose une cuisine raffinée où chaque ingrédient est soigneusement mis en valeur."
+      heroTagline:    "La précision au service du plaisir.",
+      manifesteIntro: "MEZUR est né d'une obsession : faire juste. Pierre cuisine, Thomas choisit les vins. Le nom dit le reste, la mesure, rien en excès.",
+      maisonQuote:    "Pierre cuisine. Thomas sélectionne les vins. Ensemble, ils créent les conditions du plaisir.",
+      maisonText1:    "Deux frères, une brasserie ouverte en 2026 au cœur de Valence. L'un vient de la cuisine, l'autre du vin. Ils ont monté MEZUR pour mettre les deux dans la même pièce.",
+      maisonText2:    "Le reste tient en une idée : servir ce qu'on aimerait qu'on nous serve.",
+      aproposIntro:   "Pierre travaille court : peu d'éléments dans l'assiette, chacun à sa place. C'est une cuisine qui se lit."
     },
 
     // Menu de la maison (servi le midi uniquement du lundi au vendredi, hors
     // jours fériés). Formule : plat seul 19 € / entrée-plat ou plat-dessert 24 €
     // / entrée-plat-dessert 29 €. Le site d'origine ne détaille ni description
-    // ni prix par plat — on n'invente donc rien.
+    // ni prix par plat, on n'invente donc rien.
     menu: {
       // Formules du menu de la maison (servi le midi, lundi–vendredi)
       formules: [
-        { nom: 'Plat seul',                      desc: 'Menu de la maison — midi uniquement (lun.–ven.)', prix: '19 €' },
-        { nom: 'Entrée + Plat  ou  Plat + Dessert', desc: 'Menu de la maison — midi uniquement (lun.–ven.)', prix: '24 €' },
-        { nom: 'Entrée + Plat + Dessert',         desc: 'Menu de la maison — midi uniquement (lun.–ven.)', prix: '29 €' }
+        { nom: 'Plat seul',                      desc: 'Menu de la maison, midi uniquement (lun.–ven.)', prix: '19 €' },
+        { nom: 'Entrée + Plat  ou  Plat + Dessert', desc: 'Menu de la maison, midi uniquement (lun.–ven.)', prix: '24 €' },
+        { nom: 'Entrée + Plat + Dessert',         desc: 'Menu de la maison, midi uniquement (lun.–ven.)', prix: '29 €' }
       ],
       entrees: [
         { nom: 'Tomates, Burrata',        desc: '', prix: '' },
@@ -64,22 +64,32 @@
         { nom: "Fraises, Herbes, Huile d'olive", desc: '', prix: '' },
         { nom: 'Pavlova, Citron',                 desc: '', prix: '' }
       ],
-      // Le site d'origine ne publie pas de carte des vins nommée.
-      vins: []
+      // Ces quatre références étaient codées en dur dans menu.html. Elles
+      // sont remontées ici pour être modifiables depuis le back-office.
+      // À faire confirmer par Thomas : bouteilles réellement en cave et
+      // prix à jour.
+      vins: [
+        { nom: 'Crozes-Hermitage Blanc',    desc: 'Domaine du Murinais · Marsanne, Roussanne · Drôme', prix: '38 € / btl' },
+        { nom: 'Saint-Joseph Rouge',        desc: 'Yves Cuilleron · Syrah · Vallée du Rhône',          prix: '52 € / btl' },
+        { nom: 'Champagne Blanc de Blancs', desc: 'Pierre Peters · Extra Brut · Côte des Blancs',      prix: '88 € / btl' },
+        { nom: 'Côtes du Rhône Rosé',       desc: 'Château Maris · Grenache, Cinsault · Languedoc',    prix: '28 € / btl' }
+      ]
     },
 
+    // Source unique des horaires pour tout le site : footers, barre
+    // mobile, page de réservation et créneaux du formulaire.
     hours: [
-      { jour: 'Lundi',    texte: '12h00–14h00  ·  19h00–22h00', ferme: false },
-      { jour: 'Mardi',    texte: '12h00–14h00  ·  19h00–22h00', ferme: false },
-      { jour: 'Mercredi', texte: '12h00–14h00  ·  19h00–22h00', ferme: false },
-      { jour: 'Jeudi',    texte: '12h00–14h00  ·  19h00–22h00', ferme: false },
-      { jour: 'Vendredi', texte: '12h00–14h00  ·  19h00–22h00', ferme: false },
-      { jour: 'Samedi',   texte: '12h00–14h00  ·  19h00–22h00', ferme: false },
+      { jour: 'Lundi',    texte: '12h–14h · 19h–22h', ferme: false },
+      { jour: 'Mardi',    texte: '12h–14h · 19h–22h', ferme: false },
+      { jour: 'Mercredi', texte: '12h–14h · 19h–22h', ferme: false },
+      { jour: 'Jeudi',    texte: '12h–14h · 19h–22h', ferme: false },
+      { jour: 'Vendredi', texte: '12h–14h · 19h–22h', ferme: false },
+      { jour: 'Samedi',   texte: '12h–14h · 19h–22h', ferme: false },
       { jour: 'Dimanche', texte: 'Fermé', ferme: true }
     ],
 
     contact: {
-      adresse: "4 Pl. de l'Université\n26000 Valence\nFrance",
+      adresse: "4 Rue de l'Université\n26000 Valence",
       tel: '04 75 41 22 86',
       email: 'mezurvalence@gmail.com',
       instagram: 'Instagram'
@@ -190,10 +200,19 @@
   };
 
   /* Échappe les chemins de fichier (espaces, etc.) pour url() CSS.
-     Les dataURL passent inchangés. */
+     Les dataURL passent inchangés.
+
+     Le chemin est résolu en URL absolue : une url() portée par une
+     custom property est interprétée relativement à la feuille de
+     styles qui la consomme (css/), pas au document. Un chemin relatif
+     pointait donc vers css/images/… et l'image ne se chargeait pas. */
   function cssUrl(src) {
     if (src.startsWith('data:')) return src;
-    return src.replace(/"/g, '\\"');
+    try {
+      return new URL(src, document.baseURI).href.replace(/"/g, '\\"');
+    } catch (e) {
+      return src.replace(/"/g, '\\"');
+    }
   }
 
   function esc(s) {
@@ -213,14 +232,16 @@
     );
   }
 
+  // Les couleurs sur fond navy sont portées par .menu-section--dark
+  // dans la feuille de styles, plus par des attributs style en ligne.
   function vinMarkup(item) {
     return (
-      '<div class="menu-entry" style="border-bottom-color: rgba(255,255,255,0.1);">' +
+      '<div class="menu-entry">' +
         '<div class="menu-entry-left">' +
-          '<p class="menu-entry-name" style="color: var(--blanc);">' + esc(item.nom) + '</p>' +
-          '<p class="menu-entry-desc" style="color: rgba(255,255,255,0.45);">' + esc(item.desc) + '</p>' +
+          '<p class="menu-entry-name">' + esc(item.nom) + '</p>' +
+          (item.desc ? '<p class="menu-entry-desc">' + esc(item.desc) + '</p>' : '') +
         '</div>' +
-        '<span class="menu-entry-price" style="color: var(--or);">' + esc(item.prix) + '</span>' +
+        (item.prix ? '<span class="menu-entry-price">' + esc(item.prix) + '</span>' : '') +
       '</div>'
     );
   }
@@ -256,6 +277,42 @@
         .map((h) => esc(h.jour) + ' : ' + esc(h.texte))
         .join('<br>');
     });
+
+    // Regroupé : les jours consécutifs partageant le même horaire sont
+    // fusionnés en une plage. Les horaires n'existent qu'ici, ce qui
+    // évite les versions contradictoires d'une page à l'autre.
+    const plages = groupHours(c.hours);
+
+    document.querySelectorAll('[data-mz-hours="compact"]').forEach((el) => {
+      el.innerHTML = plages
+        .map((p) => esc(p.libelle) + '<br>' + esc(p.texte))
+        .join('<br>');
+    });
+
+    // Une seule ligne, pour la barre de réservation mobile.
+    document.querySelectorAll('[data-mz-hours="inline"]').forEach((el) => {
+      const ouverts = plages.filter((p) => !p.ferme);
+      el.textContent = (ouverts[0] ? ouverts[0].libelle : '') + ' · Valence';
+    });
+  }
+
+  // ['Lundi'..'Samedi' identiques, 'Dimanche' fermé]
+  //   → [{ libelle: 'Lundi – Samedi', texte: '…' }, { libelle: 'Dimanche', … }]
+  function groupHours(hours) {
+    const out = [];
+    hours.forEach((h) => {
+      const last = out[out.length - 1];
+      if (last && last.texte === h.texte && last.ferme === !!h.ferme) {
+        last.fin = h.jour;
+      } else {
+        out.push({ debut: h.jour, fin: null, texte: h.texte, ferme: !!h.ferme });
+      }
+    });
+    return out.map((p) => ({
+      libelle: p.fin ? p.debut + ' – ' + p.fin : p.debut,
+      texte: p.texte,
+      ferme: p.ferme
+    }));
   }
 
   function renderContact(c) {
