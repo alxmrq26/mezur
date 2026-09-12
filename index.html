@@ -82,10 +82,13 @@
           muted
           loop
           playsinline
-          preload="metadata"
+          webkit-playsinline
+          preload="auto"
           poster="images/hero-poster.jpg"
           aria-hidden="true"
         >
+          <source src="images/hero-mobile.webm" type="video/webm" media="(max-width: 768px)">
+          <source src="images/hero-mobile.mp4" type="video/mp4" media="(max-width: 768px)">
           <source src="images/hero.webm" type="video/webm">
           <source src="images/hero.mp4" type="video/mp4">
         </video>
@@ -340,13 +343,32 @@
         </div>
       </div>
 
-      <p style="text-align:center; margin-top: 32px; font-family:'Jost',sans-serif; font-size:14px; letter-spacing:0.04em; color: var(--navy);">
-        Plat seul 19 € &nbsp;·&nbsp; Entrée-plat ou plat-dessert 24 € &nbsp;·&nbsp; Entrée-plat-dessert 29 €<br>
-        <span style="opacity:0.6;">Servi le midi, du lundi au vendredi (hors jours fériés)</span>
-      </p>
-
       <div class="menu-progress-bar" aria-hidden="true">
         <div class="menu-progress-fill"></div>
+      </div>
+
+      <!-- Formules du midi -->
+      <div class="formules-section">
+        <p class="formules-eyebrow">Formules du midi · Lun – Ven</p>
+        <div class="formules-grid">
+          <div class="formule-card">
+            <span class="formule-label">Plat seul</span>
+            <span class="formule-price">19 <sup>€</sup></span>
+            <span class="formule-detail">Un plat au choix</span>
+          </div>
+          <div class="formule-card formule-card--featured">
+            <span class="formule-badge">Le plus choisi</span>
+            <span class="formule-label">Entrée + Plat<br>ou Plat + Dessert</span>
+            <span class="formule-price">24 <sup>€</sup></span>
+            <span class="formule-detail">Deux temps</span>
+          </div>
+          <div class="formule-card">
+            <span class="formule-label">Entrée + Plat<br>+ Dessert</span>
+            <span class="formule-price">29 <sup>€</sup></span>
+            <span class="formule-detail">Le repas complet</span>
+          </div>
+        </div>
+        <p class="formules-note">Hors jours fériés &nbsp;·&nbsp; Menu du soir à la carte</p>
       </div>
 
       <div class="menu-apercu-footer">
