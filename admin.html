@@ -36,8 +36,7 @@
       <input type="password" id="login-pw" placeholder="••••••••" autocomplete="current-password">
       <button type="submit" class="btn btn-gold">Se connecter</button>
       <p id="login-error" class="login-error" role="alert"></p>
-      <p class="login-hint"><a href="#" id="login-reset">Mot de passe oublié ? Réinitialiser l'accès</a></p>
-      <p id="login-reset-done" class="login-hint" style="color:var(--ok)" hidden>Accès réinitialisé — saisissez le mot de passe par défaut puis « Se connecter ».</p>
+      <p id="login-note" class="login-hint" hidden></p>
     </form>
   </div>
 
@@ -191,17 +190,15 @@
 
           <div class="setting-block">
             <h2>Mot de passe</h2>
-            <div class="pw-form">
-              <label>Nouveau mot de passe
-                <input type="password" id="new-pw" placeholder="Minimum 6 caractères">
-              </label>
-              <label>Confirmer le mot de passe
-                <input type="password" id="confirm-pw" placeholder="Répéter le mot de passe">
-              </label>
-              <button class="btn btn-gold" id="btn-change-pw">
-                <i data-lucide="key-round"></i> Changer le mot de passe
-              </button>
-            </div>
+            <p>
+              Le mot de passe d'accès n'est plus stocké dans le site : il vit dans la variable
+              d'environnement <strong>ADMIN_PASSWORD</strong> sur Vercel et n'est jamais envoyé au navigateur.
+            </p>
+            <p>
+              Pour le modifier : <strong>Vercel → le projet → Settings → Environment Variables</strong>,
+              modifiez <code>ADMIN_PASSWORD</code>, enregistrez, puis relancez un déploiement
+              (<strong>Deployments → ··· → Redeploy</strong>). Le changement déconnecte les sessions ouvertes.
+            </p>
           </div>
 
           <div class="setting-block info-banner">
@@ -328,7 +325,7 @@
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script>window.MEZUR_NO_AUTOHYDRATE = true;</script>
   <script src="js/content.js?v=7"></script>
-  <script src="js/admin.js?v=7"></script>
+  <script src="js/admin.js?v=8"></script>
   <script>
     setTimeout(function () {
       if (!window.__MEZUR_ADMIN_READY) {
