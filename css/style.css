@@ -444,6 +444,19 @@ a {
   height: 115%;
   object-fit: cover;
   object-position: center;
+  pointer-events: none;
+}
+
+/* Certains navigateurs (Safari/iOS notamment) affichent un gros bouton
+   play natif tant que l'autoplay n'a pas démarré : on le masque,
+   la lecture est pilotée en JS (voir initHeroVideo). */
+.hero-media video::-webkit-media-controls,
+.hero-media video::-webkit-media-controls-start-playback-button,
+.hero-media video::-webkit-media-controls-play-button {
+  display: none !important;
+  -webkit-appearance: none;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .hero-overlay {
@@ -517,8 +530,13 @@ a {
 .hero-scroll {
   position: absolute;
   bottom: 44px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  /* Centré via marges auto plutôt que translateX(-50%) : GSAP reprend
+     la main sur "transform" dès qu'il anime une autre propriété de cet
+     élément (opacity) et écrase le translateX, ce qui décale le bloc. */
+  width: fit-content;
+  margin: 0 auto;
   z-index: 2;
   display: flex;
   flex-direction: column;

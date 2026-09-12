@@ -185,10 +185,12 @@ function initHeroVideo() {
 
   // Pause hors écran (économie batterie/CPU = plus de fluidité ailleurs),
   // relance au retour dans le viewport.
+  let isInView = true;
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        isInView = entry.isIntersecting;
+        if (isInView) {
           tryPlay();
         } else {
           video.pause();
@@ -197,6 +199,14 @@ function initHeroVideo() {
     }, { threshold: 0.1 });
     io.observe(video);
   }
+
+  // Le navigateur met la vidéo en pause quand l'onglet passe en arrière-
+  // plan ; sans ce relais elle ne repart pas toute seule au retour.
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && isInView) {
+      tryPlay();
+    }
+  });
 }
 
 /* ============ STICKY NAV ============ */
