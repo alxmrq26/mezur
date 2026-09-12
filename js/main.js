@@ -149,6 +149,56 @@ function initHeroAnimation() {
   }
 }
 
+/* ============ HERO VIDEO — AUTOPLAY ROBUSTE (MOBILE) ============ */
+
+function initHeroVideo() {
+  const video = document.querySelector('.hero-media video');
+  if (!video) return;
+
+  // Certains navigateurs mobiles ignorent l'autoplay si ces propriétés
+  // ne sont pas aussi posées en JS (pas seulement en attributs HTML).
+  video.muted = true;
+  video.playsInline = true;
+
+  const tryPlay = () => {
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Autoplay bloqué par le navigateur (ex: Low Power Mode iOS) :
+        // on relance dès la première interaction, où qu'elle ait lieu
+        // sur la page — la vidéo est sous l'overlay/contenu du hero,
+        // donc un tap dessus ne l'atteint jamais directement.
+        const resume = () => {
+          video.play().catch(() => {});
+        };
+        document.addEventListener('touchstart', resume, { once: true, passive: true });
+        document.addEventListener('click', resume, { once: true });
+      });
+    }
+  };
+
+  if (video.readyState >= 2) {
+    tryPlay();
+  } else {
+    video.addEventListener('loadeddata', tryPlay, { once: true });
+  }
+
+  // Pause hors écran (économie batterie/CPU = plus de fluidité ailleurs),
+  // relance au retour dans le viewport.
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          tryPlay();
+        } else {
+          video.pause();
+        }
+      });
+    }, { threshold: 0.1 });
+    io.observe(video);
+  }
+}
+
 /* ============ STICKY NAV ============ */
 
 function initNav() {
@@ -802,6 +852,7 @@ function init() {
   if (!isTouch()) initCursor();
   splitHeroTitle();
   initMobileBottomBar();
+  initHeroVideo();
 
   // Check if on homepage (has loader)
   const loader = document.querySelector('.loader');

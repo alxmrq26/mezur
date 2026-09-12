@@ -24,7 +24,7 @@ body {
   background: var(--blanc);
   color: var(--slate);
   font-weight: 300;
-  line-height: 1.75;
+  line-height: 1.65;
   overflow-x: hidden;
   cursor: none; /* Custom cursor on desktop */
 }
@@ -81,9 +81,9 @@ a {
   --text-h1: clamp(40px, 5vw, 64px);
   --text-h2: clamp(32px, 4vw, 52px);
   --text-h3: clamp(22px, 2.5vw, 32px);
-  --text-body-lg: 17px;
-  --text-body: 15px;
-  --text-body-sm: 13px;
+  --text-body-lg: 18px;
+  --text-body: 16px;
+  --text-body-sm: 14px;
   --text-caption: 11px;
 
   /* Spacing */
@@ -149,7 +149,7 @@ a {
   font-family: var(--font-display);
   font-size: clamp(42px, 8vw, 80px);
   font-weight: 300;
-  letter-spacing: 0.35em;
+  letter-spacing: 0.18em;
   color: var(--blanc);
   text-transform: uppercase;
   opacity: 0;
@@ -196,7 +196,7 @@ a {
   font-family: var(--font-display);
   font-size: 20px;
   font-weight: 300;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.2em;
   color: var(--blanc);
   text-transform: uppercase;
 }
@@ -212,7 +212,7 @@ a {
   font-family: var(--font-body);
   font-size: 10px;
   font-weight: 400;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.7);
   position: relative;
@@ -245,7 +245,7 @@ a {
   font-family: var(--font-body);
   font-size: 10px;
   font-weight: 400;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--blanc);
   background: var(--or);
@@ -309,7 +309,7 @@ a {
   font-family: var(--font-body);
   font-size: 10px;
   font-weight: 400;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
   transition: transform 220ms var(--ease-premium),
@@ -385,7 +385,7 @@ a {
   font-family: var(--font-body);
   font-size: var(--text-caption);
   font-weight: 400;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--or);
   margin-bottom: 20px;
@@ -396,7 +396,7 @@ a {
   font-family: var(--font-body);
   font-size: 9px;
   font-weight: 400;
-  letter-spacing: 0.45em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--stone);
   margin-bottom: 40px;
@@ -472,7 +472,7 @@ a {
   font-family: var(--font-body);
   font-size: 10px;
   font-weight: 400;
-  letter-spacing: 0.45em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--or);
   margin-bottom: 36px;
@@ -483,7 +483,7 @@ a {
   font-family: var(--font-display);
   font-size: var(--text-hero);
   font-weight: 300;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.12em;
   line-height: 0.92;
   color: var(--blanc);
   margin-bottom: 28px;
@@ -531,7 +531,7 @@ a {
   font-family: var(--font-body);
   font-size: 9px;
   font-weight: 400;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.4);
 }
@@ -602,7 +602,7 @@ a {
   font-family: var(--font-body);
   font-size: 9px;
   font-weight: 400;
-  letter-spacing: 0.45em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--or);
   display: block;
@@ -712,7 +712,7 @@ a {
   font-family: var(--font-body);
   font-size: 9px;
   font-weight: 400;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--or);
   margin-bottom: 8px;
@@ -837,7 +837,7 @@ a {
   font-size: var(--text-body);
   font-weight: 300;
   color: rgba(255, 255, 255, 0.80);
-  line-height: 1.85;
+  line-height: 1.75;
   margin-bottom: 48px;
 }
 
@@ -864,7 +864,7 @@ a {
   font-family: var(--font-body);
   font-size: 10px;
   font-weight: 400;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--or);
 }
@@ -959,7 +959,7 @@ a {
   font-family: var(--font-body);
   font-size: 9px;
   font-weight: 400;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--or);
   margin-bottom: 8px;
@@ -1011,6 +1011,128 @@ a {
   padding: 0 var(--container-pad);
 }
 
+/* ============ FORMULES DU MIDI ============ */
+
+.formules-section {
+  padding: 64px var(--container-pad) 0;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.formules-eyebrow {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--or);
+  margin-bottom: 32px;
+}
+
+.formules-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.formule-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 24px 32px;
+  border: 1px solid rgba(11, 31, 75, 0.12);
+  background: var(--blanc);
+  transition: border-color 300ms, box-shadow 300ms;
+}
+
+.formule-card:hover {
+  border-color: rgba(11, 31, 75, 0.25);
+  box-shadow: 0 8px 32px rgba(11, 31, 75, 0.07);
+}
+
+.formule-card--featured {
+  border-color: var(--or);
+  background: var(--navy);
+}
+
+.formule-card--featured:hover {
+  border-color: var(--or);
+  box-shadow: 0 12px 40px rgba(11, 31, 75, 0.18);
+}
+
+.formule-badge {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--or);
+  color: var(--navy);
+  padding: 5px 14px;
+  white-space: nowrap;
+}
+
+.formule-label {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.35;
+  color: var(--navy);
+  margin-bottom: 20px;
+}
+
+.formule-card--featured .formule-label {
+  color: var(--blanc);
+}
+
+.formule-price {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--navy);
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+
+.formule-price sup {
+  font-size: 22px;
+  vertical-align: super;
+  font-weight: 300;
+}
+
+.formule-card--featured .formule-price {
+  color: var(--or);
+}
+
+.formule-detail {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(11, 31, 75, 0.45);
+}
+
+.formule-card--featured .formule-detail {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.formules-note {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: rgba(11, 31, 75, 0.45);
+}
+
 /* ============ PREUVE SOCIALE ============ */
 
 .social-proof {
@@ -1049,7 +1171,7 @@ a {
   font-family: var(--font-body);
   font-size: 10px;
   font-weight: 400;
-  letter-spacing: 0.35em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--stone);
 }
@@ -1083,7 +1205,7 @@ a {
   font-family: var(--font-body);
   font-size: 10px;
   font-weight: 400;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--stone);
 }
@@ -1134,7 +1256,7 @@ a {
   font-size: var(--text-body);
   font-weight: 300;
   color: rgba(255, 255, 255, 0.80);
-  letter-spacing: 0.15em;
+  line-height: 1.7;
   margin-bottom: 52px;
 }
 
@@ -1147,8 +1269,8 @@ a {
   font-family: var(--font-body);
   font-size: 12px;
   font-weight: 300;
-  letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.65);
   transition: color 200ms;
 }
 
@@ -1179,7 +1301,7 @@ a {
   font-family: var(--font-display);
   font-size: 28px;
   font-weight: 300;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.2em;
   color: var(--blanc);
   text-transform: uppercase;
   margin-bottom: 8px;
@@ -1189,7 +1311,7 @@ a {
   font-family: var(--font-body);
   font-size: 10px;
   font-weight: 300;
-  letter-spacing: 0.35em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--or);
   margin-bottom: 32px;
@@ -1199,7 +1321,7 @@ a {
   font-family: var(--font-body);
   font-size: 9px;
   font-weight: 400;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--blanc);
   margin-bottom: 20px;
@@ -1208,22 +1330,22 @@ a {
 .footer-col p,
 .footer-col address {
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 300;
   font-style: normal;
-  line-height: 1.85;
+  line-height: 1.7;
   color: rgba(255, 255, 255, 0.70);
 }
 
 .footer-col a {
   display: block;
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.70);
   transition: color 200ms;
   margin-bottom: 8px;
-  line-height: 1.8;
+  line-height: 1.65;
 }
 
 .footer-col a:hover {
@@ -1253,7 +1375,7 @@ a {
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   padding: 24px var(--container-pad);
   max-width: var(--container-max);
   margin: 0 auto;
@@ -1264,8 +1386,8 @@ a {
   font-family: var(--font-body);
   font-size: 11px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.50);
-  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.04em;
 }
 
 @media (max-width: 900px) {
@@ -1333,7 +1455,7 @@ a {
   font-size: var(--text-h1);
   font-weight: 300;
   color: var(--blanc);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.02em;
   line-height: 1.05;
 }
 
@@ -1354,7 +1476,7 @@ a {
   font-family: var(--font-body);
   font-size: 9px;
   font-weight: 400;
-  letter-spacing: 0.5em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--or);
   margin-bottom: 40px;
@@ -1389,7 +1511,7 @@ a {
 
 .menu-entry-desc {
   font-family: var(--font-display);
-  font-size: 13px;
+  font-size: 14px;
   font-style: italic;
   color: var(--stone);
   line-height: 1.5;
@@ -1499,7 +1621,7 @@ a {
   font-family: var(--font-body);
   font-size: 9px;
   font-weight: 400;
-  letter-spacing: 0.35em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--or);
 }
@@ -1515,10 +1637,10 @@ a {
 
 .about-text p {
   font-family: var(--font-body);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 300;
   color: var(--slate);
-  line-height: 1.9;
+  line-height: 1.75;
   margin-bottom: 20px;
 }
 
@@ -1570,7 +1692,7 @@ a {
   font-size: 14px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.80);
-  line-height: 1.85;
+  line-height: 1.7;
 }
 
 @media (max-width: 768px) {
@@ -1609,7 +1731,7 @@ a {
   font-size: 14px;
   font-weight: 300;
   color: var(--slate);
-  line-height: 1.9;
+  line-height: 1.75;
   margin-bottom: 40px;
 }
 
@@ -1624,7 +1746,7 @@ a {
   font-family: var(--font-body);
   font-size: 10px;
   font-weight: 400;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--stone);
   min-width: 80px;
@@ -1679,7 +1801,7 @@ a {
   font-family: var(--font-body);
   font-size: 9px;
   font-weight: 400;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--stone);
 }
@@ -1864,7 +1986,7 @@ a {
     font-size: 15px;
     font-weight: 400;
     color: var(--blanc);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.04em;
   }
 
   .mobile-bottom-bar-hours {
@@ -1872,7 +1994,7 @@ a {
     font-size: 9px;
     font-weight: 300;
     color: rgba(255, 255, 255, 0.45);
-    letter-spacing: 0.15em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
@@ -1895,7 +2017,7 @@ a {
 
   .logo {
     font-size: 16px;
-    letter-spacing: 0.35em;
+    letter-spacing: 0.18em;
   }
 
   /* Menu mobile overlay amélioré */
@@ -1921,7 +2043,7 @@ a {
     display: block;
     font-size: 28px;
     font-family: var(--font-display);
-    letter-spacing: 0.05em;
+    letter-spacing: 0.02em;
     text-transform: none;
     color: var(--blanc);
     padding: 22px 0;
@@ -1943,13 +2065,13 @@ a {
   /* Fix title letter-spacing on mobile so MEZUR fits on one line */
   .hero-title {
     font-size: clamp(56px, 20vw, 80px);
-    letter-spacing: 0.12em;
+    letter-spacing: 0.06em;
     line-height: 0.95;
   }
 
   .hero-eyebrow {
     font-size: 9px;
-    letter-spacing: 0.3em;
+    letter-spacing: 0.1em;
     margin-bottom: 24px;
   }
 
@@ -1980,7 +2102,12 @@ a {
   .hero-media video,
   .hero-media img {
     height: 100%;
-    transform: none !important;
+    transform: translateZ(0) !important;
+    will-change: auto;
+    backface-visibility: hidden;
+  }
+
+  .hero-media {
     will-change: auto;
   }
 
@@ -2150,6 +2277,68 @@ a {
   .menu-apercu-footer .btn {
     width: 100%;
     text-align: center;
+  }
+
+  /* ---- FORMULES MOBILE ---- */
+  .formules-section {
+    padding: 48px 20px 0;
+  }
+
+  .formules-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .formule-card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 20px;
+    text-align: left;
+  }
+
+  .formule-card--featured {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 32px 20px 28px;
+  }
+
+  .formule-label {
+    font-size: 16px;
+    margin-bottom: 0;
+    flex: 1;
+  }
+
+  .formule-card--featured .formule-label {
+    margin-bottom: 16px;
+  }
+
+  .formule-price {
+    font-size: 44px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .formule-price sup {
+    font-size: 18px;
+  }
+
+  .formule-card--featured .formule-price {
+    margin-bottom: 10px;
+  }
+
+  .formule-detail {
+    display: none;
+  }
+
+  .formule-card--featured .formule-detail {
+    display: block;
+  }
+
+  .formule-badge {
+    font-size: 8px;
+    padding: 4px 12px;
   }
 
   /* ---- PREUVE SOCIALE MOBILE ---- */
