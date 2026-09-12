@@ -328,6 +328,25 @@
     }
     .slot-btn:hover { background: var(--blanc); border-color: rgba(11,31,75,0.18); }
     .slot-btn.active { background: var(--or); color: var(--blanc); border-color: var(--or); }
+    .slot-btn:disabled,
+    .slot-btn.slot-disabled {
+      cursor: not-allowed;
+      opacity: 0.35;
+      background: var(--pearl);
+      color: var(--stone);
+      border-color: transparent;
+      text-decoration: line-through;
+    }
+    .slot-btn:disabled:hover,
+    .slot-btn.slot-disabled:hover { background: var(--pearl); border-color: transparent; }
+    .slot-group-full-note {
+      font-family: var(--font-body);
+      font-size: 11.5px;
+      font-weight: 300;
+      color: var(--stone);
+      font-style: italic;
+      margin-top: 6px;
+    }
 
     /* Covers stepper */
     .covers-label {
@@ -888,6 +907,7 @@
                     <button type="button" class="slot-btn" data-time="13:30" data-service="midi">13h30</button>
                     <button type="button" class="slot-btn" data-time="14:00" data-service="midi">14h00</button>
                   </div>
+                  <p class="slot-group-full-note" id="midi-full-note" hidden>Il n'y a plus de créneau disponible pour le déjeuner aujourd'hui.</p>
                 </div>
 
                 <div class="slot-group-section" style="margin-top:14px;">
@@ -903,6 +923,7 @@
                     <button type="button" class="slot-btn" data-time="21:00" data-service="soir">21h00</button>
                     <button type="button" class="slot-btn" data-time="21:30" data-service="soir">21h30</button>
                   </div>
+                  <p class="slot-group-full-note" id="soir-full-note" hidden>Il n'y a plus de créneau disponible pour le dîner aujourd'hui.</p>
                 </div>
 
                 <input type="hidden" id="res-time" name="time">
@@ -1275,13 +1296,60 @@
     /* Lucide */
     if (window.lucide) lucide.createIcons();
 
-    /* Date min */
+    /* Date min — helper: today's date as YYYY-MM-DD in local time */
+    function todayISO() {
+      const d = new Date();
+      const tz = d.getTimezoneOffset() * 60000;
+      return new Date(d - tz).toISOString().split('T')[0];
+    }
+
     const dateInput = document.getElementById('res-date');
-    if (dateInput) dateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
+    if (dateInput) dateInput.setAttribute('min', todayISO());
+
+    /* Disable time slots that are already past when the selected date is today */
+    function refreshSlotAvailability() {
+      const isToday = dateInput.value === todayISO();
+      const now = new Date();
+      const nowMinutes = now.getHours() * 60 + now.getMinutes();
+      let selectionCleared = false;
+
+      document.querySelectorAll('.slot-btn').forEach(btn => {
+        const [h, m] = btn.dataset.time.split(':').map(Number);
+        const slotMinutes = h * 60 + m;
+        const isPast = isToday && slotMinutes <= nowMinutes;
+
+        btn.disabled = isPast;
+        btn.classList.toggle('slot-disabled', isPast);
+
+        if (isPast && btn.classList.contains('active')) {
+          btn.classList.remove('active');
+          selectionCleared = true;
+        }
+      });
+
+      if (selectionCleared) {
+        document.getElementById('res-time').value = '';
+        document.getElementById('res-service').value = '';
+      }
+
+      ['midi', 'soir'].forEach(service => {
+        const note = document.getElementById(service + '-full-note');
+        if (!note) return;
+        const btns = document.querySelectorAll('.slot-btn[data-service="' + service + '"]');
+        const allPast = Array.from(btns).every(b => b.disabled);
+        note.hidden = !allPast;
+      });
+    }
+
+    dateInput.addEventListener('change', refreshSlotAvailability);
+    refreshSlotAvailability();
+    /* Re-check every minute in case the page stays open across a slot's cutoff */
+    setInterval(refreshSlotAvailability, 60000);
 
     /* Time slots — no prior service selection needed */
     document.querySelectorAll('.slot-btn').forEach(btn => {
       btn.addEventListener('click', () => {
+        if (btn.disabled) return;
         document.querySelectorAll('.slot-btn').forEach(s => s.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById('res-time').value = btn.dataset.time;
