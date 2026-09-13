@@ -7,8 +7,17 @@
 -- est visible par tout le monde dans le code de la page. Elle ne doit
 -- donc jamais pouvoir LIRE les réservations, sinon n'importe quel
 -- visiteur récupérerait le nom et le téléphone de tous les clients.
--- Elle peut seulement écrire. La lecture est réservée aux comptes
--- authentifiés, c'est-à-dire au back-office.
+-- Elle peut seulement écrire.
+--
+-- La lecture se fait côté serveur, dans api/reservations.js, avec la
+-- clé « service_role » rangée dans les variables d'environnement
+-- Vercel. Cette clé ignore les règles ci-dessous par construction :
+-- ce qui protège l'accès, c'est le cookie de session vérifié par
+-- api/admin-auth.js avant toute requête.
+--
+-- Les règles « authenticated » plus bas ne servent donc pas au site.
+-- Elles sont conservées pour que l'éditeur SQL de Supabase et un
+-- éventuel client connecté restent utilisables sans rouvrir la table.
 -- ============================================================
 
 -- ---------- Réservations ----------
@@ -42,7 +51,9 @@ create policy "public depose une reservation"
   to anon
   with check (true);
 
--- Le back-office (connecté) lit et gère.
+-- Un utilisateur connecté à Supabase lit et gère (éditeur SQL,
+-- outils internes). Le back office du site, lui, passe par la clé
+-- de service et n'est pas concerné par ces règles.
 drop policy if exists "staff lit les reservations" on public.reservations;
 create policy "staff lit les reservations"
   on public.reservations for select

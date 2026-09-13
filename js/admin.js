@@ -5,7 +5,14 @@
 'use strict';
 
 (function () {
-  const SESSION_KEY = 'mezur_admin_auth';
+  const AUTH_API    = '/api/admin-auth';
+  const SESSION_KEY = 'mezur_admin_auth';   // repli local uniquement
+  const LEGACY_PW_KEY = 'mezur_admin_pw';   // ancien stockage, purgé au chargement
+  const DEV_PW      = 'dev';                // repli localhost uniquement
+  /* Le mot de passe de production vit dans la variable d'environnement
+     Vercel ADMIN_PASSWORD et n'est jamais exposé ici. */
+  const IS_LOCAL    = location.protocol === 'file:' ||
+                      ['localhost', '127.0.0.1', '::1', ''].indexOf(location.hostname) !== -1;
 
   let state = null;
   let dirty = false;
@@ -108,10 +115,24 @@
   function ssDel(k)  { try { sessionStorage.removeItem(k); }         catch (e) {} }
 
   /* ============ AUTH ============ */
-  /* L'accès passe par un compte Supabase. Le mot de passe n'est plus
-     ni écrit dans le code, ni stocké dans le navigateur.
-     Sans Supabase configuré, le back-office s'ouvre en mode local :
-     il n'y a alors aucune donnée à protéger, tout est sur ce poste. */
+  /* Le mot de passe est vérifié par la fonction serverless /api/admin-auth,
+     qui le compare à la variable d'environnement Vercel ADMIN_PASSWORD et
+     renvoie un cookie de session signé (HttpOnly). Aucun secret ici. */
+
+  /* Purge d'un éventuel mot de passe stocké par les anciennes versions */
+  lsDel(LEGACY_PW_KEY);
+
+  function loginError(msg) {
+    const el = $('#login-error');
+    if (el) el.textContent = msg || '';
+  }
+
+  function loginNote(msg) {
+    const el = $('#login-note');
+    if (!el) return;
+    el.textContent = msg || '';
+    el.hidden = !msg;
+  }
 
   function openApp() {
     $('#login-screen').hidden = true;
@@ -119,58 +140,76 @@
     boot();
   }
 
-  function doLogin() {
-    const err = $('#login-error');
-    err.textContent = '';
-
-    if (!MezurData.estDistant()) {
+  /* Repli hors ligne : uniquement en local (fichier ouvert directement ou
+     serveur statique sans les fonctions Vercel). Jamais en production. */
+  function localFallbackLogin(pw) {
+    if (!IS_LOCAL) {
+      loginError('Service d’authentification indisponible. Réessayez dans un instant.');
+      return;
+    }
+    if (pw === DEV_PW) {
       ssSet(SESSION_KEY, '1');
       openApp();
-      return;
+    } else {
+      loginError('Mode local : mot de passe « dev ».');
     }
+  }
 
-    const email = ($('#login-email') && $('#login-email').value || '').trim();
-    const pw = ($('#login-pw').value || '').trim();
-    if (!email || !pw) {
-      err.textContent = 'Renseignez votre email et votre mot de passe.';
-      return;
-    }
+  let loginBusy = false;
 
-    const bouton = $('#login-form button[type="submit"]');
-    if (bouton) { bouton.disabled = true; bouton.textContent = 'Connexion…'; }
+  async function doLogin() {
+    if (loginBusy) return;
+    const input = $('#login-pw');
+    const pw = ((input && input.value) || '').trim();
+    if (!pw) { loginError('Saisissez le mot de passe.'); return; }
 
-    MezurData.connexion(email, pw)
-      .then(openApp)
-      .catch((e) => { err.textContent = e.message || 'Connexion impossible.'; })
-      .then(() => {
-        if (bouton) { bouton.disabled = false; bouton.textContent = 'Se connecter'; }
+    loginBusy = true;
+    loginError('');
+
+    try {
+      const res = await fetch(AUTH_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ password: pw })
       });
+
+      if (res.ok) {
+        ssSet(SESSION_KEY, '1');
+        if (input) input.value = '';
+        openApp();
+        return;
+      }
+      /* 501 : serveur statique qui ne sait pas traiter un POST
+         (python -m http.server, prévisualisation simple). Comme 404 et
+         405, cela veut dire « pas de fonction ici », pas « mot de passe
+         refusé ». localFallbackLogin n'ouvre l'accès qu'en local. */
+      if ([404, 405, 501].indexOf(res.status) !== -1) { localFallbackLogin(pw); return; }
+      if (res.status === 429) {
+        loginError('Trop de tentatives. Patientez quelques minutes.');
+        return;
+      }
+      if (res.status === 503) {
+        loginError('Accès non configuré : définissez ADMIN_PASSWORD dans les variables d’environnement Vercel.');
+        return;
+      }
+      loginError('Mot de passe incorrect.');
+    } catch (err) {
+      /* Fonction injoignable (hors ligne, site servi sans /api, etc.) */
+      localFallbackLogin(pw);
+    } finally {
+      loginBusy = false;
+    }
   }
 
   $('#login-form').addEventListener('submit', (e) => { e.preventDefault(); doLogin(); });
+  const loginBtn = $('#login-form button[type="submit"]');
+  if (loginBtn) loginBtn.addEventListener('click', (e) => { e.preventDefault(); doLogin(); });
 
-  /* Sans serveur configuré, il n'y a pas de compte : on n'affiche pas
-     un formulaire de connexion qui ne servirait à rien. */
-  (function preparerEcranConnexion() {
-    if (MezurData.estDistant()) return;
-    const champEmail = $('#login-email');
-    const champPw = $('#login-pw');
-    if (champEmail && champEmail.previousElementSibling) {
-      champEmail.previousElementSibling.hidden = true;
-      champEmail.hidden = true;
-    }
-    if (champPw && champPw.previousElementSibling) {
-      champPw.previousElementSibling.hidden = true;
-      champPw.hidden = true;
-    }
-    const indice = document.querySelector('.login-hint');
-    if (indice) indice.textContent = 'Mode local : les données restent sur cet appareil.';
-  })();
-
-  $('#btn-logout').addEventListener('click', () => {
+  $('#btn-logout').addEventListener('click', async () => {
     if (dirty && !confirm('Des modifications ne sont pas publiées. Se déconnecter quand même ?')) return;
-    MezurData.deconnexion();
     ssDel(SESSION_KEY);
+    try { await fetch(AUTH_API, { method: 'DELETE', credentials: 'same-origin' }); } catch (e) {}
     location.reload();
   });
 
@@ -208,10 +247,11 @@
     Object.keys(MENU_LABELS).forEach((k) => { if (!Array.isArray(state.menu[k])) state.menu[k] = []; });
 
     /* Les réservations viennent du serveur : on peint une première fois,
-       puis on repeint dès qu'elles sont là. */
+       puis on repeint dès qu'elles sont arrivées. */
     MezurData.charger()
       .then(() => { renderDashboard(); renderReservations(); updateResBadge(); })
-      .catch((e) => toast(e.message || 'Lecture des réservations impossible', 'err'));
+      .catch((e) => toast(e.message || 'Lecture des réservations impossible', 'err'))
+      .then(majBandeauMode);
 
     renderDashboard();
     renderMenuEditor();
@@ -806,32 +846,40 @@
       clearDirty();
       toast('Contenu réinitialisé', 'ok');
     });
-    /* Le mot de passe appartient au compte Supabase : il se change
-       depuis Authentication → Users, pas depuis cette page. */
-
-    /* On dit clairement où vivent les données : c'est la différence
-       entre « le restaurant reçoit les réservations » et « elles
-       restent sur ce téléphone ». */
-    const modeTitre = $('#mode-titre');
-    const modeTexte = $('#mode-texte');
-    if (modeTitre && modeTexte) {
-      if (MezurData.estDistant()) {
-        modeTitre.textContent = 'Connecté au serveur';
-        modeTexte.innerHTML =
-          'Les réservations prises sur le site arrivent ici, et sont visibles ' +
-          'depuis n\'importe quel appareil. Les textes et images du site restent, ' +
-          'eux, enregistrés dans ce navigateur : utilisez <strong>Exporter / ' +
-          'Importer</strong> pour les transférer.';
-      } else {
-        modeTitre.textContent = 'Mode local, le site ne transmet rien';
-        modeTexte.innerHTML =
-          'Supabase n\'est pas configuré : <strong>les réservations prises sur le ' +
-          'site n\'arrivent pas jusqu\'ici</strong>, et le formulaire public renvoie ' +
-          'les clients vers le téléphone. Pour recevoir les demandes, remplissez ' +
-          '<code>js/supabase-config.js</code> et exécutez <code>sql/schema.sql</code>.';
-      }
-    }
+    majBandeauMode();
     refreshIcons();
+  }
+
+  /* Dit où vivent les données : c'est la différence entre « le
+     restaurant reçoit les réservations » et « elles restent sur ce
+     poste ». Rappelé après le chargement, quand le verdict est connu. */
+  function majBandeauMode() {
+    const titre = $('#mode-titre');
+    const texte = $('#mode-texte');
+    if (!titre || !texte) return;
+
+    if (!MezurData.estPret()) {
+      titre.textContent = 'Mode de fonctionnement';
+      texte.textContent = 'Vérification de la connexion au serveur…';
+      return;
+    }
+
+    if (MezurData.estDistant()) {
+      titre.textContent = 'Connecté au serveur';
+      texte.innerHTML =
+        'Les réservations prises sur le site arrivent ici et sont visibles depuis ' +
+        'n\'importe quel appareil. Les textes et images du site restent, eux, ' +
+        'enregistrés dans ce navigateur : utilisez <strong>Exporter / Importer</strong> ' +
+        'pour les transférer.';
+    } else {
+      titre.textContent = 'Mode local, le site ne transmet rien';
+      texte.innerHTML =
+        '<strong>Les réservations prises sur le site n\'arrivent pas jusqu\'ici.</strong> ' +
+        'La fonction <code>/api/reservations</code> ne répond pas : soit le site est ouvert ' +
+        'hors Vercel, soit <code>SUPABASE_URL</code> et <code>SUPABASE_SERVICE_ROLE_KEY</code> ' +
+        'ne sont pas définies. En attendant, le formulaire public renvoie les clients ' +
+        'vers le téléphone.';
+    }
   }
 
   /* ---------- Download helper ---------- */
@@ -851,14 +899,22 @@
 
   cropTool.init();
 
-  /* Reprise de session ou focus mot de passe */
-  if (ssGet(SESSION_KEY) === '1') {
-    openApp();
-  } else {
+  /* Reprise de session : c'est le serveur qui tranche (cookie signé). */
+  (async function restoreSession() {
+    try {
+      const res = await fetch(AUTH_API, { credentials: 'same-origin' });
+      if (res.ok) { openApp(); return; }
+      if (res.status === 404 || res.status === 405) throw new Error('api-absente');
+    } catch (e) {
+      /* Pas de fonction serverless : repli local uniquement */
+      if (IS_LOCAL && ssGet(SESSION_KEY) === '1') { openApp(); return; }
+      if (IS_LOCAL) loginNote('Mode local : authentification serveur indisponible, mot de passe « dev ».');
+    }
+    ssDel(SESSION_KEY);
     const pw = $('#login-pw');
     if (pw) pw.focus();
     refreshIcons();
-  }
+  })();
 
   window.__MEZUR_ADMIN_READY = true;
 })();
