@@ -5,9 +5,14 @@
 'use strict';
 
 (function () {
-  const PW_KEY      = 'mezur_admin_pw';
-  const SESSION_KEY = 'mezur_admin_auth';
-  const DEFAULT_PW  = 'mezur2026';
+  const AUTH_API    = '/api/admin-auth';
+  const SESSION_KEY = 'mezur_admin_auth';   // repli local uniquement
+  const LEGACY_PW_KEY = 'mezur_admin_pw';   // ancien stockage, purgé au chargement
+  const DEV_PW      = 'dev';                // repli localhost uniquement
+  /* Le mot de passe de production vit dans la variable d'environnement
+     Vercel ADMIN_PASSWORD et n'est jamais exposé ici. */
+  const IS_LOCAL    = location.protocol === 'file:' ||
+                      ['localhost', '127.0.0.1', '::1', ''].indexOf(location.hostname) !== -1;
 
   let state = null;
   let dirty = false;
@@ -110,14 +115,23 @@
   function ssDel(k)  { try { sessionStorage.removeItem(k); }         catch (e) {} }
 
   /* ============ AUTH ============ */
-  function storedPw() {
-    const v = lsGet(PW_KEY);
-    if (!v) return DEFAULT_PW;
-    try { return atob(v); } catch (e) { return DEFAULT_PW; }
+  /* Le mot de passe est vérifié par la fonction serverless /api/admin-auth,
+     qui le compare à la variable d'environnement Vercel ADMIN_PASSWORD et
+     renvoie un cookie de session signé (HttpOnly). Aucun secret ici. */
+
+  /* Purge d'un éventuel mot de passe stocké par les anciennes versions */
+  lsDel(LEGACY_PW_KEY);
+
+  function loginError(msg) {
+    const el = $('#login-error');
+    if (el) el.textContent = msg || '';
   }
-  function setPw(pw) {
-    try { lsSet(PW_KEY, btoa(unescape(encodeURIComponent(pw)))); }
-    catch (e) { lsSet(PW_KEY, btoa(pw)); }
+
+  function loginNote(msg) {
+    const el = $('#login-note');
+    if (!el) return;
+    el.textContent = msg || '';
+    el.hidden = !msg;
   }
 
   function openApp() {
@@ -126,18 +140,61 @@
     boot();
   }
 
-  function doLogin() {
+  /* Repli hors ligne : uniquement en local (fichier ouvert directement ou
+     serveur statique sans les fonctions Vercel). Jamais en production. */
+  function localFallbackLogin(pw) {
+    if (!IS_LOCAL) {
+      loginError('Service d’authentification indisponible. Réessayez dans un instant.');
+      return;
+    }
+    if (pw === DEV_PW) {
+      ssSet(SESSION_KEY, '1');
+      openApp();
+    } else {
+      loginError('Mode local : mot de passe « dev ».');
+    }
+  }
+
+  let loginBusy = false;
+
+  async function doLogin() {
+    if (loginBusy) return;
+    const input = $('#login-pw');
+    const pw = ((input && input.value) || '').trim();
+    if (!pw) { loginError('Saisissez le mot de passe.'); return; }
+
+    loginBusy = true;
+    loginError('');
+
     try {
-      const pw = ($('#login-pw').value || '').trim();
-      if (pw === storedPw()) {
+      const res = await fetch(AUTH_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ password: pw })
+      });
+
+      if (res.ok) {
         ssSet(SESSION_KEY, '1');
+        if (input) input.value = '';
         openApp();
-      } else {
-        $('#login-error').textContent = 'Mot de passe incorrect.';
+        return;
       }
+      if (res.status === 404 || res.status === 405) { localFallbackLogin(pw); return; }
+      if (res.status === 429) {
+        loginError('Trop de tentatives. Patientez quelques minutes.');
+        return;
+      }
+      if (res.status === 503) {
+        loginError('Accès non configuré : définissez ADMIN_PASSWORD dans les variables d’environnement Vercel.');
+        return;
+      }
+      loginError('Mot de passe incorrect.');
     } catch (err) {
-      const el = $('#login-error');
-      if (el) el.textContent = 'Erreur : ' + (err && err.message ? err.message : err);
+      /* Fonction injoignable (hors ligne, site servi sans /api, etc.) */
+      localFallbackLogin(pw);
+    } finally {
+      loginBusy = false;
     }
   }
 
@@ -145,20 +202,10 @@
   const loginBtn = $('#login-form button[type="submit"]');
   if (loginBtn) loginBtn.addEventListener('click', (e) => { e.preventDefault(); doLogin(); });
 
-  const resetLink = $('#login-reset');
-  if (resetLink) resetLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    lsDel(PW_KEY);
-    $('#login-error').textContent = '';
-    const pwInput = $('#login-pw');
-    pwInput.value = DEFAULT_PW;
-    pwInput.focus();
-    $('#login-reset-done').hidden = false;
-  });
-
-  $('#btn-logout').addEventListener('click', () => {
+  $('#btn-logout').addEventListener('click', async () => {
     if (dirty && !confirm('Des modifications ne sont pas publiées. Se déconnecter quand même ?')) return;
     ssDel(SESSION_KEY);
+    try { await fetch(AUTH_API, { method: 'DELETE', credentials: 'same-origin' }); } catch (e) {}
     location.reload();
   });
 
@@ -776,16 +823,6 @@
       clearDirty();
       toast('Contenu réinitialisé', 'ok');
     });
-    $('#btn-change-pw').addEventListener('click', () => {
-      const pw      = ($('#new-pw').value     || '').trim();
-      const confirm = ($('#confirm-pw').value || '').trim();
-      if (pw.length < 6) { toast('Mot de passe trop court (minimum 6 caractères)', 'err'); return; }
-      if (pw !== confirm) { toast('Les mots de passe ne correspondent pas', 'err'); return; }
-      setPw(pw);
-      $('#new-pw').value = '';
-      $('#confirm-pw').value = '';
-      toast('Mot de passe modifié', 'ok');
-    });
     refreshIcons();
   }
 
@@ -806,14 +843,22 @@
 
   cropTool.init();
 
-  /* Reprise de session ou focus mot de passe */
-  if (ssGet(SESSION_KEY) === '1') {
-    openApp();
-  } else {
+  /* Reprise de session : c'est le serveur qui tranche (cookie signé). */
+  (async function restoreSession() {
+    try {
+      const res = await fetch(AUTH_API, { credentials: 'same-origin' });
+      if (res.ok) { openApp(); return; }
+      if (res.status === 404 || res.status === 405) throw new Error('api-absente');
+    } catch (e) {
+      /* Pas de fonction serverless : repli local uniquement */
+      if (IS_LOCAL && ssGet(SESSION_KEY) === '1') { openApp(); return; }
+      if (IS_LOCAL) loginNote('Mode local : authentification serveur indisponible, mot de passe « dev ».');
+    }
+    ssDel(SESSION_KEY);
     const pw = $('#login-pw');
     if (pw) pw.focus();
     refreshIcons();
-  }
+  })();
 
   window.__MEZUR_ADMIN_READY = true;
 })();
