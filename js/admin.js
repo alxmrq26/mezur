@@ -180,7 +180,11 @@
         openApp();
         return;
       }
-      if (res.status === 404 || res.status === 405) { localFallbackLogin(pw); return; }
+      /* 501 : serveur statique qui ne sait pas traiter un POST
+         (python -m http.server, prévisualisation simple). Comme 404 et
+         405, cela veut dire « pas de fonction ici », pas « mot de passe
+         refusé ». localFallbackLogin n'ouvre l'accès qu'en local. */
+      if ([404, 405, 501].indexOf(res.status) !== -1) { localFallbackLogin(pw); return; }
       if (res.status === 429) {
         loginError('Trop de tentatives. Patientez quelques minutes.');
         return;
@@ -242,6 +246,13 @@
     if (!state.menu) state.menu = {};
     Object.keys(MENU_LABELS).forEach((k) => { if (!Array.isArray(state.menu[k])) state.menu[k] = []; });
 
+    /* Les réservations viennent du serveur : on peint une première fois,
+       puis on repeint dès qu'elles sont arrivées. */
+    MezurData.charger()
+      .then(() => { renderDashboard(); renderReservations(); updateResBadge(); })
+      .catch((e) => toast(e.message || 'Lecture des réservations impossible', 'err'))
+      .then(majBandeauMode);
+
     renderDashboard();
     renderMenuEditor();
     renderImagesEditor();
@@ -258,7 +269,7 @@
   function todayISO() { return new Date().toISOString().slice(0, 10); }
 
   function renderDashboard() {
-    const res   = MezurContent.getReservations();
+    const res   = MezurData.tout();
     const today = todayISO();
     const in7   = new Date(Date.now() + 7 * 864e5).toISOString().slice(0, 10);
     const active     = res.filter((r) => r.status !== 'annulee');
@@ -304,7 +315,7 @@
   }
 
   function updateResBadge() {
-    const n = MezurContent.getReservations().filter((r) => r.status === 'nouvelle').length;
+    const n = MezurData.tout().filter((r) => (r.status || 'nouvelle') === 'nouvelle').length;
     $('#nav-res-badge').textContent = n ? n : '';
   }
 
@@ -336,7 +347,7 @@
         </div>
         <div class="res-actions">
           <span class="badge ${esc(status)}">${STATUS_LABELS[status] || status}</span>
-          <select class="res-status" aria-label="Statut">${statusSelectHTML(status)}</select>
+          <select class="res-status" aria-label="Statut" data-precedent="${esc(status)}">${statusSelectHTML(status)}</select>
           <button class="icon-btn del res-del" title="Supprimer"><i data-lucide="trash-2"></i></button>
         </div>
       </div>`;
@@ -346,7 +357,7 @@
     const q      = ($('#res-search').value || '').toLowerCase().trim();
     const filter = $('#res-filter').value;
     const date   = ($('#res-date-filter') && $('#res-date-filter').value) || '';
-    let list = MezurContent.getReservations()
+    let list = MezurData.tout().slice()
       .sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
     if (filter !== 'all') list = list.filter((r) => (r.status || 'nouvelle') === filter);
     if (date)  list = list.filter((r) => r.date === date);
@@ -364,17 +375,26 @@
       const id = card.dataset.id;
       const sel = $('.res-status', card);
       if (sel) sel.addEventListener('change', () => {
-        const list = MezurContent.getReservations();
-        const r = list.find((x) => x.id === id);
-        if (r) { r.status = sel.value; MezurContent.saveReservations(list); }
-        renderReservations(); renderDashboard(); updateResBadge();
+        const precedent = sel.dataset.precedent || '';
+        sel.disabled = true;
+        MezurData.changerStatut(id, sel.value)
+          .then(() => { renderReservations(); renderDashboard(); updateResBadge(); })
+          .catch((e) => {
+            // On ne laisse pas l'écran afficher un statut que le serveur a refusé.
+            if (precedent) sel.value = precedent;
+            toast(e.message || 'Changement de statut impossible', 'err');
+          })
+          .then(() => { sel.disabled = false; });
       });
       const del = $('.res-del', card);
       if (del) del.addEventListener('click', () => {
         if (!confirm('Supprimer cette réservation définitivement ?')) return;
-        MezurContent.saveReservations(MezurContent.getReservations().filter((x) => x.id !== id));
-        renderReservations(); renderDashboard(); updateResBadge();
-        toast('Réservation supprimée');
+        MezurData.supprimer(id)
+          .then(() => {
+            renderReservations(); renderDashboard(); updateResBadge();
+            toast('Réservation supprimée');
+          })
+          .catch((e) => toast(e.message || 'Suppression impossible', 'err'));
       });
     });
   }
@@ -385,7 +405,7 @@
   if (resDateFilter) resDateFilter.addEventListener('change', renderReservations);
 
   $('#btn-export-csv').addEventListener('click', () => {
-    const list = MezurContent.getReservations();
+    const list = MezurData.tout();
     if (!list.length) { toast('Aucune réservation à exporter', 'err'); return; }
     const cols = Object.keys(CSV_HEADERS);
     const header = Object.values(CSV_HEADERS).join(';');
@@ -438,10 +458,13 @@
         message:   ($('#nr-message').value  || '').trim(),
         status:    $('#nr-status').value || 'confirmee'
       };
-      MezurContent.addReservation(newRes);
-      closeModal();
-      renderReservations(); renderDashboard(); updateResBadge();
-      toast('Réservation créée', 'ok');
+      MezurData.ajouter(newRes)
+        .then(() => {
+          closeModal();
+          renderReservations(); renderDashboard(); updateResBadge();
+          toast('Réservation créée', 'ok');
+        })
+        .catch((e) => toast(e.message || 'Création impossible', 'err'));
     });
   }
 
@@ -823,7 +846,40 @@
       clearDirty();
       toast('Contenu réinitialisé', 'ok');
     });
+    majBandeauMode();
     refreshIcons();
+  }
+
+  /* Dit où vivent les données : c'est la différence entre « le
+     restaurant reçoit les réservations » et « elles restent sur ce
+     poste ». Rappelé après le chargement, quand le verdict est connu. */
+  function majBandeauMode() {
+    const titre = $('#mode-titre');
+    const texte = $('#mode-texte');
+    if (!titre || !texte) return;
+
+    if (!MezurData.estPret()) {
+      titre.textContent = 'Mode de fonctionnement';
+      texte.textContent = 'Vérification de la connexion au serveur…';
+      return;
+    }
+
+    if (MezurData.estDistant()) {
+      titre.textContent = 'Connecté au serveur';
+      texte.innerHTML =
+        'Les réservations prises sur le site arrivent ici et sont visibles depuis ' +
+        'n\'importe quel appareil. Les textes et images du site restent, eux, ' +
+        'enregistrés dans ce navigateur : utilisez <strong>Exporter / Importer</strong> ' +
+        'pour les transférer.';
+    } else {
+      titre.textContent = 'Mode local, le site ne transmet rien';
+      texte.innerHTML =
+        '<strong>Les réservations prises sur le site n\'arrivent pas jusqu\'ici.</strong> ' +
+        'La fonction <code>/api/reservations</code> ne répond pas : soit le site est ouvert ' +
+        'hors Vercel, soit <code>SUPABASE_URL</code> et <code>SUPABASE_SERVICE_ROLE_KEY</code> ' +
+        'ne sont pas définies. En attendant, le formulaire public renvoie les clients ' +
+        'vers le téléphone.';
+    }
   }
 
   /* ---------- Download helper ---------- */

@@ -3,90 +3,121 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="MEZUR — Brasserie gastronomique à Valence. Une cuisine de précision par Pierre et Thomas Souptez. Réservez votre table.">
+  <meta name="description" content="MEZUR, brasserie gastronomique à Valence. Pierre cuisine, Thomas choisit les vins. Ouvert du lundi au samedi, midi et soir. Réservez votre table en ligne.">
   <meta name="theme-color" content="#0B1F4B">
+  <link rel="canonical" href="https://mezurvalence.com/">
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="MEZUR — Brasserie Gastronomique · Valence">
-  <meta property="og:description" content="Brasserie gastronomique à Valence, fondée par Pierre et Thomas Souptez. Une cuisine de saison, simple et raffinée.">
-  <meta property="og:image" content="images/c00db5_538c3ea595f149ff92b5a81289f64af6~mv2.avif">
-  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="MEZUR">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:type" content="restaurant.restaurant">
+  <meta property="og:url" content="https://mezurvalence.com/">
+  <meta property="og:title" content="MEZUR · Brasserie gastronomique à Valence">
+  <meta property="og:description" content="Pierre cuisine, Thomas choisit les vins. Ouvert du lundi au samedi, midi et soir.">
+  <meta property="og:image" content="https://mezurvalence.com/images/hero-poster.jpg">
+  <meta name="twitter:card" content="summary_large_image">
 
-  <title>MEZUR — Brasserie Gastronomique · Valence</title>
+  <title>MEZUR · Brasserie gastronomique à Valence</title>
 
-  <!-- Fonts -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
-
-  <!-- Styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "@id": "https://mezurvalence.com/#restaurant",
+    "name": "MEZUR",
+    "description": "Brasserie gastronomique à Valence, fondée par Pierre et Thomas Souptez.",
+    "url": "https://mezurvalence.com/",
+    "telephone": "+33475412286",
+    "email": "mezurvalence@gmail.com",
+    "priceRange": "€€",
+    "servesCuisine": "Française",
+    "acceptsReservations": "True",
+    "image": "https://mezurvalence.com/images/hero-poster.jpg",
+    "hasMenu": "https://mezurvalence.com/menu.html",
+    "sameAs": ["https://www.instagram.com/maison_mezur/"],
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "4 Rue de l'Université",
+      "postalCode": "26000",
+      "addressLocality": "Valence",
+      "addressCountry": "FR"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 44.9285,
+      "longitude": 4.8917
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "15",
+      "bestRating": "5"
+    },
+    "openingHoursSpecification": [{
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "12:00",
+      "closes": "14:00"
+    }, {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "19:00",
+      "closes": "22:00"
+    }]
+  }
+  </script>
 </head>
 <body>
 
-  <!-- Custom Cursor -->
-  <div class="cursor" aria-hidden="true"></div>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
 
-  <!-- Mobile Bottom Bar — sticky CTA conversion -->
-  <div class="mobile-bottom-bar" role="complementary" aria-label="Réserver une table">
+  <!-- Barre de réservation, mobile -->
+  <div class="mobile-bottom-bar">
     <div class="mobile-bottom-bar-info">
       <span class="mobile-bottom-bar-name">MEZUR</span>
-      <span class="mobile-bottom-bar-hours">Lun–Sam · Valence</span>
+      <span class="mobile-bottom-bar-hours" data-mz-hours="inline">Lundi – Samedi · Valence</span>
     </div>
     <a href="reservations.html" class="btn btn-primary">Réserver</a>
   </div>
 
-  <!-- Page Transition Overlay -->
-  <div class="page-transition-overlay" aria-hidden="true" style="
-    position: fixed; inset: 0; background: var(--navy);
-    z-index: 8000; transform-origin: top; transform: scaleY(0);
-    pointer-events: none;
-    display: flex; align-items: center; justify-content: center;
-  ">
-    <span style="font-family: 'Cormorant Garamond', serif; font-size: clamp(32px,6vw,64px); font-weight:300; letter-spacing:0.35em; color:#fff; text-transform:uppercase; opacity: 0.6;">MEZUR</span>
-  </div>
-
-  <!-- Loader -->
-  <div class="loader" aria-hidden="true">
-    <span class="loader-logo">MEZUR</span>
-    <div class="loader-line"></div>
-  </div>
-
-  <!-- ====== NAVIGATION ====== -->
   <header class="site-header" role="banner">
     <div class="header-inner">
-      <a href="index.html" class="logo" aria-label="MEZUR — Accueil">MEZUR</a>
-      <nav role="navigation" aria-label="Navigation principale">
-        <ul class="main-nav">
-          <li><a href="menu.html">Menu</a></li>
-          <li><a href="a-propos.html">La Maison</a></li>
-          <li><a href="reservations.html">Réservations</a></li>
+      <a href="index.html" class="logo" aria-label="MEZUR, accueil">MEZUR</a>
+
+      <nav aria-label="Navigation principale">
+        <ul class="main-nav" id="nav-principale">
+          <li><a href="menu.html">La carte</a></li>
+          <li><a href="a-propos.html">La maison</a></li>
+          <li><a href="reservations.html">Réserver</a></li>
+          <li class="nav-mobile-cta">
+            <a href="tel:+33475412286" class="btn btn-ghost-light btn-block">04 75 41 22 86</a>
+          </li>
         </ul>
       </nav>
+
       <a href="reservations.html" class="btn-reserve-nav">Réserver</a>
-      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
+
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-principale">
+        <span></span><span></span><span></span>
       </button>
     </div>
   </header>
 
-  <main>
+  <main id="contenu">
 
     <!-- ====== HERO ====== -->
-    <section class="hero" aria-label="MEZUR — Brasserie Gastronomique">
+    <section class="hero" aria-label="MEZUR, brasserie gastronomique à Valence">
       <div class="hero-media">
         <video
-          autoplay
-          muted
-          loop
-          playsinline
-          webkit-playsinline
-          preload="auto"
+          autoplay muted loop playsinline webkit-playsinline
+          preload="metadata"
           poster="images/hero-poster.jpg"
-          aria-hidden="true"
-        >
+          aria-hidden="true" tabindex="-1">
           <source src="images/hero-mobile.webm" type="video/webm" media="(max-width: 768px)">
           <source src="images/hero-mobile.mp4" type="video/mp4" media="(max-width: 768px)">
           <source src="images/hero.webm" type="video/webm">
@@ -96,12 +127,12 @@
       <div class="hero-overlay" aria-hidden="true"></div>
 
       <div class="hero-content">
-        <span class="hero-eyebrow">Brasserie Gastronomique &nbsp;·&nbsp; Valence</span>
-        <h1 class="hero-title" aria-label="MEZUR">MEZUR</h1>
-        <p class="hero-tagline" data-mz-text="texts.heroTagline">« Chaque assiette est un chef-d'œuvre... »</p>
+        <h1 class="hero-title">MEZUR</h1>
+        <span class="hero-situe">Brasserie gastronomique · Valence</span>
+        <p class="hero-tagline" data-mz-text="texts.heroTagline">La précision au service du plaisir.</p>
         <div class="hero-cta-group">
           <a href="reservations.html" class="btn btn-primary">Réserver une table</a>
-          <a href="menu.html" class="btn btn-ghost-light">Découvrir le menu</a>
+          <a href="menu.html" class="btn btn-ghost-light">Voir la carte</a>
         </div>
       </div>
 
@@ -111,69 +142,54 @@
       </div>
     </section>
 
-    <!-- ====== SECTION 1 — MANIFESTE ====== -->
+    <!-- ====== MANIFESTE ====== -->
     <section class="manifeste" aria-labelledby="manifeste-title">
-      <div class="manifeste-intro">
-        <span class="eyebrow">Bienvenue chez Mezur</span>
-        <h2 id="manifeste-title">L'art de la<br>gastronomie.</h2>
-        <p data-mz-text="texts.manifesteIntro">Un restaurant où l'art de la gastronomie se mêle à une ambiance chaleureuse et épurée. Ici, chaque détail, des plats soigneusement élaborés à l'accueil attentif, est pensé pour offrir une expérience culinaire authentique et agréable. Mezur vous invite à découvrir une cuisine qui met en avant la simplicité et la qualité, dans un cadre où l'élégance discrète crée une atmosphère propice à la détente et à la dégustation.</p>
+      <div class="manifeste-intro will-reveal">
+        <h2 id="manifeste-title">Faire juste.</h2>
+        <p data-mz-text="texts.manifesteIntro">MEZUR est né d'une obsession : faire juste. Pierre cuisine, Thomas choisit les vins. Le nom dit le reste, la mesure, rien en excès.</p>
       </div>
 
-      <div class="pillars" role="list">
-        <div class="pillar" role="listitem">
-          <span class="pillar-number">01</span>
-          <h3>Menu à la carte</h3>
-          <p>Chez Mezur, nous offrons des plats soigneusement élaborés des ingrédients de saison, choisis avec soin par Pierre. Chacun peut composer son repas selon ses envies, dans un esprit de simplicité.</p>
+      <div class="pillars">
+        <div class="pillar will-reveal">
+          <h3>La carte</h3>
+          <p>Des produits de saison, choisis par Pierre au marché. La carte bouge avec eux : ce qui est écrit ce mois-ci ne le sera plus le mois prochain.</p>
         </div>
-        <div class="pillar-divider" aria-hidden="true"></div>
-        <div class="pillar" role="listitem">
-          <span class="pillar-number">02</span>
-          <h3>Expérience sur mesure</h3>
-          <p>Nous offrons une expérience sur mesure pour vos événements, tels que mariages et anniversaires, avec un service personnalisé. L'équipe de Mezur crée des moments uniques adaptés à chaque client.</p>
+        <div class="pillar will-reveal">
+          <h3>Les vins</h3>
+          <p>Thomas compose les accords, au verre comme à la bouteille. Demandez-lui conseil, c'est son métier.</p>
         </div>
-        <div class="pillar-divider" aria-hidden="true"></div>
-        <div class="pillar" role="listitem">
-          <span class="pillar-number">03</span>
-          <h3>Vins d'exception</h3>
-          <p>La cave de Mezur est un trésor pour les amateurs, offrant des vins d'exception soigneusement sélectionnés, qui s'accordent parfaitement avec les plats pour des moments de dégustation inoubliables.</p>
+        <div class="pillar will-reveal">
+          <h3>Les grandes tables</h3>
+          <p>Mariages, anniversaires, repas d'entreprise : la salle se réserve en entier, et le menu s'écrit avec vous.</p>
         </div>
       </div>
     </section>
 
-    <!-- ====== SECTION 2 — SIGNATURE DISHES ====== -->
+    <!-- ====== PLATS ====== -->
     <section class="signature" aria-labelledby="signature-title">
-      <div class="signature-header">
-        <span class="eyebrow">Les plats signature</span>
-        <h2 id="signature-title">Une cuisine qui<br>parle d'elle-même.</h2>
+      <div class="signature-header will-reveal">
+        <h2 id="signature-title">Ce que Pierre envoie en ce moment.</h2>
       </div>
 
       <div class="dishes-grid">
-        <!-- Plat 1 -->
-        <div class="dish-card">
+        <div class="dish-card will-reveal">
           <div class="dish-card-inner img-reveal-wrap">
-            <img
-              src="images/Plat gastronomique.avif"
-              alt="Plat gastronomique signature de Pierre Souptez"
-              loading="lazy"
-              data-mz-img="images.platSignature1"
-            >
+            <img src="images/Plat gastronomique.avif" width="710" height="1066"
+                 alt="Tomates et burrata dressées à l'assiette" loading="lazy"
+                 data-mz-img="images.platSignature1">
           </div>
           <div class="dish-overlay" aria-hidden="true"></div>
           <div class="dish-info">
             <span class="dish-category">Entrée</span>
-            <h3 class="dish-name">Tomates, Burrata</h3>
+            <h3 class="dish-name">Tomates, burrata</h3>
           </div>
         </div>
 
-        <!-- Plat 2 -->
-        <div class="dish-card">
+        <div class="dish-card will-reveal">
           <div class="dish-card-inner img-reveal-wrap">
-            <img
-              src="images/11062b_0234bac6aabb4d45af0cbe02be372826f000.avif"
-              alt="Dressage d'une assiette par le chef MEZUR"
-              loading="lazy"
-              data-mz-img="images.platSignature2"
-            >
+            <img src="images/11062b_0234bac6aabb4d45af0cbe02be372826f000.avif" width="980" height="812"
+                 alt="Blanquette de veau dressée en cuisine" loading="lazy"
+                 data-mz-img="images.platSignature2">
           </div>
           <div class="dish-overlay" aria-hidden="true"></div>
           <div class="dish-info">
@@ -183,61 +199,27 @@
         </div>
       </div>
 
-      <!-- Text card below -->
-      <div style="padding: 2px var(--container-pad) 0; max-width: var(--container-max); margin: 0 auto;">
-        <div style="
-          background: var(--navy);
-          padding: clamp(48px, 6vw, 80px);
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 40px;
-          flex-wrap: wrap;
-        ">
-          <div>
-            <span class="eyebrow" style="color: var(--or);">Le concept</span>
-            <p style="
-              font-family: 'Cormorant Garamond', serif;
-              font-size: clamp(22px, 2.8vw, 34px);
-              font-weight: 300;
-              font-style: italic;
-              color: #fff;
-              line-height: 1.4;
-              max-width: 520px;
-            ">
-              « Chaque assiette sublime les produits locaux et de saison, révélant leur authenticité tout en exprimant la créativité du chef. »
-            </p>
-          </div>
-          <a href="menu.html" class="btn btn-ghost-light" style="white-space: nowrap;">Voir le menu</a>
-        </div>
+      <div class="concept-band">
+        <p class="concept-band-quote">Le produit d'abord. Le reste suit.</p>
+        <a href="menu.html" class="btn btn-ghost-light">Voir la carte</a>
       </div>
     </section>
 
-    <!-- ====== SECTION 3 — LA MAISON ====== -->
+    <!-- ====== LA MAISON ====== -->
     <section class="maison" aria-labelledby="maison-title">
       <div class="maison-inner">
-        <div class="maison-image img-reveal-wrap">
-          <img
-            src="images/c00db5_538c3ea595f149ff92b5a81289f64af6~mv2.avif"
-            alt="Pierre Souptez en cuisine — MEZUR, brasserie gastronomique Valence"
-            loading="lazy"
-            data-mz-img="images.maisonAccueil"
-          >
+        <div class="maison-image img-reveal-wrap will-reveal">
+          <img src="images/c00db5_538c3ea595f149ff92b5a81289f64af6~mv2.avif" width="1082" height="1644"
+               alt="Pierre Souptez en cuisine au MEZUR" loading="lazy"
+               data-mz-img="images.maisonAccueil">
         </div>
-        <div class="maison-content">
-          <span class="eyebrow">La Maison</span>
-          <h2 id="maison-title" style="color: var(--blanc); margin-bottom: 32px;">Pierre &amp; Thomas<br>Souptez</h2>
+        <div class="maison-content will-reveal">
+          <h2 id="maison-title">Pierre &amp; Thomas<br>Souptez</h2>
 
-          <blockquote class="maison-quote" data-mz-text="texts.maisonQuote">
-            « MEZUR est une expérience gastronomique authentique, où l'équilibre et la mesure guident chaque création. »
-          </blockquote>
+          <blockquote class="maison-quote" data-mz-text="texts.maisonQuote">Pierre cuisine. Thomas sélectionne les vins. Ensemble, ils créent les conditions du plaisir.</blockquote>
 
-          <p class="maison-text" data-mz-text="texts.maisonText1">
-            MEZUR est né de la passion commune de Pierre et Thomas Souptez pour la gastronomie et le vin. Ensemble, ils ont créé un lieu de partage et de convivialité, où la cuisine raffinée et la sélection des vins se répondent harmonieusement.
-          </p>
-          <p class="maison-text" data-mz-text="texts.maisonText2">
-            Leur histoire est celle de deux frères animés par le goût, le produit et le désir de faire vivre à chaque convive un moment agréable, gourmand et inoubliable.
-          </p>
+          <p class="maison-text" data-mz-text="texts.maisonText1">Deux frères, une brasserie ouverte en 2026 au cœur de Valence. L'un vient de la cuisine, l'autre du vin. Ils ont monté MEZUR pour mettre les deux dans la même pièce.</p>
+          <p class="maison-text" data-mz-text="texts.maisonText2">Le reste tient en une idée : servir ce qu'on aimerait qu'on nous serve.</p>
 
           <div class="maison-founders">
             <div class="founder">
@@ -246,211 +228,189 @@
             </div>
             <div class="founder">
               <span class="founder-name">Thomas Souptez</span>
-              <span class="founder-role">Caviste &amp; Sommelier</span>
+              <span class="founder-role">Caviste et sommelier</span>
             </div>
           </div>
 
-          <a href="a-propos.html" class="btn btn-ghost-light">Notre histoire &rarr;</a>
+          <a href="a-propos.html" class="btn btn-ghost-light">La maison</a>
         </div>
       </div>
     </section>
 
-    <!-- ====== SECTION 4 — MENU APERÇU ====== -->
+    <!-- ====== APERÇU DE LA CARTE ====== -->
     <section class="menu-apercu" aria-labelledby="menu-apercu-title">
-      <div class="menu-apercu-header">
-        <div>
-          <span class="section-tag">Menu de la maison</span>
-          <h2 id="menu-apercu-title">Une cuisine<br>de saison.</h2>
-        </div>
-        <a href="menu.html" class="btn btn-ghost-dark" style="white-space: nowrap; flex-shrink: 0;">Menu complet</a>
+      <div class="menu-apercu-header will-reveal">
+        <h2 id="menu-apercu-title">Une cuisine de saison.</h2>
+        <a href="menu.html" class="btn btn-ghost-dark">La carte complète</a>
       </div>
 
       <div class="menu-scroll-wrapper">
-        <div class="menu-scroll-track" role="list" aria-label="Plats du menu">
-
-          <article class="menu-item-card" role="listitem">
+        <ul class="menu-scroll-track" aria-label="Quelques plats de la carte">
+          <li class="menu-item-card">
             <div class="menu-item-img img-reveal-wrap">
-              <img
-                src="images/Plat gastronomique.avif"
-                alt="Tomates, Burrata"
-                loading="lazy"
-              >
+              <img src="images/Plat gastronomique.avif" width="710" height="1066" alt="Tomates, burrata" loading="lazy">
             </div>
             <span class="menu-item-label">Entrée</span>
-            <h3 class="menu-item-name">Tomates, Burrata</h3>
-          </article>
-
-          <article class="menu-item-card" role="listitem">
+            <h3 class="menu-item-name">Tomates, burrata</h3>
+          </li>
+          <li class="menu-item-card">
             <div class="menu-item-img img-reveal-wrap">
-              <img
-                src="images/11062b_0234bac6aabb4d45af0cbe02be372826f000.avif"
-                alt="Œuf mollet, Mousseline"
-                loading="lazy"
-              >
+              <img src="images/11062b_0234bac6aabb4d45af0cbe02be372826f000.avif" width="980" height="812" alt="Œuf mollet, mousseline" loading="lazy">
             </div>
             <span class="menu-item-label">Entrée</span>
-            <h3 class="menu-item-name">Œuf mollet, Mousseline</h3>
-          </article>
-
-          <article class="menu-item-card" role="listitem">
+            <h3 class="menu-item-name">Œuf mollet, mousseline</h3>
+          </li>
+          <li class="menu-item-card">
             <div class="menu-item-img img-reveal-wrap">
-              <img
-                src="images/Plat gastronomique.avif"
-                alt="Orichiettes, crevettes & bisque"
-                loading="lazy"
-              >
+              <img src="images/Plat gastronomique.avif" width="710" height="1066" alt="Orichiettes, crevettes et bisque" loading="lazy">
             </div>
             <span class="menu-item-label">Plat</span>
             <h3 class="menu-item-name">Orichiettes, crevettes &amp; bisque</h3>
-          </article>
-
-          <article class="menu-item-card" role="listitem">
+          </li>
+          <li class="menu-item-card">
             <div class="menu-item-img img-reveal-wrap">
-              <img
-                src="images/11062b_0234bac6aabb4d45af0cbe02be372826f000.avif"
-                alt="Blanquette de veau"
-                loading="lazy"
-              >
+              <img src="images/11062b_0234bac6aabb4d45af0cbe02be372826f000.avif" width="980" height="812" alt="Blanquette de veau" loading="lazy">
             </div>
             <span class="menu-item-label">Plat</span>
             <h3 class="menu-item-name">Blanquette de veau</h3>
-          </article>
-
-          <article class="menu-item-card" role="listitem">
+          </li>
+          <li class="menu-item-card">
             <div class="menu-item-img img-reveal-wrap">
-              <img
-                src="images/Plat gastronomique.avif"
-                alt="Fraises, Herbes, Huile d'olive"
-                loading="lazy"
-              >
+              <img src="images/Plat gastronomique.avif" width="710" height="1066" alt="Fraises, herbes, huile d'olive" loading="lazy">
             </div>
             <span class="menu-item-label">Dessert</span>
-            <h3 class="menu-item-name">Fraises, Herbes, Huile d'olive</h3>
-          </article>
-
-          <article class="menu-item-card" role="listitem">
+            <h3 class="menu-item-name">Fraises, herbes, huile d'olive</h3>
+          </li>
+          <li class="menu-item-card">
             <div class="menu-item-img img-reveal-wrap">
-              <img
-                src="images/11062b_0234bac6aabb4d45af0cbe02be372826f000.avif"
-                alt="Pavlova, Citron"
-                loading="lazy"
-              >
+              <img src="images/11062b_0234bac6aabb4d45af0cbe02be372826f000.avif" width="980" height="812" alt="Pavlova, citron" loading="lazy">
             </div>
             <span class="menu-item-label">Dessert</span>
-            <h3 class="menu-item-name">Pavlova, Citron</h3>
-          </article>
-
-        </div>
+            <h3 class="menu-item-name">Pavlova, citron</h3>
+          </li>
+        </ul>
       </div>
 
       <div class="menu-progress-bar" aria-hidden="true">
         <div class="menu-progress-fill"></div>
       </div>
 
-      <!-- Formules du midi -->
       <div class="formules-section">
-        <p class="formules-eyebrow">Formules du midi · Lun – Ven</p>
+        <h3>Formules du midi, du lundi au vendredi</h3>
         <div class="formules-grid">
           <div class="formule-card">
             <span class="formule-label">Plat seul</span>
-            <span class="formule-price">19 <sup>€</sup></span>
-            <span class="formule-detail">Un plat au choix</span>
+            <span class="formule-price">19&nbsp;<sup>€</sup></span>
+            <span class="formule-detail">Un plat au choix à la carte</span>
           </div>
           <div class="formule-card formule-card--featured">
             <span class="formule-badge">Le plus choisi</span>
-            <span class="formule-label">Entrée + Plat<br>ou Plat + Dessert</span>
-            <span class="formule-price">24 <sup>€</sup></span>
-            <span class="formule-detail">Deux temps</span>
+            <span class="formule-label">Entrée + plat, ou plat + dessert</span>
+            <span class="formule-price">24&nbsp;<sup>€</sup></span>
+            <span class="formule-detail">Deux services</span>
           </div>
           <div class="formule-card">
-            <span class="formule-label">Entrée + Plat<br>+ Dessert</span>
-            <span class="formule-price">29 <sup>€</sup></span>
+            <span class="formule-label">Entrée + plat + dessert</span>
+            <span class="formule-price">29&nbsp;<sup>€</sup></span>
             <span class="formule-detail">Le repas complet</span>
           </div>
         </div>
-        <p class="formules-note">Hors jours fériés &nbsp;·&nbsp; Menu du soir à la carte</p>
+        <p class="formules-note">Hors jours fériés. Le soir, service à la carte.</p>
       </div>
 
       <div class="menu-apercu-footer">
-        <a href="menu.html" class="btn btn-primary">Voir le menu complet</a>
+        <a href="menu.html" class="btn btn-primary btn-block">Voir la carte complète</a>
       </div>
     </section>
 
-    <!-- ====== SECTION 6 — CTA RÉSERVATION ====== -->
+    <!-- ====== AVIS ====== -->
+    <section class="social-proof" aria-labelledby="avis-title">
+      <div class="rating-block will-reveal">
+        <h2 id="avis-title" class="sr-only">Les avis de nos clients</h2>
+        <span class="rating-score-display">4,9</span>
+        <div class="rating-stars-row" aria-hidden="true">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <p class="rating-label">4,9 sur 5, sur 15 avis Google.</p>
+        <a class="rating-link" href="https://www.google.com/maps/search/?api=1&amp;query=MEZUR+4+Rue+de+l%27Universit%C3%A9+26000+Valence"
+           target="_blank" rel="noopener">Lire les avis sur Google</a>
+      </div>
+    </section>
+
+    <!-- ====== RÉSERVER ====== -->
     <section class="cta-reservation" aria-labelledby="cta-title">
       <div class="cta-reservation-content">
-        <span class="eyebrow">Votre prochain repas</span>
-        <h2 id="cta-title">Votre table<br>vous attend.</h2>
-        <p>Ouvert du lundi au samedi, midi et soir &nbsp;·&nbsp; 4 Pl. de l'Université, Valence</p>
-        <a href="reservations.html" class="btn btn-primary">Réserver une table</a><br><br>
-        <a href="tel:+33475412286" class="cta-phone">04 75 41 22 86</a>
+        <h2 id="cta-title">Votre table vous attend.</h2>
+        <p>
+          Du lundi au samedi, midi et soir.<br>
+          4 Rue de l'Université, Valence.
+        </p>
+        <div class="cta-actions">
+          <a href="reservations.html" class="btn btn-primary">Réserver une table</a>
+          <a href="tel:+33475412286" class="cta-phone">04 75 41 22 86</a>
+        </div>
       </div>
     </section>
 
   </main>
 
-  <!-- ====== FOOTER ====== -->
   <footer class="site-footer" role="contentinfo">
     <div class="footer-inner">
       <div class="footer-logo-block">
         <a href="index.html" class="footer-logo">MEZUR</a>
-        <p class="footer-tagline">Brasserie Gastronomique</p>
-        <p style="font-size:13px; line-height:1.75; margin-bottom: 24px;">
-          Une brasserie gastronomique au cœur de Valence, fondée par Pierre et Thomas Souptez.
+        <p class="footer-tagline">Brasserie gastronomique</p>
+        <p class="footer-desc">
+          Au cœur de Valence, fondée par Pierre et Thomas Souptez.
         </p>
         <div class="footer-social">
-          <a href="https://www.instagram.com/" class="footer-social-link" aria-label="Instagram" target="_blank" rel="noopener">
-            &#9675;
+          <a href="https://www.instagram.com/maison_mezur/" class="footer-social-link" aria-label="MEZUR sur Instagram" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <rect x="2.5" y="2.5" width="19" height="19" rx="5"/>
+              <circle cx="12" cy="12" r="4.2"/>
+              <circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/>
+            </svg>
           </a>
         </div>
       </div>
 
       <div class="footer-col">
-        <h4>Adresse</h4>
+        <h3>Adresse</h3>
         <address>
-          4 Pl. de l'Université<br>
-          26000 Valence<br>
-          France
+          4 Rue de l'Université<br>
+          26000 Valence
         </address>
+        <a href="https://www.google.com/maps/dir/?api=1&amp;destination=4+Rue+de+l%27Universit%C3%A9+26000+Valence"
+           target="_blank" rel="noopener">Itinéraire</a>
       </div>
 
       <div class="footer-col">
-        <h4>Horaires</h4>
-        <p>
+        <h3>Horaires</h3>
+        <p data-mz-hours="compact">
           Lundi – Samedi<br>
-          12h – 14h / 19h – 22h<br>
-          Dimanche fermé
+          12h–14h · 19h–22h<br>
+          Dimanche<br>
+          Fermé
         </p>
       </div>
 
       <div class="footer-col">
-        <h4>Contact</h4>
+        <h3>Contact</h3>
         <a href="tel:+33475412286">04 75 41 22 86</a>
         <a href="mailto:mezurvalence@gmail.com" data-mz-contact="email">mezurvalence@gmail.com</a>
-        <a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
         <a href="reservations.html">Réserver en ligne</a>
-        <br>
-        <a href="menu.html">Le menu</a>
+        <a href="menu.html">La carte</a>
         <a href="a-propos.html">La maison</a>
       </div>
     </div>
 
-    <div class="footer-bottom" style="max-width: var(--container-max); margin: 0 auto; padding: 24px var(--container-pad);">
-      <span>© 2026 MEZUR · Tous droits réservés</span>
+    <div class="footer-bottom">
+      <span>© 2026 MEZUR</span>
       <span>Valence, Drôme</span>
     </div>
   </footer>
 
-  <!-- ====== SCRIPTS ====== -->
-  <!-- Lenis smooth scroll -->
-  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <!-- Contenu éditable (back office) -->
-  <script src="js/content.js"></script>
-  <!-- Main -->
-  <script src="js/main.js"></script>
+  <script src="js/content.js" defer></script>
+  <script src="js/main.js" defer></script>
 
 </body>
 </html>

@@ -65,3 +65,53 @@ endpoints avec le même cookie de session, vérifié côté serveur à chaque ap
 - Il n'y a aucune autre clé d'API dans le projet : le formulaire de réservation
   n'appelle aucun service externe, et Google Maps est utilisé en simple iframe
   sans clé.
+
+---
+
+## Les réservations
+
+### Qui a le droit de quoi
+
+Deux clés Supabase, deux usages, et il ne faut pas les confondre.
+
+| Clé | Où elle vit | Ce qu'elle peut faire |
+|---|---|---|
+| `anon public` | `js/supabase-config.js`, servi au navigateur | **Écrire** une réservation, rien d'autre |
+| `service_role` | variable d'environnement Vercel uniquement | Tout, y compris lire |
+
+La clé publique est visible par n'importe qui dans le code de la page :
+c'est normal, elle est faite pour ça. Ce qui protège les données, ce sont
+les règles RLS posées par `sql/schema.sql`, qui lui interdisent tout
+`SELECT`. Sans cela, un visiteur curieux récupérerait le nom et le
+téléphone de tous les clients du restaurant en une requête.
+
+La lecture passe donc par `api/reservations.js`, qui vérifie d'abord le
+cookie de session posé par `api/admin-auth.js`, puis interroge Supabase
+avec la clé de service. Cette clé ne quitte jamais le serveur.
+
+**Ne jamais coller `service_role` dans `js/supabase-config.js`.** Elle
+contourne toutes les règles de la base.
+
+### Mise en service
+
+1. Créer le projet sur supabase.com.
+2. Exécuter `sql/schema.sql` dans l'éditeur SQL du projet : il crée les
+   tables, les règles d'accès et la fonction de disponibilité.
+3. Coller la clé `anon public` dans `js/supabase-config.js` (site public).
+4. Dans Vercel, ajouter `SUPABASE_URL` et `SUPABASE_SERVICE_ROLE_KEY`,
+   puis redéployer.
+
+Tant que l'étape 3 n'est pas faite, le formulaire public ne prétend pas
+enregistrer : il propose l'appel et un courriel déjà rédigé. Tant que
+l'étape 4 n'est pas faite, le back office l'annonce dans ses réglages.
+
+### Vérification
+
+Une fois en ligne, contrôler que la clé publique ne peut pas lire :
+
+```
+curl "$SUPABASE_URL/rest/v1/reservations?select=*" \
+     -H "apikey: <clé anon publique>"
+```
+
+La réponse attendue est une liste vide, pas les réservations.
