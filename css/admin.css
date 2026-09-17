@@ -216,15 +216,17 @@ label abbr { color: var(--or-dark); text-decoration: none; }
 
 /* ============ LISTES / CARTES ============ */
 .card-list { display: flex; flex-direction: column; gap: 12px; }
+/* Le statut se lit sur le badge (texte) et sur une teinte de fond.
+   Le filet coloré sur un seul côté est un motif à éviter. */
 .res-card {
   background: var(--blanc); border-radius: var(--radius); box-shadow: var(--shadow);
-  border-left: 4px solid var(--line); padding: 16px 20px;
+  border: 1px solid var(--line); padding: 16px 20px;
   display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: start;
 }
-.res-card.status-nouvelle  { border-left-color: var(--or); }
-.res-card.status-confirmee { border-left-color: var(--ok); }
-.res-card.status-annulee   { border-left-color: var(--danger); opacity: .65; }
-.res-card.status-no-show   { border-left-color: var(--stone); opacity: .6; }
+.res-card.status-nouvelle  { border-color: var(--or); background: #FFFDF7; }
+.res-card.status-confirmee { border-color: var(--ok); }
+.res-card.status-annulee   { border-color: var(--danger); opacity: .65; }
+.res-card.status-no-show   { border-color: var(--stone); opacity: .6; }
 .res-when { font-weight: 600; font-size: 15px; }
 .res-when em { font-style: normal; color: var(--or-dark); }
 .res-who { font-size: 14px; margin-top: 2px; }

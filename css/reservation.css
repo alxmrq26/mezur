@@ -1,0 +1,613 @@
+/* ============================================================
+   MEZUR · Page de réservation
+   Mobile-first. S'appuie sur les jetons de css/style.css.
+   ============================================================ */
+
+/* ---------- Bandeau ---------- */
+
+.resa-bandeau {
+  background: var(--navy);
+  color: var(--blanc);
+  padding: 88px var(--container-pad) var(--space-6);
+}
+
+.resa-bandeau-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.resa-bandeau h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  font-weight: 300;
+  line-height: 1.05;
+  margin-bottom: var(--space-2);
+}
+
+.resa-bandeau p {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--sur-navy);
+  line-height: 1.7;
+}
+
+.resa-bandeau-tel {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  margin-top: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--or);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ---------- Ossature ---------- */
+
+.resa-page {
+  background: var(--creme);
+  padding: var(--space-6) var(--container-pad) var(--space-9);
+}
+
+.resa-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.resa-form {
+  background: var(--blanc);
+  padding: var(--space-5) var(--space-4);
+  box-shadow: var(--shadow-md);
+}
+
+/* ---------- Blocs de choix ---------- */
+
+.champ {
+  margin-bottom: var(--space-6);
+}
+
+.champ:last-of-type {
+  margin-bottom: var(--space-4);
+}
+
+.champ > .champ-titre {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  font-weight: 400;
+  color: var(--navy);
+  margin-bottom: var(--space-3);
+}
+
+.champ-aide {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm);
+  color: var(--stone);
+  margin-top: var(--space-2);
+  line-height: 1.6;
+}
+
+/* Boutons de choix : couverts, dates, services, créneaux.
+   Tous à 48px de haut minimum. */
+.choix-grille {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.choix {
+  flex: 0 0 auto;
+  min-height: 48px;
+  min-width: 48px;
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 400;
+  color: var(--navy);
+  background: var(--blanc);
+  border: 1px solid var(--navy-20);
+  cursor: pointer;
+  transition: background 160ms, border-color 160ms, color 160ms;
+}
+
+.choix:hover:not(:disabled) {
+  border-color: var(--navy);
+}
+
+.choix[aria-pressed="true"] {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--blanc);
+  font-weight: 500;
+}
+
+/* Créneau indisponible : le texte reste lisible (niveau AA), la barre
+   et le fond portent l'état, et le motif (« complet », « trop tard »)
+   est dit dans l'aria-label. L'information ne tient jamais à la seule
+   couleur. */
+.choix:disabled {
+  color: var(--slate);
+  background: var(--pearl);
+  border-color: var(--navy-08);
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+.choix-service {
+  flex: 1 1 0;
+  flex-direction: column;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--space-3);
+}
+
+.choix-service small {
+  display: block;
+  font-size: var(--text-body-sm);
+  color: var(--stone);
+  margin-top: 2px;
+}
+
+.choix-service[aria-pressed="true"] small {
+  color: var(--sur-navy-doux);
+}
+
+.date-natif {
+  width: 100%;
+  min-height: 48px;
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-body);
+  /* 16px minimum : en dessous, Safari iOS zoome au premier appui. */
+  font-size: 16px;
+  color: var(--navy);
+  background: var(--blanc);
+  border: 1px solid var(--navy-20);
+}
+
+.date-natif:focus-visible {
+  border-color: var(--or);
+}
+
+/* ---------- Coordonnées ---------- */
+
+.grille-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+.form-groupe {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.form-groupe label {
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm);
+  font-weight: 400;
+  color: var(--slate);
+}
+
+.form-groupe input,
+.form-groupe textarea {
+  min-height: 48px;
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--slate);
+  background: var(--blanc);
+  border: 1px solid var(--navy-20);
+  transition: border-color 160ms;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
+}
+
+.form-groupe textarea {
+  min-height: 96px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.form-groupe input:focus,
+.form-groupe textarea:focus {
+  border-color: var(--or);
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.form-groupe input[aria-invalid="true"],
+.form-groupe textarea[aria-invalid="true"] {
+  border-color: var(--erreur);
+  background: var(--erreur-fond);
+}
+
+.erreur-champ {
+  display: none;
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm);
+  color: var(--erreur);
+  line-height: 1.5;
+}
+
+.erreur-champ.visible {
+  display: block;
+}
+
+.requis {
+  color: var(--erreur);
+}
+
+.mention-requis {
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm);
+  color: var(--stone);
+  margin-bottom: var(--space-3);
+}
+
+/* ---------- Détails repliables ---------- */
+
+.resa-details {
+  border-top: 1px solid var(--navy-08);
+  padding-top: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.resa-details summary {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--navy);
+  cursor: pointer;
+}
+
+.resa-details summary::marker {
+  color: var(--or);
+}
+
+.resa-details[open] summary {
+  margin-bottom: var(--space-3);
+}
+
+/* ---------- Barre de confirmation ---------- */
+
+.resa-barre {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-sticky);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--container-pad);
+  padding-bottom: calc(var(--space-2) + env(safe-area-inset-bottom, 0px));
+  background: var(--encre);
+  border-top: 1px solid rgba(201, 169, 110, 0.3);
+}
+
+/* Variante non flottante, utilisée par le formulaire traiteur */
+.resa-barre--statique {
+  position: static;
+  margin-top: var(--space-4);
+  padding-bottom: var(--space-2);
+  border: 1px solid rgba(201, 169, 110, 0.35);
+}
+
+.resa-barre-recap {
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm);
+  color: var(--sur-navy);
+  line-height: 1.4;
+}
+
+.resa-barre-recap strong {
+  display: block;
+  font-weight: 500;
+  color: var(--blanc);
+}
+
+.resa-barre .btn {
+  flex-shrink: 0;
+}
+
+/* État de chargement du bouton d'envoi */
+.btn[data-chargement="true"] {
+  opacity: 0.75;
+  cursor: progress;
+}
+
+/* ---------- Messages ---------- */
+
+.resa-alerte {
+  display: none;
+  padding: var(--space-3);
+  margin-bottom: var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm);
+  line-height: 1.6;
+  border: 1px solid var(--erreur);
+  background: var(--erreur-fond);
+  color: var(--erreur);
+}
+
+.resa-alerte.visible {
+  display: block;
+}
+
+.resa-alerte a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 500;
+}
+
+/* ---------- Confirmation ---------- */
+
+.resa-succes {
+  display: none;
+  background: var(--blanc);
+  padding: var(--space-6) var(--space-4);
+  box-shadow: var(--shadow-md);
+}
+
+.resa-succes.visible {
+  display: block;
+}
+
+.resa-succes h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: 300;
+  color: var(--navy);
+  margin-bottom: var(--space-3);
+}
+
+.resa-succes > p {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--slate);
+  line-height: 1.75;
+  margin-bottom: var(--space-4);
+}
+
+.recap-liste {
+  list-style: none;
+  border-top: 1px solid var(--navy-08);
+  margin-bottom: var(--space-5);
+}
+
+.recap-liste li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--navy-08);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+}
+
+.recap-liste dt,
+.recap-liste .recap-cle {
+  color: var(--stone);
+}
+
+.recap-liste .recap-valeur {
+  color: var(--navy);
+  font-weight: 500;
+  text-align: right;
+}
+
+.resa-succes-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* ---------- Informations pratiques ---------- */
+
+.resa-infos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.info-carte {
+  background: var(--blanc);
+  padding: var(--space-4);
+  border: 1px solid var(--navy-08);
+}
+
+.info-carte h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  font-weight: 400;
+  color: var(--navy);
+  margin-bottom: var(--space-3);
+}
+
+.info-carte p,
+.info-carte address {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-style: normal;
+  color: var(--slate);
+  line-height: 1.75;
+}
+
+.info-carte a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--navy);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.horaires-grille {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-1) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm);
+  color: var(--slate);
+}
+
+.horaires-grille .hours-day {
+  color: var(--navy);
+  font-weight: 400;
+}
+
+.horaires-grille .hours-closed {
+  color: var(--stone);
+}
+
+.resa-carte-plan {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 0;
+  display: block;
+}
+
+/* ---------- Traiteur ---------- */
+
+.traiteur {
+  background: var(--navy);
+  color: var(--blanc);
+  padding: var(--section-pad) var(--container-pad);
+}
+
+.traiteur-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.traiteur h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: 300;
+  margin-bottom: var(--space-3);
+}
+
+.traiteur > .traiteur-inner > p {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--sur-navy);
+  line-height: 1.75;
+  max-width: 38rem;
+  margin-bottom: var(--space-6);
+}
+
+.traiteur-form {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: var(--space-5) var(--space-4);
+}
+
+.traiteur-form .champ > .champ-titre,
+.traiteur-form .form-groupe label {
+  color: var(--blanc);
+}
+
+.traiteur-form .choix {
+  background: transparent;
+  color: var(--blanc);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.traiteur-form .choix[aria-pressed="true"] {
+  background: var(--or);
+  border-color: var(--or);
+  color: var(--navy);
+}
+
+.traiteur-form .mention-requis,
+.traiteur-form .champ-aide {
+  color: var(--sur-navy-doux);
+}
+
+.traiteur-succes {
+  display: none;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--blanc);
+  line-height: 1.75;
+  padding: var(--space-4);
+  border: 1px solid var(--or);
+}
+
+.traiteur-succes.visible {
+  display: block;
+}
+
+/* ============================================================
+   ≥ 640px
+   ============================================================ */
+
+@media (min-width: 640px) {
+  .resa-form {
+    padding: var(--space-7) var(--space-6);
+  }
+
+  .grille-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .form-groupe--large {
+    grid-column: 1 / -1;
+  }
+
+  .resa-succes-actions {
+    flex-direction: row;
+  }
+
+  .traiteur-form {
+    padding: var(--space-7) var(--space-6);
+  }
+}
+
+/* ============================================================
+   ≥ 900px
+   ============================================================ */
+
+@media (min-width: 900px) {
+  .resa-bandeau {
+    padding-top: 120px;
+    padding-bottom: var(--space-8);
+  }
+
+  .resa-inner {
+    grid-template-columns: 1.6fr 1fr;
+    gap: var(--space-8);
+  }
+
+  /* Sur grand écran la barre reste au fil du formulaire : le bouton
+     est visible sans qu'un bandeau flottant recouvre la page. */
+  .resa-barre {
+    position: sticky;
+    bottom: var(--space-4);
+    margin-top: var(--space-5);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid rgba(201, 169, 110, 0.35);
+  }
+
+  .resa-infos {
+    position: sticky;
+    top: 96px;
+  }
+}
